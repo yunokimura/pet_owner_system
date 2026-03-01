@@ -62,7 +62,7 @@
                     <a href="{{ url('/') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Home</a>
                     <a href="#" class="text-gray-600 hover:text-primary font-medium transition-colors">About Us</a>
                     <a href="{{ url('/services') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Services</a>
-                    <a href="{{ url('/adoption') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Adoption</a>
+                    <a href="{{ url('/missing-pets') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Missing Pets</a>
                 </nav>
                 
                 <!-- Login/Register Buttons or User Dropdown -->

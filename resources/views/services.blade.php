@@ -62,7 +62,7 @@
                     <a href="{{ url('/') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Home</a>
                     <a href="#" class="text-gray-600 hover:text-primary font-medium transition-colors">About Us</a>
                     <a href="{{ url('/services') }}" class="text-primary font-medium transition-colors">Services</a>
-                    <a href="{{ url('/adoption') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Adoption</a>
+                    <a href="{{ url('/missing-pets') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Missing Pets</a>
                 </nav>
                 
                 <!-- Login/Register Buttons or User Dropdown -->
@@ -346,50 +346,6 @@
                         </ul>
                         <a href="{{ url('/adoption') }}" class="w-full block text-center bg-secondary text-white py-3 rounded-xl font-semibold hover:bg-secondary-light transition-colors">
                             Learn More
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 6: Report Missing Pets -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                    <div class="h-48 bg-gradient-to-br from-amber-500 to-orange-500 p-6 flex items-center justify-center">
-                        <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Report your Missing Pets</h3>
-                        <p class="text-gray-600 mb-4">Help reunite lost pets with their owners. Report missing pets quickly and reach out to the community for assistance.</p>
-                        <ul class="space-y-2 mb-6">
-                            <li class="flex items-center space-x-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700 text-sm">Quick online reporting</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700 text-sm">Photo upload feature</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700 text-sm">Community notifications</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700 text-sm">Reunification assistance</span>
-                            </li>
-                        </ul>
-                        <a href="{{ url('/missing-pets') }}" class="w-full block text-center bg-amber-500 text-white py-3 rounded-xl font-semibold hover:bg-amber-600 transition-colors">
-                            Report Now
                         </a>
                     </div>
                 </div>
