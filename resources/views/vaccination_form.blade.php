@@ -314,10 +314,15 @@
                 </div>
 
                 <!-- Submit Button -->
-                <div class="flex justify-end">
-                    <button type="submit" class="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-light transition-colors shadow-md hover:shadow-lg">
+                <div class="text-center space-y-4">
+                    <button type="submit" class="px-12 py-4 bg-primary text-white font-semibold rounded-xl text-lg hover:bg-primary-light transition-colors shadow-md hover:shadow-lg">
                         Submit
                     </button>
+                    <div>
+                        <a href="{{ url('/vaccination') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
+                            ← Back to Vaccination
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>

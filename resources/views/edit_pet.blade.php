@@ -372,13 +372,20 @@
                 </div>
 
                 <!-- Update Button -->
-                <div class="flex justify-end space-x-4">
-                    <a href="{{ route('owner.pets') }}" class="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
-                        Cancel
-                    </a>
-                    <button type="button" onclick="showConfirmModal()" class="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-light transition-colors shadow-md hover:shadow-lg">
-                        Update Pet
-                    </button>
+                <div class="text-center space-y-4">
+                    <div class="flex justify-center space-x-4">
+                        <a href="{{ route('owner.pets') }}" class="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+                            Cancel
+                        </a>
+                        <button type="button" onclick="showConfirmModal()" class="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-light transition-colors shadow-md hover:shadow-lg">
+                            Update Pet
+                        </button>
+                    </div>
+                    <div>
+                        <a href="{{ route('owner.pets') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
+                            ← Back to My Pets
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>

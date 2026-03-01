@@ -261,10 +261,15 @@
                 </div>
 
                 <!-- Submit Button -->
-                <div class="flex justify-end">
-                    <button type="submit" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors shadow-lg hover:shadow-xl">
+                <div class="text-center space-y-4">
+                    <button type="submit" class="bg-primary text-white px-12 py-4 rounded-xl font-semibold text-lg hover:bg-primary-light transition-colors">
                         Submit Report
                     </button>
+                    <div>
+                        <a href="{{ url('/animal-cruelty') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
+                            ← Back to Animal Cruelty
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>

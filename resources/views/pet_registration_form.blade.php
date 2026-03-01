@@ -389,10 +389,15 @@
                 </div>
 
                 <!-- Register Button -->
-                <div class="flex justify-end">
-                    <button type="button" onclick="showConfirmModal()" class="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-light transition-colors shadow-md hover:shadow-lg">
+                <div class="text-center space-y-4">
+                    <button type="button" onclick="showConfirmModal()" class="px-12 py-4 bg-primary text-white font-semibold rounded-xl text-lg hover:bg-primary-light transition-colors shadow-md hover:shadow-lg">
                         Register
                     </button>
+                    <div>
+                        <a href="{{ url('/pet-registration') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
+                            ← Back to Pet Registration
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>
