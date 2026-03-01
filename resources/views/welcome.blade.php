@@ -283,6 +283,179 @@
         </div>
     </section>
 
+    <!-- Missing Pets Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <div class="flex items-center justify-center mb-4">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Missing Pets</h2>
+                </div>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Help us reunite these furry friends with their owners. If you have any information, please contact us immediately. <span class="text-red-500 font-medium">(Click on a pet to view full details)</span></p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <!-- Missing Pet 1 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal(1)">
+                    <div class="aspect-square bg-gray-200 relative overflow-hidden">
+                        <img src="https://placehold.co/400x400/e2e8f0/94a3b8?text=Buddy" alt="Buddy" class="w-full h-full object-cover pet-image">
+                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MISSING</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Buddy</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Age:</span>
+                                <span class="text-gray-700 font-medium">3 years</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Weight:</span>
+                                <span class="text-gray-700 font-medium">25 lbs</span>
+                            </div>
+                            <div class="border-t pt-2 mt-2">
+                                <p class="text-gray-500 text-xs mb-1">Last Seen:</p>
+                                <p class="text-gray-700 font-medium text-xs">Feb 18, 2026 - 3:30 PM</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-xs mb-1">Location:</p>
+                                <p class="text-gray-700 font-medium text-xs">Poblacion 1, Dasmariñas City</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Missing Pet 2 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal(2)">
+                    <div class="aspect-square bg-gray-200 relative overflow-hidden">
+                        <img src="https://placehold.co/400x400/e2e8f0/94a3b8?text=Luna" alt="Luna" class="w-full h-full object-cover pet-image">
+                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MISSING</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Luna</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Age:</span>
+                                <span class="text-gray-700 font-medium">2 years</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Weight:</span>
+                                <span class="text-gray-700 font-medium">12 lbs</span>
+                            </div>
+                            <div class="border-t pt-2 mt-2">
+                                <p class="text-gray-500 text-xs mb-1">Last Seen:</p>
+                                <p class="text-gray-700 font-medium text-xs">Feb 17, 2026 - 8:00 AM</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-xs mb-1">Location:</p>
+                                <p class="text-gray-700 font-medium text-xs">Salitran 2, Dasmariñas City</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Missing Pet 3 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal(3)">
+                    <div class="aspect-square bg-gray-200 relative overflow-hidden">
+                        <img src="https://placehold.co/400x400/e2e8f0/94a3b8?text=Max" alt="Max" class="w-full h-full object-cover pet-image">
+                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MISSING</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Max</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Age:</span>
+                                <span class="text-gray-700 font-medium">5 years</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Weight:</span>
+                                <span class="text-gray-700 font-medium">45 lbs</span>
+                            </div>
+                            <div class="border-t pt-2 mt-2">
+                                <p class="text-gray-500 text-xs mb-1">Last Seen:</p>
+                                <p class="text-gray-700 font-medium text-xs">Feb 19, 2026 - 6:45 PM</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-xs mb-1">Location:</p>
+                                <p class="text-gray-700 font-medium text-xs">San Jose 1, Dasmariñas City</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Missing Pet 4 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal(4)">
+                    <div class="aspect-square bg-gray-200 relative overflow-hidden">
+                        <img src="https://placehold.co/400x400/e2e8f0/94a3b8?text=Bella" alt="Bella" class="w-full h-full object-cover pet-image">
+                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MISSING</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Bella</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Age:</span>
+                                <span class="text-gray-700 font-medium">1 year</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Weight:</span>
+                                <span class="text-gray-700 font-medium">8 lbs</span>
+                            </div>
+                            <div class="border-t pt-2 mt-2">
+                                <p class="text-gray-500 text-xs mb-1">Last Seen:</p>
+                                <p class="text-gray-700 font-medium text-xs">Feb 16, 2026 - 10:15 AM</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-xs mb-1">Location:</p>
+                                <p class="text-gray-700 font-medium text-xs">Buenavista 1, Dasmariñas City</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Missing Pet 5 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal(5)">
+                    <div class="aspect-square bg-gray-200 relative overflow-hidden">
+                        <img src="https://placehold.co/400x400/e2e8f0/94a3b8?text=Charlie" alt="Charlie" class="w-full h-full object-cover pet-image">
+                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MISSING</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Charlie</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Age:</span>
+                                <span class="text-gray-700 font-medium">4 years</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Weight:</span>
+                                <span class="text-gray-700 font-medium">30 lbs</span>
+                            </div>
+                            <div class="border-t pt-2 mt-2">
+                                <p class="text-gray-500 text-xs mb-1">Last Seen:</p>
+                                <p class="text-gray-700 font-medium text-xs">Feb 20, 2026 - 7:30 AM</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-xs mb-1">Location:</p>
+                                <p class="text-gray-700 font-medium text-xs">Luzviminda 1, Dasmariñas City</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="#" class="inline-flex items-center bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    View All Missing Pets
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Recent Campaign Section -->
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
