@@ -127,7 +127,7 @@
                     
                     <!-- CTA Buttons -->
                     <div class="flex flex-wrap gap-4">
-                        <a href="#" class="bg-white text-red-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors shadow-lg hover:shadow-xl">
+                        <a href="{{ url('/animal-cruelty/form') }}" class="bg-white text-red-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-200 transition-colors">
                             File a Report
                         </a>
                     </div>
@@ -322,7 +322,7 @@
                         
                         <!-- File a Report Button -->
                         <div class="mt-6">
-                            <a href="#" class="inline-block bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl">
+                            <a href="{{ url('/animal-cruelty/form') }}" class="inline-block bg-red-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-red-700 transition-colors">
                                 File a Report
                             </a>
                         </div>

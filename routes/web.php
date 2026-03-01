@@ -75,6 +75,11 @@ Route::get('/animal-cruelty', function () {
     return view('animal_cruelty_page');
 });
 
+// Animal Cruelty Form Page Route
+Route::get('/animal-cruelty/form', function () {
+    return view('animal_cruelty_form');
+});
+
 // Missing Pets Page Route
 Route::get('/missing-pets', function () {
     return view('missing_pets_page');
