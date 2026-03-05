@@ -119,10 +119,10 @@
                         <!-- Password -->
                         <div>
                             <label class="block text-sm font-medium text-gray-500 mb-1">Password</label>
-                            <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-20">
                                 <span class="text-gray-900 font-medium">••••••••</span>
+                                <button type="button" onclick="openModal('passwordModal')" class="text-primary hover:text-primary-light text-sm font-medium">Update Password</button>
                             </div>
-                            <button type="button" onclick="openModal('passwordModal')" class="mt-2 text-primary hover:text-primary-light text-sm font-medium">Update Password</button>
                         </div>
                         <!-- Account Status -->
                         <div class="md:col-span-2">
