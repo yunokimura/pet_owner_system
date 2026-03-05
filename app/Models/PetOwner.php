@@ -24,6 +24,7 @@ class PetOwner extends Model
         'barangay',
         'city',
         'province',
+        'date_of_birth',
     ];
 
     /**

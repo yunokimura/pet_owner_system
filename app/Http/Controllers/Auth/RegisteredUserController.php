@@ -39,6 +39,9 @@ class RegisteredUserController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'middle_name' => ['nullable', 'string', 'max:255'],
             'suffix' => ['nullable', 'string', 'max:255'],
+            'dob_year' => ['required', 'integer', 'min:1900', 'max:2100'],
+            'dob_month' => ['required', 'integer', 'min:1', 'max:12'],
+            'dob_day' => ['required', 'integer', 'min:1', 'max:31'],
             'phone_number' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'block_lot_phase_house_no' => ['required', 'string', 'max:255'],
@@ -55,6 +58,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'owner',
             'is_verified' => false,
+            'date_of_birth' => $request->dob_year . '-' . str_pad($request->dob_month, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->dob_day, 2, '0', STR_PAD_LEFT),
         ]);
 
         // Create pet owner profile
@@ -71,6 +75,7 @@ class RegisteredUserController extends Controller
             'barangay' => $request->barangay,
             'city' => 'Dasmariñas City',
             'province' => 'Cavite',
+            'date_of_birth' => $request->dob_year . '-' . str_pad($request->dob_month, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->dob_day, 2, '0', STR_PAD_LEFT),
         ]);
 
         // Generate OTP
