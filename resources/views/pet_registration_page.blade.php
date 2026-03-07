@@ -60,7 +60,7 @@
                 <!-- Navigation -->
                 <nav class="hidden md:flex space-x-8">
                     <a href="{{ url('/') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Home</a>
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium transition-colors">About Us</a>
+                    <a href="{{ url('/about-us') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">About Us</a>
                     <a href="{{ url('/services') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Services</a>
                     <a href="{{ url('/missing-pets') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Missing Pets</a>
                 </nav>
@@ -210,7 +210,7 @@
                         <li><a href="{{ url('/') }}" class="text-gray-600 hover:text-primary transition-colors">Home</a></li>
                         <li><a href="{{ url('/services') }}" class="text-gray-600 hover:text-primary transition-colors">Services</a></li>
                         <li><a href="{{ url('/adoption') }}" class="text-gray-600 hover:text-primary transition-colors">Adoption</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">About Us</a></li>
+                        <li><a href="{{ url('/about-us') }}" class="text-gray-600 hover:text-primary transition-colors">About Us</a></li>
                     </ul>
                 </div>
                 

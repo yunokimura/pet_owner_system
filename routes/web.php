@@ -50,6 +50,11 @@ Route::get('/services', function () {
     return view('services');
 });
 
+// About Us Page Route
+Route::get('/about-us', function () {
+    return view('about_us');
+});
+
 // Kapon Page Route
 Route::get('/kapon', function () {
     return view('kapon');

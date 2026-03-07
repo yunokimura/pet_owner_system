@@ -57,7 +57,7 @@
                 <!-- Navigation -->
                 <nav class="hidden md:flex space-x-8">
                     <a href="{{ url('/') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Home</a>
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium transition-colors">About Us</a>
+                    <a href="{{ url('/about-us') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">About Us</a>
                     <a href="{{ url('/services') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Services</a>
                     <a href="{{ url('/missing-pets') }}" class="text-gray-600 hover:text-primary font-medium transition-colors">Missing Pets</a>
                 </nav>
@@ -596,7 +596,7 @@
                     <h4 class="font-semibold text-lg mb-4">Quick Links</h4>
                     <ul class="space-y-2">
                         <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Home</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">About Us</a></li>
+                        <li><a href="{{ url('/about-us') }}" class="text-gray-600 hover:text-primary transition-colors">About Us</a></li>
                         <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Services</a></li>
                         <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Rabies Information</a></li>
                     </ul>
