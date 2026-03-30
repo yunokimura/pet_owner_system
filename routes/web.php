@@ -62,7 +62,9 @@ Route::get('/kapon', function () {
 
 // Kapon Form Page Route
 Route::get('/kapon/form', function () {
-    return view('kapon_form');
+    $user = auth()->user();
+    $petOwner = $user ? $user->petOwner : null;
+    return view('kapon_form', compact('user', 'petOwner'));
 });
 
 // Adoption Page Route
