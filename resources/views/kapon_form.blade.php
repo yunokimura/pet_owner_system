@@ -394,6 +394,9 @@
                                     <p class="text-sm text-gray-600 mb-4">Select one or more pets for Kapon (Spay/Neuter) surgery:</p>
                                     <div class="space-y-3" id="petSelectionList">
                                         @foreach($petsArray as $pet)
+                                            @php
+                                                $speciesDisplay = isset($pet['species']) ? ucfirst($pet['species']) : 'Unknown';
+                                            @endphp
                                             <label class="flex items-start p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-green-50 hover:border-primary transition-colors pet-selection-card" data-pet-id="{{ $pet['id'] }}">
                                                 <input type="checkbox" name="selected_pets[]" value="{{ $pet['id'] }}" 
                                                        class="mt-1 w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary pet-checkbox"
@@ -401,12 +404,12 @@
                                                 <div class="ml-3 flex-1">
                                                     <div class="flex items-center justify-between">
                                                         <span class="font-semibold text-gray-900 pet-name">{{ $pet['name'] }}</span>
-                                                        <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">{{ $pet['species'] ?? 'Unknown' }}</span>
+                                                        <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">{{ $speciesDisplay }}</span>
                                                     </div>
                                                     <div class="mt-1 text-xs text-gray-500">
                                                         <div>Breed: {{ $pet['breed'] ?? 'Unknown' }}</div>
-                                                        <div>Age: {{ isset($pet['age']) ? str_replace('_', ' ', $pet['age']) : 'Unknown' }}</div>
-                                                        <div>Weight: {{ isset($pet['weight']) ? (str_contains(strtolower($pet['weight']), 'kg') || strtolower($pet['weight']) == 'n/a' ? $pet['weight'] : $pet['weight'] . ' kg') : 'Unknown' }}</div>
+                                                        <div class="text-gray-600">Age: {{ isset($pet['age']) ? str_replace('_', ' ', $pet['age']) : 'Unknown' }}</div>
+                                                        <div class="text-gray-600">Weight: {{ isset($pet['weight']) ? (str_contains(strtolower($pet['weight']), 'kg') || strtolower($pet['weight']) == 'n/a' ? $pet['weight'] : $pet['weight'] . ' kg') : 'Unknown' }}</div>
                                                     </div>
                                                 </div>
                                                 @if(!empty($pet['image']))
@@ -558,12 +561,14 @@
                                 // Add pet card
                                 const petCard = document.createElement('div');
                                 petCard.className = 'bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between';
+                                const speciesDisplay = pet.species ? pet.species.charAt(0).toUpperCase() + pet.species.slice(1) : 'Unknown';
                                 petCard.innerHTML = `
                                     <div class="flex items-center">
                                         ${imageHtml}
                                         <div class="ml-3">
                                             <p class="font-semibold text-gray-900">${pet.name || 'Unknown'}</p>
-                                            <p class="text-xs text-gray-500">${pet.species || 'Unknown'} • ${pet.breed || 'Unknown'}</p>
+                                            <p class="text-xs text-gray-500">${speciesDisplay} • ${pet.breed || 'Unknown'}</p>
+                                            <p class="text-xs text-gray-600 mt-1">Age: ${formatAge(pet.age)} • Weight: ${formatWeight(pet.weight)}</p>
                                         </div>
                                     </div>
                                     <button type="button" onclick="removePet(${pet.id})" class="text-red-500 hover:text-red-700 p-1">
