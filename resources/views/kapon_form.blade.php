@@ -640,7 +640,7 @@
                         <!-- For mixed/purebred dogs and/or over 4 years old -->
                         <div class="mb-4" id="blood_test_mixed">
                             <p class="text-sm text-gray-600 mb-2">For those with mixed or purebred dogs and/or over 4 years old:</p>
-                            <p class="text-xs text-gray-500 mb-2">For the safety of your pet, the City Veterinary Office (CVO) highly recommends a blood test (CBC, SGPT, and CREA) prior to surgery. Since the CVO is a public service facility with limited laboratory resources, please have these tests performed at a private veterinary clinic of your choice. You must upload the results here at least 48 hours before your appointment.</p>
+                            <p class="text-xs text-gray-500 mb-2">For the safety of your pet, the Dasmariñas City Veterinary Office (CVO) highly recommends a blood test (CBC, SGPT, and CREA) prior to surgery. Since the CVO is a public service facility with limited laboratory resources, please have these tests performed at a private veterinary clinic of your choice. You must upload the results here at least 48 hours before your appointment.</p>
                             
                             <div class="space-y-2">
                                 <label class="inline-flex items-start">
@@ -649,7 +649,7 @@
                                 </label>
                                 <label class="inline-flex items-start">
                                     <input type="radio" name="blood_test_mixed_option" value="waiver_mixed" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">This waiver does not apply to me, my pet/s is/are healthy CAT/ASPIN (not mixed/purebred dog) under 4 years old. <strong class="text-red-600">The City Veterinary Office (CVO) will not be held liable in the event of complications, injury, or death that may result from the surgery due to undiagnosed illnesses that could have been treated if a blood test was performed.</strong></span>
+                                    <span class="ml-2 text-sm text-gray-700">This waiver does not apply to me, my pet/s is/are healthy CAT/ASPIN (not mixed/purebred dog) under 4 years old. <strong class="text-red-600">The Dasmariñas City Veterinary Office (CVO) will not be held liable in the event of complications, injury, or death that may result from the surgery due to undiagnosed illnesses that could have been treated if a blood test was performed.</strong></span>
                                 </label>
                             </div>
                         </div>
@@ -665,7 +665,7 @@
                                 </label>
                                 <label class="inline-flex items-start">
                                     <input type="radio" name="blood_test_aspin_option" value="waive_risk" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">I understand the risks of not getting the blood test for my pet/s so I am waiving the option as I am sure that my pet/s is/are healthy ASPIN/S or CAT/S under 4 years old. <strong class="text-red-600">The City Veterinary Office will not be held liable in the event of complications, injury, or death that may result from the surgery due to undiagnosed illnesses that could have been treated if a blood test was performed.</strong></span>
+                                    <span class="ml-2 text-sm text-gray-700">I understand the risks of not getting the blood test for my pet/s so I am waiving the option as I am sure that my pet/s is/are healthy ASPIN/S or CAT/S under 4 years old. <strong class="text-red-600">The Dasmariñas City Veterinary Office (CVO) will not be held liable in the event of complications, injury, or death that may result from the surgery due to undiagnosed illnesses that could have been treated if a blood test was performed.</strong></span>
                                 </label>
                                 <p class="text-xs text-gray-500 ml-6 italic">DO NOT choose this option if your dog/s is/are mixed/purebred or over 4 years old. NO option to waive for these categories.</p>
                             </div>
@@ -674,23 +674,6 @@
 
                     <!-- Yes/No Questions -->
                     <div class="space-y-4">
-                        <!-- Never spayed/neutered -->
-                        <div>
-                            <label class="block text-sm font-medium mb-2">
-                                My pet/s has/have never been spayed or neutered before. <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="never_spayed" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="never_spayed" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
-                        </div>
-
                         <!-- Previous surgery -->
                         <div>
                             <label class="block text-sm font-medium mb-2">
@@ -730,7 +713,7 @@
                             <label class="block text-sm font-medium mb-1.5">
                                 Other health information about your pet
                             </label>
-                            <p class="text-xs text-gray-500 italic mb-2">If your pet has any existing or previously treated health condition that was not disclosed to us prior to the procedure, PAWS cannot be held liable for any health issues that may arise afterward.</p>
+                            <p class="text-xs text-gray-500 italic mb-2">If your pet has any existing or previously treated health condition that was not disclosed to us prior to the procedure, CVO cannot be held liable for any health issues that may arise afterward.</p>
                             <textarea name="health_info" rows="3"
                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none resize-y"
                                       placeholder="Please share any relevant medical information..."></textarea>
@@ -740,7 +723,7 @@
                         <div>
                             <label class="inline-flex items-start">
                                 <input type="checkbox" name="physical_assessment" value="yes" class="mt-1 text-primary">
-                                <span class="ml-2 text-sm text-gray-700"><strong>Physical Assessment:</strong> Your pet's safety is our priority. While we offer low-cost kapon and our resident licensed veterinarian is highly capable of performing the procedure, please understand that as an NGO with limited facilities and no confinement area; we may not be equipped to handle certain medical conditions. By checking the box, you acknowledged that a veterinary assessment is required before surgery, and that the procedure may be declined based on the results of the evaluation.</span>
+                                <span class="ml-2 text-sm text-gray-700"><strong>Physical Assessment: <span class="text-red-500">*</span> </strong> Your pet's safety is our priority. Please understand that as an LGU with limited facilities and no confinement area; we may not be equipped to handle certain medical conditions. By checking the box, you acknowledged that a veterinary assessment is required before surgery, and that the procedure may be declined based on the results of the evaluation.</span>
                             </label>
                         </div>
 
@@ -798,7 +781,7 @@
                         <!-- Secure cage/leash -->
                         <div>
                             <label class="block text-sm font-medium mb-1.5">
-                                I understand that I must place my pets inside a secure cage or leash. PAWS will not be liable for any escaped animals due to defective cages or leashes. <span class="text-red-500">*</span>
+                                I understand that I must place my pets inside a secure cage or leash. CVO will not be liable for any escaped animals due to defective cages or leashes. <span class="text-red-500">*</span>
                             </label>
                             <p class="text-xs text-gray-500 italic mb-2">Many cases of animals escaping involve soft or foldable or collapsible cages that have not been secured properly. Also, please do not attempt to open your pet's cages or remove leashes within the veterinary office.</p>
                             <div class="flex gap-4">
@@ -850,7 +833,7 @@
                         <!-- Full authority -->
                         <div>
                             <label class="block text-sm font-medium mb-2">
-                                I hereby give the PAWS Animal Rehabilitation Center (PARC) and its attending veterinarians and staff, full authority while the animal is under their care, to perform the spay/neuter operation and whatever treatment that the latter feel may be necessary. <span class="text-red-500">*</span>
+                                I hereby give the Dasmariñas City Veterinary Office (CVO) and its attending veterinarians and staff, full authority while the animal is under their care, to perform the spay/neuter operation and whatever treatment that the latter feel may be necessary. <span class="text-red-500">*</span>
                             </label>
                             <div class="flex gap-4">
                                 <label class="inline-flex items-center">
@@ -867,7 +850,7 @@
                         <!-- Valid ID -->
                         <div>
                             <label class="block text-sm font-medium mb-2">
-                                I will bring and present a valid primary ID before entering the premises of PAWS for security purposes. <span class="text-red-500">*</span>
+                                I will bring and present a valid primary ID before entering the premises of CVO for security purposes. <span class="text-red-500">*</span>
                             </label>
                             <div class="flex gap-4">
                                 <label class="inline-flex items-center">
@@ -886,47 +869,14 @@
                     <div class="mt-6">
                         <label class="inline-flex items-start">
                             <input type="checkbox" name="confirmation" value="yes" class="mt-1 text-primary">
-                            <span class="ml-2 text-sm text-gray-700"><strong>Confirmation of location and costs:</strong> I am aware that the spay/neuter surgery will be performed at the veterinary office located in Dasmariñas City. I have also reviewed the rates below and I am aware of the estimated total cost and all no-shows will be charged 50% of the spay/neuter fee.</span>
+                            <span class="ml-2 text-sm text-gray-700"><strong>Confirmation of location: <span class="text-red-500">*</span> </strong> I am aware that the spay/neuter surgery will be performed at the veterinary office located in Dasmariñas City.</span>
                         </label>
-                    </div>
-
-                    <!-- Rates Card -->
-                    <div class="mt-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200">
-                        <h4 class="text-lg font-bold text-green-700 mb-4">Kapon Base Rates</h4>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <p class="font-medium text-gray-700">Native Female cat</p>
-                                <p class="text-primary font-bold">₱1,000</p>
-                            </div>
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <p class="font-medium text-gray-700">Native Male cat</p>
-                                <p class="text-primary font-bold">₱700</p>
-                            </div>
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <p class="font-medium text-gray-700">Native Female dog up to 15kg</p>
-                                <p class="text-primary font-bold">₱1,500</p>
-                            </div>
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <p class="font-medium text-gray-700">Native Female dog 16-20kg</p>
-                                <p class="text-primary font-bold">₱2,000</p>
-                            </div>
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <p class="font-medium text-gray-700">Native Male dog up to 15kg</p>
-                                <p class="text-primary font-bold">₱1,000</p>
-                            </div>
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <p class="font-medium text-gray-700">Native Male dog 16-20kg</p>
-                                <p class="text-primary font-bold">₱1,500</p>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-4 italic">Additional fees may apply for mixed/purebred, pregnant, undescended testicles, pyometra, and excess weight.</p>
                     </div>
 
                     <!-- Disclaimer -->
                     <div class="mt-4 bg-red-50 border-l-4 border-red-500 p-4">
-                        <p class="text-sm text-red-700">*** The Philippine Animal Welfare Society and its licensed veterinarian will not be held liable in the event of complications, including injury or death, during surgery. These may result due to undiagnosed illnesses that may be detected and treated if a blood test is performed.</p>
+                        <p class="text-sm text-red-700">*** Dasmariñas City Veterinary Office (CVO) and its licensed veterinarians will not be held liable in the event of complications, including injury or death, during surgery. These may result due to undiagnosed illnesses that may be detected and treated if a blood test is performed.</p>
                         <p class="text-sm text-red-700 mt-2">*** Pure and half-breed pets or brachycephalic (short-nosed) breeds are required to submit the results of blood tests prior to surgery. It is highly recommended that aspins and puspins with preexisting conditions be tested as well.</p>
-                        <p class="text-sm text-red-700 mt-2">*** Photos of brachycephalic breed (short-nose dogs), small breeds and overweight breeds are needed to be evaluated first by our veterinarian before getting their blood test as some of them cannot be accommodated at the PAWS clinic as they may need confinement which is not available at PAWS.</p>
                     </div>
 
                     <!-- Submit Button with Navigation -->
