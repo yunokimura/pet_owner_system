@@ -887,20 +887,23 @@
                     </div>
 
                     <!-- Submit Button with Navigation -->
-                    <div class="text-center space-y-4 mt-12 pt-8 border-t">
-                        <div class="flex justify-start mb-6">
-                            <button type="button" onclick="goToStep(2)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                    <div class="mt-12 pt-8 border-t">
+                        <!-- Row 1: Previous and Submit buttons -->
+                        <div class="flex justify-between items-center mb-6">
+                            <button type="button" onclick="goToStep(2)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center w-40 justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                                 </svg>
                                 Previous
                             </button>
+                            
+                            <button type="submit" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors w-40">
+                                Submit
+                            </button>
                         </div>
                         
-                        <button type="submit" class="bg-primary text-white px-12 py-4 rounded-xl font-semibold text-lg hover:bg-primary-light transition-colors">
-                            Submit
-                        </button>
-                        <div>
+                        <!-- Row 2: Back to Kapon link (centered) -->
+                        <div class="text-center">
                             <a href="{{ url('/kapon') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
                                 ← Back to Kapon
                             </a>
