@@ -297,11 +297,9 @@
                     <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
                         <p class="font-semibold text-yellow-700 mb-2">IMPORTANT NOTES:</p>
                         <ul class="list-disc list-inside text-sm text-yellow-700 space-y-1">
-                            <li><strong>Single Booking Restriction:</strong> At the moment, only one booking can be submitted for the same patient types (species/gender). If you have different patient types and would like them scheduled on the same date, please email us.</li>
                             <li><strong>Post-Cesarean/Major Surgery Cases:</strong> If your pet has undergone cesarean or major surgery related to reproductive organs, please book at another veterinary clinic.</li>
                             <li><strong>Vaccinations and Kapon Surgery:</strong> If your pet has been recently vaccinated or is scheduled for vaccination, we recommend scheduling 2 weeks before or after.</li>
                         </ul>
-                        <p class="text-sm text-yellow-600 mt-2 italic">Upon submitting your application, please check your email and download the attached documents regarding your pet's pre- and post-operative care.</p>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-4">
