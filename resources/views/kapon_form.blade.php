@@ -302,154 +302,54 @@
                         </ul>
                     </div>
 
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <!-- Patient Type -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-1.5">
-                                Patient Type (Species / Gender) <span class="text-red-500">*</span>
+                    <!-- Selected Pets Display Area -->
+                    <div id="selectedPetsContainer" class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="block text-sm font-medium">
+                                Selected Pets <span class="text-red-500">*</span>
                             </label>
-                            <select name="patient_type" id="patient_type" 
-                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                                <option value="">Select Patient Type</option>
-                                <option value="male_cat">Male Cat</option>
-                                <option value="female_cat">Female Cat</option>
-                                <option value="male_dog">Male Dog</option>
-                                <option value="female_dog">Female Dog</option>
-                            </select>
+                            <button type="button" onclick="openPetModal()" 
+                                    class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-light transition-colors flex items-center text-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Select Pet
+                            </button>
                         </div>
-
-                        <!-- Number of Pets (dynamic based on patient type) -->
-                        <div class="md:col-span-2" id="pet_count_container">
-                            <label class="block text-sm font-medium mb-1.5" id="pet_count_label">
-                                How many male cats? <span class="text-red-500">*</span>
-                            </label>
-                            <select name="pet_count" id="pet_count"
-                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="more">More than 10</option>
-                            </select>
-                        </div>
-
-                        <!-- Breed -->
-                        <div class="md:col-span-2" id="breedSection">
-                            <label class="block text-sm font-medium mb-1" id="breed_label">
-                                Breed <span class="text-red-500">*</span>
-                                <span id="breedLimitText" class="text-xs text-gray-500 font-normal ml-1">(select one)</span>
-                            </label>
-                            
-                            <!-- Dropdown trigger and container -->
-                            <div class="relative">
-                                <!-- Display selected breed (click to open) -->
-                                <div id="breedDisplay" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white cursor-pointer hover:border-gray-400" onclick="toggleBreedDropdown()">
-                                    <span id="selectedBreedText" class="text-gray-500">Select a breed</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </div>
-                                
-                                <!-- Dropdown menu -->
-                                <div id="breedDropdown" class="hidden absolute z-10 w-full mt-1 border border-gray-300 rounded-lg bg-white shadow-lg max-h-64">
-                                    <!-- Search inside dropdown -->
-                                    <div class="p-2 border-b border-gray-200">
-                                        <input type="text" id="breedSearch" placeholder="Search breed..." class="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary" onkeyup="filterBreeds()" onclick="event.stopPropagation()">
-                                    </div>
-                                    
-                                    <!-- Options -->
-                                    <div id="breedOptions" class="max-h-48 overflow-y-auto py-1">
-                                        <!-- Single breed mode - checkboxes -->
-                                        <div id="singleBreedOptions">
-                                            <!-- Options populated by JS -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Hidden input to store selected breed value -->
-                            <input type="hidden" name="breed" id="breedInput" value="">
-                            
-                            <!-- Display selected breed tags -->
-                            <div id="selectedBreedDisplay" class="mt-3 hidden">
-                                <div class="flex flex-wrap gap-2" id="selectedBreedTags"></div>
+                        
+                        <!-- Display selected pet cards here -->
+                        <div id="selectedPetsList" class="grid md:grid-cols-2 gap-4">
+                            <!-- Empty state -->
+                            <div id="noPetsSelected" class="col-span-2 bg-gray-50 border border-dashed border-gray-300 rounded-lg p-8 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <p class="text-gray-500">No pets selected yet. Click "Select Pet" to choose from your registered pets.</p>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Pet's Weight -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Pet's Weight <span class="text-red-500">*</span>
-                                <span class="text-gray-500 text-xs">(in kgs, if you do not know the weight type "N/A")</span>
-                            </label>
-                            <input type="text" name="pet_weight" placeholder="Weight in kg"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
+                    <!-- Desired Date of Kapon -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-1.5">
+                            Desired Date of Kapon (Spay/Neuter) <span class="text-red-500">*</span>
+                        </label>
+                        <input type="date" name="appointment_date" id="appointment_date"
+                               class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                    </div>
 
-                        <!-- Pet's Age -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Pet's Age <span class="text-red-500">*</span>
-                            </label>
-                            <select name="pet_age"
-                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                                <option value="">Select Age</option>
-                                <option value="6-8_months">6-8 months</option>
-                                <option value="9-11_months">9-11 months</option>
-                                <option value="1_year">1 year old</option>
-                                <option value="2-3_years">2-3 years old</option>
-                                <option value="4_years">4 years old</option>
-                                <option value="5-6_years">5-6 years old</option>
-                                <option value="7-8_years">7-8 years old</option>
-                                <option value="9-10_years">9-10 years old</option>
-                                <option value="11-14_years">11-14 years old</option>
-                                <option value="15_plus">15 years old and above</option>
-                                <option value="stray">Stray (Unknown)</option>
-                            </select>
-                        </div>
-
-                        <!-- Pet's Name -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-1.5">
-                                Pet's Name <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="pet_name" placeholder="Pet's Name"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
-
-                        <!-- Date -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-1.5">
-                                Date <span class="text-red-500">*</span>
-                            </label>
-                            <input type="date" name="appointment_date"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
-
-                        <!-- Upload Photos -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-1.5">
-                                Upload photos of Pet/s <span class="text-red-500">*</span>
-                            </label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                                <input type="file" name="pet_photos[]" id="pet_photos" multiple accept="image/*"
-                                       class="hidden">
-                                <label for="pet_photos" class="cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                    <p class="text-gray-600">Click to upload photos</p>
-                                    <p class="text-sm text-gray-500 mt-1">Please upload clear photos of your pet so our veterinarian can properly evaluate.</p>
-                                </label>
+                    <!-- Photo Uploads for Each Selected Pet -->
+                    <div id="petPhotosContainer" class="mb-6">
+                        <label class="block text-sm font-medium mb-3">
+                            Upload Photos <span class="text-red-500">*</span>
+                        </label>
+                        <div id="petPhotoFields" class="space-y-4">
+                            <!-- Photo upload fields will be dynamically added here -->
+                            <div id="noPhotosMessage" class="bg-gray-50 border border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                <p class="text-gray-500 text-sm">Select a pet first to upload photos</p>
                             </div>
-                            <p class="text-xs text-gray-500 italic mt-1">Required views: Head, Face, Body – top and side view (while standing on all four legs) and Genitals. Max. file size: 8MB</p>
                         </div>
+                        <p class="text-xs text-gray-500 italic mt-2">Required views: Head, Face, Body – top and side view (while standing on all four legs) and Genitals. Max. file size: 8MB per pet</p>
                     </div>
                     
                     <!-- Navigation Buttons for Part 2 -->
@@ -468,6 +368,232 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Pet Selection Modal -->
+                <div id="petModal" class="fixed inset-0 z-50 hidden">
+                    <div class="fixed inset-0 bg-black bg-opacity-50" onclick="closePetModal()"></div>
+                    <div class="fixed inset-0 flex items-center justify-center p-4">
+                        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-hidden">
+                            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                                <h3 class="text-lg font-semibold text-gray-900">Select Your Pet(s)</h3>
+                                <button type="button" onclick="closePetModal()" class="text-gray-400 hover:text-gray-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="px-6 py-4 overflow-y-auto max-h-[60vh]">
+                                @if(count($petsArray) === 0)
+                                    <div class="text-center py-8">
+                                        <p class="text-gray-500 mb-4">You haven't registered any pets yet.</p>
+                                        <a href="{{ route('pet.registration') }}" class="text-primary hover:text-primary-light font-medium">
+                                            Register a Pet
+                                        </a>
+                                    </div>
+                                @else
+                                    <p class="text-sm text-gray-600 mb-4">Select one or more pets for Kapon (Spay/Neuter) surgery:</p>
+                                    <div class="space-y-3" id="petSelectionList">
+                                        @foreach($petsArray as $pet)
+                                            <label class="flex items-start p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-green-50 hover:border-primary transition-colors pet-selection-card" data-pet-id="{{ $pet['id'] }}">
+                                                <input type="checkbox" name="selected_pets[]" value="{{ $pet['id'] }}" 
+                                                       class="mt-1 w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary pet-checkbox"
+                                                       onchange="togglePetSelection(this)">
+                                                <div class="ml-3 flex-1">
+                                                    <div class="flex items-center justify-between">
+                                                        <span class="font-semibold text-gray-900 pet-name">{{ $pet['name'] }}</span>
+                                                        <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">{{ $pet['species'] ?? 'Unknown' }}</span>
+                                                    </div>
+                                                    <div class="mt-1 text-xs text-gray-500">
+                                                        <div>Breed: {{ $pet['breed'] ?? 'Unknown' }}</div>
+                                                        <div>Age: {{ isset($pet['age']) ? str_replace('_', ' ', $pet['age']) : 'Unknown' }}</div>
+                                                        <div>Weight: {{ isset($pet['weight']) ? (str_contains(strtolower($pet['weight']), 'kg') || strtolower($pet['weight']) == 'n/a' ? $pet['weight'] : $pet['weight'] . ' kg') : 'Unknown' }}</div>
+                                                    </div>
+                                                </div>
+                                                @if(!empty($pet['image']))
+                                                <div class="ml-2 flex-shrink-0">
+                                                    <img src="{{ asset('storage/' . $pet['image']) }}" alt="{{ $pet['name'] }}" class="w-12 h-12 rounded-full object-cover">
+                                                </div>
+                                                @endif
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Selected: <span id="selectedCount">0</span> pet(s)</span>
+                                    <button type="button" onclick="confirmPetSelection()" 
+                                            class="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-light transition-colors">
+                                        Confirm Selection
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    // Pet data from server
+                    const petsData = @json($petsArray);
+                    
+                    // Format age - remove underscores and format naturally
+                    function formatAge(age) {
+                        if (!age) return 'Unknown';
+                        return age.replace(/_/g, ' ').replace(/\b(\d)\b/g, '$1 ').trim();
+                    }
+                    
+                    // Format weight - append kg if not included
+                    function formatWeight(weight) {
+                        if (!weight) return 'Unknown';
+                        const weightStr = String(weight).toLowerCase();
+                        if (weightStr.includes('kg') || weightStr === 'n/a' || weightStr === 'na') {
+                            return weight;
+                        }
+                        return weight + ' kg';
+                    }
+                    
+                    let selectedPets = [];
+
+                    function openPetModal() {
+                        document.getElementById('petModal').classList.remove('hidden');
+                        document.body.style.overflow = 'hidden';
+                    }
+
+                    function closePetModal() {
+                        document.getElementById('petModal').classList.add('hidden');
+                        document.body.style.overflow = 'auto';
+                    }
+
+                    function togglePetSelection(checkbox) {
+                        const petId = String(checkbox.value);
+                        if (checkbox.checked) {
+                            if (!selectedPets.includes(petId)) {
+                                selectedPets.push(petId);
+                            }
+                        } else {
+                            selectedPets = selectedPets.filter(id => String(id) !== petId);
+                        }
+                        updateSelectedCount();
+                    }
+
+                    function updateSelectedCount() {
+                        document.getElementById('selectedCount').textContent = selectedPets.length;
+                    }
+
+                    function confirmPetSelection() {
+                        const container = document.getElementById('selectedPetsList');
+                        const noPetsMessage = document.getElementById('noPetsSelected');
+                        const photoContainer = document.getElementById('petPhotoFields');
+                        const noPhotosMessage = document.getElementById('noPhotosMessage');
+
+                        if (selectedPets.length > 0) {
+                            if (noPetsMessage) {
+                                noPetsMessage.remove();
+                            }
+                        }
+
+                        // Clear current selections and rebuild
+                        container.innerHTML = '';
+                        photoContainer.innerHTML = '';
+
+                        if (selectedPets.length === 0) {
+                            container.innerHTML = `
+                                <div id="noPetsSelected" class="col-span-2 bg-gray-50 border border-dashed border-gray-300 rounded-lg p-8 text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <p class="text-gray-500">No pets selected yet. Click "Select Pet" to choose from your registered pets.</p>
+                                </div>
+                            `;
+                            photoContainer.innerHTML = `
+                                <div id="noPhotosMessage" class="bg-gray-50 border border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                    <p class="text-gray-500 text-sm">Select a pet first to upload photos</p>
+                                </div>
+                            `;
+                            closePetModal();
+                            return;
+                        }
+
+                        selectedPets.forEach(petId => {
+                            const pet = petsData.find(p => String(p.id) === String(petId));
+                            if (pet) {
+                                // Determine image source
+                                let imageHtml = '';
+                                if (pet.image) {
+                                    imageHtml = `<img src="{{ asset('storage/') }}/${pet.image}" alt="${pet.name}" class="w-12 h-12 rounded-full object-cover">`;
+                                } else {
+                                    imageHtml = `<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>`;
+                                }
+                                
+                                // Add pet card
+                                const petCard = document.createElement('div');
+                                petCard.className = 'bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between';
+                                petCard.innerHTML = `
+                                    <div class="flex items-center">
+                                        ${imageHtml}
+                                        <div class="ml-3">
+                                            <p class="font-semibold text-gray-900">${pet.name || 'Unknown'}</p>
+                                            <p class="text-xs text-gray-500">${pet.species || 'Unknown'} • ${pet.breed || 'Unknown'}</p>
+                                        </div>
+                                    </div>
+                                    <button type="button" onclick="removePet(${pet.id})" class="text-red-500 hover:text-red-700 p-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                `;
+                                container.appendChild(petCard);
+
+                                // Add photo upload field for this pet
+                                const photoField = document.createElement('div');
+                                photoField.className = 'bg-gray-50 border border-gray-200 rounded-lg p-4';
+                                photoField.innerHTML = `
+                                    <div class="flex items-center mb-2">
+                                        <span class="font-medium text-sm text-gray-700">${pet.name}</span>
+                                    </div>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                        <input type="file" name="pet_photos[${pet.id}][]" id="pet_photos_${pet.id}" multiple accept="image/*" class="hidden">
+                                        <label for="pet_photos_${pet.id}" class="cursor-pointer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                            <p class="text-gray-600 text-sm">Click to upload photos for ${pet.name}</p>
+                                        </label>
+                                    </div>
+                                `;
+                                photoContainer.appendChild(photoField);
+                            }
+                        });
+
+                        closePetModal();
+                    }
+
+                    function removePet(petId) {
+                        // Remove from selectedPets array (convert to string for comparison)
+                        selectedPets = selectedPets.filter(id => String(id) !== String(petId));
+                        
+                        // Uncheck the checkbox in modal
+                        const checkbox = document.querySelector(`#petSelectionList input[value="${petId}"]`);
+                        if (checkbox) {
+                            checkbox.checked = false;
+                        }
+                        
+                        // Rebuild the display
+                        confirmPetSelection();
+                        updateSelectedCount();
+                    }
+
+                    // Close modal on escape key
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape') {
+                            closePetModal();
+                        }
+                    });
+                </script>
 
                 <!-- PART 3: AGREEMENT -->
                 <div id="part3" class="form-part hidden">
