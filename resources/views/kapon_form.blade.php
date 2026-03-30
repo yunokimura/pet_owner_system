@@ -228,15 +228,6 @@
                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                             </div>
 
-                            <!-- Confirm Email -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5">
-                                    Confirm Email <span class="text-red-500">*</span>
-                                </label>
-                                <input type="email" name="confirm_email" placeholder="Confirm Email" value="{{ old('confirm_email', $user->email ?? '') }}"
-                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                            </div>
-
                             <!-- Mobile Number -->
                             <div>
                                 <label class="block text-sm font-medium mb-1.5">
@@ -284,7 +275,7 @@
                             </div>
 
                             <!-- Barangay -->
-                            <div class="md:col-span-2">
+                            <div>
                                 <label class="block text-sm font-medium mb-1.5">
                                     Barangay <span class="text-red-500">*</span>
                                 </label>

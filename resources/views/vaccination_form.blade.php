@@ -119,218 +119,343 @@
 
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="bg-white rounded-2xl shadow-lg p-8">
-            <!-- Page Title -->
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900">Anti-Rabies Vaccination</h2>
-                <p class="text-gray-500 text-sm mt-1">Fields marked with <span class="text-red-500">*</span> are required</p>
-                <div class="mt-4 p-4 bg-blue-50 rounded-lg">
-                    <p class="text-sm text-blue-800">
-                        <span class="font-semibold">Vaccine services are offered Monday to Friday.</span> 
-                        Our staff will contact you to finalize your appointment schedule.
-                    </p>
+        <!-- Title and Required Fields Notice -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">Anti-Rabies Vaccination</h2>
+            <p class="text-gray-500 text-sm mt-1">Fields marked with <span class="text-red-500">*</span> are required</p>
+        </div>
+
+        <!-- Session Status -->
+        @if (session('status'))
+            <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg text-sm">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <!-- Validation Errors -->
+        @if ($errors->any())
+            <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm">
+                <strong>Please fix the following errors:</strong>
+                <ul class="list-disc ml-5 mt-2">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div class="bg-white border border-gray-200 rounded-lg p-8">
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-gray-700" id="stepLabel">Step 1 of 4</span>
+                    <span class="text-sm font-medium text-primary" id="stepTitle">Part 1: Owner's Information</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-primary h-2.5 rounded-full transition-all duration-300" style="width: 25%"></div>
+                </div>
+                <div class="flex justify-between mt-2">
+                    <div class="text-xs text-center flex-1">
+                        <div id="step1Indicator" class="font-semibold text-primary">1</div>
+                        <div class="text-gray-500">Owner</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step2Indicator" class="font-semibold text-gray-400">2</div>
+                        <div class="text-gray-400">Pet</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step3Indicator" class="font-semibold text-gray-400">3</div>
+                        <div class="text-gray-400">Appointment</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step4Indicator" class="font-semibold text-gray-400">4</div>
+                        <div class="text-gray-400">Medical History</div>
+                    </div>
                 </div>
             </div>
 
             <form id="vaccinationForm" method="POST" action="{{ url('/vaccination/form') }}" enctype="multipart/form-data">
                 @csrf
-                
-                <!-- Appointment Date -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Appointment Date</label>
-                    <input type="date" name="appointment_date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                </div>
 
-                <hr class="border-gray-300 mb-6">
+                <!-- PART 1: OWNER'S INFORMATION -->
+                <div id="part1" class="form-part">
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 1: Owner's Information</h3>
 
-                <!-- A. Owner's Info -->
-                <h3 class="text-lg font-semibold text-gray-900 mb-6">A. Owner's Info</h3>
-                
-                <!-- Pet Owner's Name -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Pet Owner's Name <span class="text-red-500">*</span></label>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">First Name</label>
-                            <input type="text" name="owner_first_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="First Name">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Last Name</label>
-                            <input type="text" name="owner_last_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Last Name">
-                        </div>
-                    </div>
-                </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <!-- Name -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Pet Owner's Name <span class="text-red-500">*</span>
+                                    <span class="text-gray-500 text-xs ml-2">(First name and Last name)</span>
+                                </label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <input type="text" name="owner_first_name" placeholder="First Name" value="{{ old('owner_first_name', $petOwner->first_name ?? '') }}"
+                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                    <input type="text" name="owner_last_name" placeholder="Last Name" value="{{ old('owner_last_name', $petOwner->last_name ?? '') }}"
+                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                </div>
+                            </div>
 
-                <!-- Email and Contact Number -->
-                <div class="mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Email <span class="text-red-500">*</span></label>
-                            <input type="email" name="owner_email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="email@example.com">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Contact Number <span class="text-red-500">*</span></label>
-                            <input type="text" name="owner_contact" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Contact Number">
-                        </div>
-                    </div>
-                </div>
+                            <!-- Email -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Email <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" name="owner_email" placeholder="Enter Email" value="{{ old('owner_email', $user->email ?? '') }}"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
 
-                <!-- Complete Home Address -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Complete Home Address <span class="text-red-500">*</span></label>
-                    <textarea name="owner_address" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Complete Home Address"></textarea>
-                </div>
+                            <!-- Contact Number -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Contact Number <span class="text-red-500">*</span>
+                                </label>
+                                <div class="flex">
+                                    <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
+                                        +63
+                                    </span>
+                                    <input type="tel" name="owner_contact" placeholder="943 210 2012" maxlength="12" value="{{ old('owner_contact', $petOwner->phone_number ?? '') }}"
+                                           class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                </div>
+                            </div>
 
-                <hr class="border-gray-300 mb-6">
+                            <!-- House No. / Unit No. -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    House No. / Unit No. <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="house_no" placeholder="House No. / Unit No." value="{{ old('house_no', $petOwner->house_no ?? '') }}"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
 
-                <!-- B. Pet's Info -->
-                <h3 class="text-lg font-semibold text-gray-900 mb-6">B. Pet's Info</h3>
+                            <!-- Street -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Street <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="street" placeholder="Street" value="{{ old('street', $petOwner->street ?? '') }}"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
 
-                <!-- Pet's Name -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Pet's Name <span class="text-red-500">*</span></label>
-                    <input type="text" name="pet_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Enter your pet's name">
-                </div>
-
-                <!-- Species and Gender -->
-                <div class="mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Species <span class="text-red-500">*</span></label>
-                            <select name="pet_species" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" onchange="updateBreedOptions()">
-                                <option value="">Select species</option>
-                                <option value="dog">Dog</option>
-                                <option value="cat">Cat</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Gender <span class="text-red-500">*</span></label>
-                            <select name="pet_gender" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                                <option value="">Select gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
+                            <!-- Barangay -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Barangay <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="barangay" placeholder="Barangay" value="{{ old('barangay', $petOwner->barangay ?? '') }}"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Breed -->
-                <div class="mb-6" id="breedSection">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Breed <span class="text-red-500">*</span>
-                    </label>
                     
-                    <!-- Dropdown trigger and container -->
-                    <div class="relative">
-                        <!-- Display selected breed (click to open) -->
-                        <div id="breedDisplay" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white cursor-pointer hover:border-gray-400" onclick="toggleBreedDropdown()">
-                            <span id="selectedBreedText" class="text-gray-500">Select a breed</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    <!-- Navigation Buttons for Part 1 -->
+                    <div class="flex justify-end mt-8">
+                        <button type="button" onclick="goToStep(2)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: Pet's Information
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                             </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PART 2: PET'S INFORMATION -->
+                <div id="part2" class="form-part hidden">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 2: Pet's Information</h3>
+
+                    <!-- Pet's Name -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Pet's Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="pet_name" value="{{ old('pet_name') }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Enter your pet's name">
+                    </div>
+
+                    <!-- Species and Gender -->
+                    <div class="mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Species <span class="text-red-500">*</span></label>
+                                <select name="pet_species" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" onchange="updateBreedOptions()">
+                                    <option value="">Select species</option>
+                                    <option value="dog">Dog</option>
+                                    <option value="cat">Cat</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Gender <span class="text-red-500">*</span></label>
+                                <select name="pet_gender" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                                    <option value="">Select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
                         </div>
+                    </div>
+
+                    <!-- Breed -->
+                    <div class="mb-6" id="breedSection">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Breed <span class="text-red-500">*</span>
+                        </label>
                         
-                        <!-- Dropdown menu -->
-                        <div id="breedDropdown" class="hidden absolute z-10 w-full mt-1 border border-gray-300 rounded-lg bg-white shadow-lg max-h-64">
-                            <!-- Search inside dropdown -->
-                            <div class="p-2 border-b border-gray-200">
-                                <input type="text" id="breedSearch" placeholder="Search breed..." class="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary" onkeyup="filterBreeds()" onclick="event.stopPropagation()">
+                        <!-- Dropdown trigger and container -->
+                        <div class="relative">
+                            <!-- Display selected breed (click to open) -->
+                            <div id="breedDisplay" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white cursor-pointer hover:border-gray-400" onclick="toggleBreedDropdown()">
+                                <span id="selectedBreedText" class="text-gray-500">Select a breed</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
                             </div>
                             
-                            <!-- Options -->
-                            <div id="breedOptions" class="max-h-48 overflow-y-auto py-1">
-                                <!-- Options populated by JS -->
+                            <!-- Dropdown menu -->
+                            <div id="breedDropdown" class="hidden absolute z-10 w-full mt-1 border border-gray-300 rounded-lg bg-white shadow-lg max-h-64">
+                                <!-- Search inside dropdown -->
+                                <div class="p-2 border-b border-gray-200">
+                                    <input type="text" id="breedSearch" placeholder="Search breed..." class="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary" onkeyup="filterBreeds()" onclick="event.stopPropagation()">
+                                </div>
+                                
+                                <!-- Options -->
+                                <div id="breedOptions" class="max-h-48 overflow-y-auto py-1">
+                                    <!-- Options populated by JS -->
+                                </div>
                             </div>
                         </div>
+                        
+                        <!-- Hidden input to store selected breed -->
+                        <input type="hidden" id="selectedBreed" name="pet_breed" value="">
                     </div>
-                    
-                    <!-- Hidden input to store selected breed -->
-                    <input type="hidden" id="selectedBreed" name="pet_breed" value="">
-                </div>
 
-                <!-- Age -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Age <span class="text-red-500">*</span></label>
-                    <select name="pet_age" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                        <option value="">Select estimated age</option>
-                        <option value="less_than_3_months">Less than 3 months old</option>
-                        <option value="3_to_12_months">3 to 12 months old</option>
-                        <option value="1_year">1 year old</option>
-                        <option value="2_years">2 years old</option>
-                        <option value="3_years">3 years old</option>
-                        <option value="4_years">4 years old</option>
-                        <option value="5_years">5 years old</option>
-                        <option value="6_years">6 years old</option>
-                        <option value="7_years">7 years old</option>
-                        <option value="8_years">8 years old</option>
-                        <option value="9_years">9 years old</option>
-                        <option value="10_years">10 years old</option>
-                        <option value="11_years">11 years old</option>
-                        <option value="12_years">12 years old</option>
-                        <option value="13_years">13 years old</option>
-                        <option value="14_years">14 years old</option>
-                        <option value="15_years">15 years old</option>
-                        <option value="16_years">16 years old</option>
-                        <option value="17_years">17 years old</option>
-                        <option value="18_years">18 years old</option>
-                        <option value="19_years">19 years old</option>
-                        <option value="20_years">20 years old</option>
-                    </select>
-                </div>
+                    <!-- Age -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Age <span class="text-red-500">*</span></label>
+                        <select name="pet_age" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                            <option value="">Select estimated age</option>
+                            <option value="less_than_3_months">Less than 3 months old</option>
+                            <option value="3_to_12_months">3 to 12 months old</option>
+                            <option value="1_year">1 year old</option>
+                            <option value="2_years">2 years old</option>
+                            <option value="3_years">3 years old</option>
+                            <option value="4_years">4 years old</option>
+                            <option value="5_years">5 years old</option>
+                            <option value="6_years">6 years old</option>
+                            <option value="7_years">7 years old</option>
+                            <option value="8_years">8 years old</option>
+                            <option value="9_years">9 years old</option>
+                            <option value="10_years">10 years old</option>
+                            <option value="11_years">11 years old</option>
+                            <option value="12_years">12 years old</option>
+                            <option value="13_years">13 years old</option>
+                            <option value="14_years">14 years old</option>
+                            <option value="15_years">15 years old</option>
+                            <option value="16_years">16 years old</option>
+                            <option value="17_years">17 years old</option>
+                            <option value="18_years">18 years old</option>
+                            <option value="19_years">19 years old</option>
+                            <option value="20_years">20 years old</option>
+                        </select>
+                    </div>
 
-                <hr class="border-gray-300 mb-6">
-
-                <!-- C. Vet Records -->
-                <h3 class="text-lg font-semibold text-gray-900 mb-6">C. Vet Records</h3>
-
-                <!-- Date of Last Anti-Rabies -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Date of Last Anti-Rabies</label>
-                    <input type="date" name="last_anti_rabies_date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                </div>
-
-                <hr class="border-gray-300 mb-6">
-
-                <!-- D. Other Health Information -->
-                <h3 class="text-lg font-semibold text-gray-900 mb-6">D. Other Health Information</h3>
-
-                <!-- Surgery Question -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">Did your pet undergo any surgery in the last two (2) weeks? <span class="text-red-500">*</span></label>
-                    <div class="flex space-x-6">
-                        <label class="inline-flex items-center cursor-pointer">
-                            <input type="radio" name="recent_surgery" value="yes" class="form-radio h-5 w-5 text-primary">
-                            <span class="ml-3 text-gray-700 font-medium">Yes</span>
-                        </label>
-                        <label class="inline-flex items-center cursor-pointer">
-                            <input type="radio" name="recent_surgery" value="no" class="form-radio h-5 w-5 text-primary">
-                            <span class="ml-3 text-gray-700 font-medium">No</span>
-                        </label>
+                    <!-- Navigation Buttons for Part 2 -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="goToStep(1)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="button" onclick="goToStep(3)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: Appointment Date
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Confirmation Checkbox -->
-                <div class="mb-8">
-                    <label class="inline-flex items-start cursor-pointer">
-                        <input type="checkbox" name="confirmation" class="form-checkbox h-5 w-5 text-primary rounded mt-1">
-                        <span class="ml-3 text-gray-700 text-sm">
-                            By confirming, you acknowledge that the provided information is accurate and that your pet will be available for vaccination on the selected date. <span class="text-red-500">*</span>
-                        </span>
-                    </label>
+                <!-- PART 3: APPOINTMENT DATE -->
+                <div id="part3" class="form-part hidden">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 3: Appointment Date</h3>
+
+                    <!-- Appointment Date -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Appointment Date <span class="text-red-500">*</span></label>
+                        <input type="date" name="appointment_date" value="{{ old('appointment_date') }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                    </div>
+
+                    <!-- Navigation Buttons for Part 3 -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="goToStep(2)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="button" onclick="goToStep(4)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: Medical History
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Submit Button -->
-                <div class="text-center space-y-4">
-                    <button type="submit" class="px-12 py-4 bg-primary text-white font-semibold rounded-xl text-lg hover:bg-primary-light transition-colors shadow-md hover:shadow-lg">
-                        Submit
-                    </button>
-                    <div>
-                        <a href="{{ url('/vaccination') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
-                            ← Back to Vaccination
-                        </a>
+                <!-- PART 4: MEDICAL HISTORY -->
+                <div id="part4" class="form-part hidden">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 4: Medical History</h3>
+
+                    <!-- Date of Last Anti-Rabies -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Date of Last Anti-Rabies</label>
+                        <input type="date" name="last_anti_rabies_date" value="{{ old('last_anti_rabies_date') }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                    </div>
+
+                    <!-- Surgery Question -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Did your pet undergo any surgery in the last two (2) weeks? <span class="text-red-500">*</span></label>
+                        <div class="flex space-x-6">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="radio" name="recent_surgery" value="yes" class="form-radio h-5 w-5 text-primary">
+                                <span class="ml-3 text-gray-700 font-medium">Yes</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="radio" name="recent_surgery" value="no" class="form-radio h-5 w-5 text-primary">
+                                <span class="ml-3 text-gray-700 font-medium">No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Confirmation Checkbox -->
+                    <div class="mb-8">
+                        <label class="inline-flex items-start cursor-pointer">
+                            <input type="checkbox" name="confirmation" class="form-checkbox h-5 w-5 text-primary rounded mt-1">
+                            <span class="ml-3 text-gray-700 text-sm">
+                                By confirming, you acknowledge that the provided information is accurate and that your pet will be available for vaccination on the selected date. <span class="text-red-500">*</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Navigation Buttons for Part 4 -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="goToStep(3)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="submit" class="bg-primary text-white px-12 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Submit
+                        </button>
                     </div>
                 </div>
             </form>
+
+            <!-- Back Link -->
+            <div class="text-center mt-6">
+                <a href="{{ url('/vaccination') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
+                    ← Back to Vaccination
+                </a>
+            </div>
         </div>
     </main>
 
@@ -351,6 +476,48 @@
     </footer>
 
     <script>
+        // Multi-step form navigation
+        function goToStep(step) {
+            // Hide all parts
+            document.querySelectorAll('.form-part').forEach(part => {
+                part.classList.add('hidden');
+            });
+            
+            // Show the selected part
+            document.getElementById('part' + step).classList.remove('hidden');
+            
+            // Update progress bar
+            const progressBar = document.getElementById('progressBar');
+            const stepLabel = document.getElementById('stepLabel');
+            const stepTitle = document.getElementById('stepTitle');
+            
+            progressBar.style.width = (step * 25) + '%';
+            stepLabel.textContent = 'Step ' + step + ' of 4';
+            
+            const titles = {
+                1: 'Part 1: Owner\'s Information',
+                2: 'Part 2: Pet\'s Information',
+                3: 'Part 3: Appointment Date',
+                4: 'Part 4: Medical History'
+            };
+            stepTitle.textContent = titles[step];
+            
+            // Update step indicators
+            for (let i = 1; i <= 4; i++) {
+                const indicator = document.getElementById('step' + i + 'Indicator');
+                if (i <= step) {
+                    indicator.classList.remove('text-gray-400');
+                    indicator.classList.add('text-primary');
+                } else {
+                    indicator.classList.remove('text-primary');
+                    indicator.classList.add('text-gray-400');
+                }
+            }
+            
+            // Scroll to top of form
+            document.querySelector('.form-part:not(.hidden)').scrollIntoView({ behavior: 'smooth' });
+        }
+
         // Cat breeds list
         const catBreeds = [
             "Mixed Breed (Puspin)", "Abyssinian", "Aegean", "American Bobtail", "American Curl", 
@@ -461,7 +628,7 @@
         document.addEventListener('click', function(e) {
             const dropdown = document.getElementById('breedDropdown');
             const display = document.getElementById('breedDisplay');
-            if (!dropdown.contains(e.target) && !display.contains(e.target)) {
+            if (dropdown && display && !dropdown.contains(e.target) && !display.contains(e.target)) {
                 dropdown.classList.add('hidden');
             }
         });

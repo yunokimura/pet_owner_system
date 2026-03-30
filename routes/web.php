@@ -127,7 +127,10 @@ Route::get('/vaccination', function () {
 
 // Vaccination Form Page Route
 Route::get('/vaccination/form', function () {
-    return view('vaccination_form');
+    $user = auth()->user();
+    $petOwner = $user ? $user->petOwner : null;
+    
+    return view('vaccination_form', compact('user', 'petOwner'));
 });
 
 // Owner Dashboard Route
