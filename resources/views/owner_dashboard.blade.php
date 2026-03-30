@@ -317,7 +317,7 @@
                                 <p><strong>Age:</strong> {{ $ageDisplay }}</p>
                                 <p><strong>Neutered:</strong> {{ $pet->is_neutered === 'yes' ? 'Yes' : 'No' }}</p>
                                 @if($pet->pet_weight)
-                                    <p><strong>Weight:</strong> {{ $pet->pet_weight }}</p>
+                                    <p><strong>Weight:</strong> {{ $pet->pet_weight }} kg</p>
                                 @endif
                             </div>
                         </div>

@@ -300,8 +300,12 @@
 
                 <!-- Pet Weight -->
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Pet's Weight <span class="text-red-500">*</span> (in kgs, if you do not know type "N/A")</label>
-                    <input type="text" name="pet_weight" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Weight in kg">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Pet's Weight <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <input type="text" id="petWeight" name="pet_weight" class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Enter weight" oninput="updateWeightSuffix()">
+                        <span id="weightSuffix" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium pointer-events-none hidden">kg</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">If you do not know, type "N/A"</p>
                 </div>
 
                 <hr class="border-gray-300 mb-6">
@@ -935,6 +939,20 @@
             } else {
                 birthdateSection.classList.add('hidden');
                 ageSection.classList.remove('hidden');
+            }
+        }
+        
+        // Update weight suffix based on input
+        function updateWeightSuffix() {
+            const input = document.getElementById('petWeight');
+            const suffix = document.getElementById('weightSuffix');
+            const value = input.value.trim().toUpperCase();
+            
+            // Show kg suffix if there's a valid number, hide if empty or N/A
+            if (value === '' || value === 'N/A') {
+                suffix.classList.add('hidden');
+            } else {
+                suffix.classList.remove('hidden');
             }
         }
 

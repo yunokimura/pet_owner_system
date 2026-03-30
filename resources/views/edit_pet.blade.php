@@ -291,8 +291,12 @@
 
                 <!-- Pet Weight -->
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Pet's Weight <span class="text-red-500">*</span> (in kgs, if you do not know type "N/A")</label>
-                    <input type="text" name="pet_weight" value="{{ $pet->pet_weight }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Weight in kg">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Pet's Weight <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <input type="text" id="petWeight" name="pet_weight" value="{{ $pet->pet_weight }}" class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Enter weight" oninput="updateWeightSuffix()">
+                        <span id="weightSuffix" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium pointer-events-none"></span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">If you do not know, type "N/A"</p>
                 </div>
 
                 <hr class="border-gray-300 mb-6">
@@ -595,7 +599,25 @@
             selectedBreeds = selectedBreeds.slice(0, 1);
             updateBreedOptions();
         }
-
+        
+        // Update weight suffix based on input
+        function updateWeightSuffix() {
+            const input = document.getElementById('petWeight');
+            const suffix = document.getElementById('weightSuffix');
+            if (!input || !suffix) return;
+            
+            const value = input.value.trim().toUpperCase();
+            
+            // Show kg suffix if there's a valid number, hide if empty or N/A
+            if (value === '' || value === 'N/A') {
+                suffix.classList.add('hidden');
+                suffix.textContent = '';
+            } else {
+                suffix.classList.remove('hidden');
+                suffix.textContent = 'kg';
+            }
+        }
+        
         function handleBreedCheckbox(checkbox) {
             const breed = checkbox.value;
             if (checkbox.checked) {
@@ -897,6 +919,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Initializing pet attributes...');
             updateBreedOptions();
+            updateWeightSuffix();
             
             // Get current pet type from the existing pet data
             var currentPetType = '{{ $pet->species }}';

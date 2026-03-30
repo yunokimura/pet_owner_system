@@ -434,7 +434,7 @@
             }
             document.getElementById('modalPetAge').textContent = ageDisplay;
             
-            document.getElementById('modalPetWeight').textContent = pet.pet_weight || 'N/A';
+            document.getElementById('modalPetWeight').textContent = pet.pet_weight ? pet.pet_weight + ' kg' : 'N/A';
             document.getElementById('modalPetNeutered').textContent = pet.is_neutered === 'yes' ? 'Yes' : 'No';
             document.getElementById('modalPetCrossbreed').textContent = pet.is_crossbreed === 'yes' ? 'Yes' : 'No';
             
