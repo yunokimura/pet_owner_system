@@ -89,7 +89,9 @@ Route::get('/adoption', function () {
 
 // Adoption Form Page Route
 Route::get('/adoption/form', function () {
-    return view('adoption_form');
+    $user = auth()->user();
+    $petOwner = $user ? $user->petOwner : null;
+    return view('adoption_form', compact('user', 'petOwner'));
 });
 
 // Animal Cruelty Page Route

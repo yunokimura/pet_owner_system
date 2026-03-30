@@ -106,6 +106,22 @@
     </div>
 </header>
 
+<script>
+    function toggleDropdown() {
+        const dropdown = document.getElementById('userDropdown');
+        dropdown.classList.toggle('hidden');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('userDropdown');
+        const button = event.target.closest('button');
+        if (!button && !dropdown.contains(event.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+</script>
+
 <!-- Main -->
 <main class="py-10">
     <div class="max-w-4xl mx-auto px-6">
@@ -137,152 +153,224 @@
             </div>
         @endif
 
-        <!-- Form Card -->
+        <!-- Form Card with Progress Steps -->
         <div class="bg-white border border-gray-200 rounded-lg p-8">
-            <form method="POST" action="#" enctype="multipart/form-data">
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-gray-700" id="stepLabel">Step 1 of 6</span>
+                    <span class="text-sm font-medium text-primary" id="stepTitle">Part 1: Application Information</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-primary h-2.5 rounded-full transition-all duration-300" style="width: 16.67%"></div>
+                </div>
+                <div class="flex justify-between mt-2">
+                    <div class="text-xs text-center flex-1">
+                        <div id="step1Indicator" class="font-semibold text-primary">1</div>
+                        <div class="text-gray-500">Application</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step2Indicator" class="font-semibold text-gray-400">2</div>
+                        <div class="text-gray-400">Alt. Contact</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step3Indicator" class="font-semibold text-gray-400">3</div>
+                        <div class="text-gray-400">Questionnaire</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step4Indicator" class="font-semibold text-gray-400">4</div>
+                        <div class="text-gray-400">Home Photos</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step5Indicator" class="font-semibold text-gray-400">5</div>
+                        <div class="text-gray-400">Valid ID</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step6Indicator" class="font-semibold text-gray-400">6</div>
+                        <div class="text-gray-400">Interview</div>
+                    </div>
+                </div>
+            </div>
+
+            <form method="POST" action="#" enctype="multipart/form-data" id="adoptionForm">
                 @csrf
 
-                <!-- APPLICATION INFO -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b">APPLICATION INFO</h3>
+                <!-- PART 1: APPLICATION INFORMATION -->
+                <div id="part1" class="form-part">
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 1: Application Information</h3>
 
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <!-- Name -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-1.5">
-                                Name <span class="text-red-500">*</span>
-                                <span class="text-gray-500 text-xs ml-2">(First name and Last name)</span>
-                            </label>
-                            <div class="grid grid-cols-2 gap-4">
-                                <input type="text" name="first_name" placeholder="First Name"
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <!-- Name -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Name <span class="text-red-500">*</span>
+                                    <span class="text-gray-500 text-xs ml-2">(First name and Last name)</span>
+                                </label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <input type="text" name="first_name" placeholder="First name" value="{{ old('first_name', $petOwner->first_name ?? '') }}"
+                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                    <input type="text" name="last_name" placeholder="Last name" value="{{ old('last_name', $petOwner->last_name ?? '') }}"
+                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Email <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" name="email" placeholder="name@example.com" value="{{ old('email', $user->email ?? '') }}"
                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                                <input type="text" name="last_name" placeholder="Last Name"
+                            </div>
+
+                            <!-- Mobile Number -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Mobile Number <span class="text-red-500">*</span>
+                                </label>
+                                <div class="flex">
+                                    <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
+                                        +63
+                                    </span>
+                                    <input type="tel" name="mobile_number" placeholder="943 210 2012" maxlength="14" value="{{ old('mobile_number', $petOwner->phone_number ?? '') }}" oninput="formatPhone(this)"
+                                           class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- Alternate Mobile Number -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Alternate Mobile Number
+                                </label>
+                                <div class="flex">
+                                    <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
+                                        +63
+                                    </span>
+                                    <input type="tel" name="alt_mobile_number" placeholder="943 210 2012" maxlength="14" value="{{ old('alt_mobile_number', $petOwner->alternate_phone_number ?? '') }}" oninput="formatPhone(this)"
+                                           class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- House No. / Unit No. -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    House No. / Unit No. <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="house_no" placeholder="House No. / Unit No." value="{{ old('house_no', $petOwner->house_no ?? '') }}"
                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                             </div>
-                        </div>
 
-                        <!-- Address -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-1.5">
-                                Address <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="address" placeholder="Lot/Block/Street/Subdivision/Barangay"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
-
-                        <!-- Phone -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Phone <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex">
-                                <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
-                                    +63
-                                </span>
-                                <input type="tel" name="phone" placeholder="943 210 2012" maxlength="12"
-                                       class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            <!-- Street -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Street <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="street" placeholder="Street" value="{{ old('street', $petOwner->street ?? '') }}"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                             </div>
-                        </div>
 
-                        <!-- Email -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Email <span class="text-red-500">*</span>
-                            </label>
-                            <input type="email" name="email" placeholder="name@example.com"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
-
-                        <!-- Birth Date -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Birth Date <span class="text-red-500">*</span>
-                            </label>
-                            <input type="date" name="birth_date"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
-
-                        <!-- Occupation -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Occupation
-                            </label>
-                            <input type="text" name="occupation" placeholder="Your occupation"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
-
-                        <!-- Company/Business Name -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Company/Business Name <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="company" placeholder="Company/Business Name"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                            <p class="text-xs text-gray-500 italic mt-1">Please type N/A if unemployed</p>
-                        </div>
-
-                        <!-- Social Media -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Social Media
-                            </label>
-                            <input type="text" name="social_media" placeholder="Facebook/Instagram URL"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                            <p class="text-xs text-gray-500 italic mt-1">Please type N/A if none</p>
-                        </div>
-
-                        <!-- Status -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Status <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex gap-4 mt-2">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="status" value="Single" class="text-primary">
-                                    <span class="ml-2">Single</span>
+                            <!-- Barangay -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Barangay <span class="text-red-500">*</span>
                                 </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="status" value="Married" class="text-primary">
-                                    <span class="ml-2">Married</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="status" value="Others" class="text-primary">
-                                    <span class="ml-2">Others</span>
-                                </label>
+                                <input type="text" name="barangay" placeholder="Barangay" value="{{ old('barangay', $petOwner->barangay ?? '') }}"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                             </div>
-                        </div>
 
-                        <!-- Pronouns -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Pronouns <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="pronouns" placeholder="He/Him, She/Her, They/Them"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
+                            <!-- Birth Date -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Birth Date <span class="text-red-500">*</span>
+                                </label>
+                                <input type="date" name="birth_date" value="{{ old('birth_date', $petOwner->date_of_birth ?? '') }}"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
 
-                        <!-- Have you adopted before? -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-1.5">
-                                Have you adopted before? <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex gap-4 mt-2">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="adopted_before" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
+                            <!-- Occupation -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Occupation
                                 </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="adopted_before" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
+                                <input type="text" name="occupation" placeholder="Your occupation"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
+
+                            <!-- Company/Business Name -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Company/Business Name <span class="text-red-500">*</span>
                                 </label>
+                                <input type="text" name="company" placeholder="Company/Business Name"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                <p class="text-xs text-gray-500 italic mt-1">Please type N/A if unemployed</p>
+                            </div>
+
+                            <!-- Social Media -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Social Media
+                                </label>
+                                <input type="text" name="social_media" placeholder="Facebook/Instagram URL"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                <p class="text-xs text-gray-500 italic mt-1">Please type N/A if none</p>
+                            </div>
+
+                            <!-- Status -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Status <span class="text-red-500">*</span>
+                                </label>
+                                <div class="flex gap-4 mt-2">
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="status" value="Single" class="text-primary">
+                                        <span class="ml-2">Single</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="status" value="Married" class="text-primary">
+                                        <span class="ml-2">Married</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="status" value="Others" class="text-primary">
+                                        <span class="ml-2">Others</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Have you adopted before? -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Have you adopted before? <span class="text-red-500">*</span>
+                                </label>
+                                <div class="flex gap-4 mt-2">
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="adopted_before" value="yes" class="text-primary">
+                                        <span class="ml-2">Yes</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="adopted_before" value="no" class="text-primary">
+                                        <span class="ml-2">No</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Navigation Buttons for Part 1 -->
+                    <div class="flex justify-end mt-8">
+                        <button type="button" onclick="goToStep(2)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: Alternate Contact
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- ALTERNATE CONTACT -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b">ALTERNATE CONTACT</h3>
+                <!-- PART 2: ALTERNATE CONTACT -->
+                <div id="part2" class="form-part hidden">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 2: Alternate Contact</h3>
 
                     <div class="grid md:grid-cols-2 gap-4">
                         <!-- Name -->
@@ -308,16 +396,16 @@
                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                         </div>
 
-                        <!-- Phone -->
+                        <!-- Mobile Number -->
                         <div>
                             <label class="block text-sm font-medium mb-1.5">
-                                Phone <span class="text-red-500">*</span>
+                                Mobile Number <span class="text-red-500">*</span>
                             </label>
                             <div class="flex">
                                 <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
                                     +63
                                 </span>
-                                <input type="tel" name="alt_phone" placeholder="943 210 2012" maxlength="12"
+                                <input type="tel" name="alt_phone" placeholder="943 210 2012" maxlength="14" oninput="formatPhone(this)"
                                        class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                             </div>
                         </div>
@@ -331,11 +419,27 @@
                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                         </div>
                     </div>
+
+                    <!-- Navigation Buttons for Part 2 -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="goToStep(1)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="button" onclick="goToStep(3)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: Questionnaire
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- QUESTIONNAIRE -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b">QUESTIONNAIRE</h3>
+                <!-- PART 3: QUESTIONNAIRE -->
+                <div id="part3" class="form-part hidden">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 3: Questionnaire</h3>
                     
                     <p class="text-sm text-gray-600 italic mb-6">
                         In an effort to help the process go smoothly, please be as detailed as possible with your responses to the questions below.
@@ -598,11 +702,27 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Navigation Buttons for Part 3 -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="goToStep(2)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="button" onclick="goToStep(4)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: Home Photos
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- HOME PHOTOS -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b">HOME PHOTOS</h3>
+                <!-- PART 4: HOME PHOTOS -->
+                <div id="part4" class="form-part hidden">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 4: Home Photos</h3>
                     
                     <p class="text-sm text-gray-600 italic mb-4">
                         Please attach photos of your home. This has replaced our on-site ocular inspections.
@@ -670,11 +790,27 @@
                         We value your privacy. Your photos will not be used for purposes other than this adoption application. <span class="text-red-500">*</span>
                     </p>
                     <p class="text-xs text-gray-500 mt-1">Max. file size: 8mb</p>
+
+                    <!-- Navigation Buttons for Part 4 -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="goToStep(3)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="button" onclick="goToStep(5)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: Upload Valid ID
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- UPLOAD VALID ID -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b">UPLOAD VALID ID</h3>
+                <!-- PART 5: UPLOAD VALID ID -->
+                <div id="part5" class="form-part hidden">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 5: Upload Valid ID</h3>
                     
                     <div>
                         <label class="block text-sm font-medium mb-1.5">
@@ -684,11 +820,27 @@
                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                         <p class="text-xs text-gray-500 mt-1">Max. file size: 8mb</p>
                     </div>
+
+                    <!-- Navigation Buttons for Part 5 -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="goToStep(4)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="button" onclick="goToStep(6)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: Interview & Visitation
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- INTERVIEW & VISITATION -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b">INTERVIEW & VISITATION</h3>
+                <!-- PART 6: INTERVIEW & VISITATION -->
+                <div id="part6" class="form-part hidden">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 6: Interview & Visitation</h3>
                     
                     <p class="text-sm text-gray-600 mb-4">
                         Minors must be accompanied by a parent or guardian.
@@ -763,13 +915,24 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- SUBMIT -->
-                <button type="submit"
-                        class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary-light">
-                    Submit Application
-                </button>
+                    <!-- Navigation Buttons for Part 6 -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="goToStep(5)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="submit"
+                                class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Submit Application
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
 
@@ -779,6 +942,151 @@
         </div>
     </div>
 </main>
+
+<script>
+    // Format phone number with automatic spacing (3 3 4)
+    function formatPhone(input) {
+        let value = input.value.replace(/\D/g, ''); // Remove non-digits
+        if (value.length > 0) {
+            // Format as XXX XXX XXXX
+            if (value.length <= 3) {
+                value = value;
+            } else if (value.length <= 6) {
+                value = value.substring(0, 3) + ' ' + value.substring(3);
+            } else {
+                value = value.substring(0, 3) + ' ' + value.substring(3, 6) + ' ' + value.substring(6, 10);
+            }
+        }
+        input.value = value;
+    }
+
+    // Apply formatPhone to all phone fields on load
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneFields = document.querySelectorAll('input[name="mobile_number"], input[name="alt_phone"]');
+        phoneFields.forEach(field => {
+            field.addEventListener('input', function() {
+                formatPhone(this);
+            });
+        });
+    });
+
+    // Step navigation
+    function goToStep(step) {
+        // Validate current step before moving forward
+        if (!validateStep(step - 1) && step > 1) {
+            return;
+        }
+
+        // Hide all parts
+        document.querySelectorAll('.form-part').forEach(part => {
+            part.classList.add('hidden');
+        });
+
+        // Show the target part
+        document.getElementById('part' + step).classList.remove('hidden');
+
+        // Update progress bar
+        const progress = (step / 6) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+        document.getElementById('stepLabel').textContent = 'Step ' + step + ' of 6';
+
+        // Update step titles
+        const titles = [
+            '',
+            'Part 1: Application Information',
+            'Part 2: Alternate Contact',
+            'Part 3: Questionnaire',
+            'Part 4: Home Photos',
+            'Part 5: Upload Valid ID',
+            'Part 6: Interview & Visitation'
+        ];
+        document.getElementById('stepTitle').textContent = titles[step];
+
+        // Update step indicators
+        for (let i = 1; i <= 6; i++) {
+            const indicator = document.getElementById('step' + i + 'Indicator');
+            if (i <= step) {
+                indicator.classList.remove('text-gray-400');
+                indicator.classList.add('text-primary');
+            } else {
+                indicator.classList.remove('text-primary');
+                indicator.classList.add('text-gray-400');
+            }
+        }
+
+        // Scroll to top of form
+        document.querySelector('.bg-white.border').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Validation function for each step
+    function validateStep(step) {
+        const part = document.getElementById('part' + step);
+        const requiredFields = part.querySelectorAll('[name]');
+        let isValid = true;
+        let firstError = null;
+
+        // Clear previous error styles
+        part.querySelectorAll('.border-red-500').forEach(el => {
+            el.classList.remove('border-red-500');
+        });
+
+        // Check required fields for this step
+        requiredFields.forEach(field => {
+            const name = field.name;
+            
+            // Skip checkbox arrays and non-required fields
+            if (name.includes('[]') || 
+                name === 'family_support_explain' || 
+                name === 'alt_mobile_number' ||
+                name === 'occupation' ||
+                name === 'social_media' ||
+                name === 'zoom_date' ||
+                name === 'zoom_time_hour' ||
+                name === 'zoom_time_min' ||
+                name === 'zoom_time_ampm') {
+                return;
+            }
+
+            // Check if required field is empty
+            if (!field.value.trim() && field.type !== 'radio' && field.type !== 'checkbox') {
+                isValid = false;
+                field.classList.add('border-red-500');
+                if (!firstError) firstError = field;
+            }
+
+            // Check radio buttons
+            if (field.type === 'radio') {
+                const radioGroup = part.querySelectorAll('input[name="' + name + '"]');
+                const checked = Array.from(radioGroup).some(r => r.checked);
+                if (!checked) {
+                    isValid = false;
+                    if (!firstError) firstError = radioGroup[0];
+                }
+            }
+
+            // Check checkboxes
+            if (field.type === 'checkbox' && field.name.includes('[]')) {
+                const checkboxGroup = part.querySelectorAll('input[name="' + name + '"]');
+                const checked = Array.from(checkboxGroup).some(c => c.checked);
+                if (!checked) {
+                    isValid = false;
+                    if (!firstError) firstError = checkboxGroup[0];
+                }
+            }
+        });
+
+        if (!isValid) {
+            // Show error message
+            alert('Please fill in all required fields before proceeding.');
+            if (firstError) {
+                firstError.focus();
+            }
+            return false;
+        }
+
+        return true;
+    }
+</script>
 
     <!-- Footer -->
     <footer class="bg-white text-gray-900">
