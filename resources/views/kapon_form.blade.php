@@ -145,7 +145,7 @@
         <!-- Title -->
         <div class="text-center mb-8">
             <h2 class="text-3xl font-bold">SPAY/NEUTER (KAPON)</h2>
-            <p class="mt-2 text-gray-600 text-sm text-left">
+            <p class="mt-2 text-gray-600 text-sm text-center">
                 Fields marked with <span class="text-red-500">*</span> are required
             </p>
         </div>
