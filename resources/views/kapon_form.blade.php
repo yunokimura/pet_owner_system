@@ -153,108 +153,145 @@
             </div>
         @endif
 
-        <!-- Form Card -->
+        <!-- Form Card with Progress Steps -->
         <div class="bg-white border border-gray-200 rounded-lg p-8">
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-gray-700" id="stepLabel">Step 1 of 3</span>
+                    <span class="text-sm font-medium text-primary" id="stepTitle">Part 1: Owner's Information</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-primary h-2.5 rounded-full transition-all duration-300" style="width: 33%"></div>
+                </div>
+                <div class="flex justify-between mt-2">
+                    <div class="text-xs text-center flex-1">
+                        <div id="step1Indicator" class="font-semibold text-primary">1</div>
+                        <div class="text-gray-500">Owner</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step2Indicator" class="font-semibold text-gray-400">2</div>
+                        <div class="text-gray-400">Pet</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step3Indicator" class="font-semibold text-gray-400">3</div>
+                        <div class="text-gray-400">Agreement</div>
+                    </div>
+                </div>
+            </div>
+
             <form method="POST" action="#" enctype="multipart/form-data">
                 @csrf
 
-                <!-- A. OWNER'S INFO -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b">A. OWNER'S INFO</h3>
+                <!-- PART 1: OWNER'S INFO -->
+                <div id="part1" class="form-part">
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 1: Owner's Information</h3>
 
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <!-- Name -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-1.5">
-                                Pet Owner's Name <span class="text-red-500">*</span>
-                                <span class="text-gray-500 text-xs ml-2">(First name and Last name)</span>
-                            </label>
-                            <div class="grid grid-cols-2 gap-4">
-                                <input type="text" name="first_name" placeholder="First Name"
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <!-- Name -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Pet Owner's Name <span class="text-red-500">*</span>
+                                    <span class="text-gray-500 text-xs ml-2">(First name and Last name)</span>
+                                </label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <input type="text" name="first_name" placeholder="First Name"
+                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                    <input type="text" name="last_name" placeholder="Last Name"
+                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Email <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" name="email" placeholder="Enter Email"
                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                                <input type="text" name="last_name" placeholder="Last Name"
+                            </div>
+
+                            <!-- Confirm Email -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Confirm Email <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" name="confirm_email" placeholder="Confirm Email"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
+
+                            <!-- Mobile Number -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Mobile Number <span class="text-red-500">*</span>
+                                </label>
+                                <div class="flex">
+                                    <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
+                                        +63
+                                    </span>
+                                    <input type="tel" name="mobile_number" placeholder="943 210 2012" maxlength="12"
+                                           class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- Alternate Mobile Number -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Alternate Mobile Number
+                                </label>
+                                <div class="flex">
+                                    <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
+                                        +63
+                                    </span>
+                                    <input type="tel" name="alt_mobile_number" placeholder="943 210 2012" maxlength="12"
+                                           class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- House No. / Unit No. -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    House No. / Unit No. <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="house_no" placeholder="House No. / Unit No."
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
+
+                            <!-- Street -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Street <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="street" placeholder="Street"
+                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
+
+                            <!-- Barangay -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium mb-1.5">
+                                    Barangay <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="barangay" placeholder="Barangay"
                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                             </div>
                         </div>
-
-                        <!-- Email -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Email <span class="text-red-500">*</span>
-                            </label>
-                            <input type="email" name="email" placeholder="Enter Email"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
-
-                        <!-- Confirm Email -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Confirm Email <span class="text-red-500">*</span>
-                            </label>
-                            <input type="email" name="confirm_email" placeholder="Confirm Email"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
-
-                        <!-- Mobile Number -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Mobile Number <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex">
-                                <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
-                                    +63
-                                </span>
-                                <input type="tel" name="mobile_number" placeholder="943 210 2012" maxlength="12"
-                                       class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                            </div>
-                        </div>
-
-                        <!-- Alternate Mobile Number -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Alternate Mobile Number
-                            </label>
-                            <div class="flex">
-                                <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
-                                    +63
-                                </span>
-                                <input type="tel" name="alt_mobile_number" placeholder="943 210 2012" maxlength="12"
-                                       class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                            </div>
-                        </div>
-
-                        <!-- House No. / Unit No. -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                House No. / Unit No. <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="house_no" placeholder="House No. / Unit No."
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
-
-                        <!-- Street -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Street <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="street" placeholder="Street"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
-
-                        <!-- Barangay -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-1.5">
-                                Barangay <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="barangay" placeholder="Barangay"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                        </div>
+                    </div>
+                    
+                    <!-- Navigation Buttons for Part 1 -->
+                    <div class="flex justify-end mt-8">
+                        <button type="button" onclick="goToStep(2)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: Pet's Information
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
-                <!-- B. PET'S INFO -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b">B. PET'S INFO</h3>
+                <!-- PART 2: PET'S INFO -->
+                <div id="part2" class="form-part hidden">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 2: Pet's Information</h3>
 
                     <!-- Important Notes -->
                     <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
@@ -416,15 +453,34 @@
                             <p class="text-xs text-gray-500 italic mt-1">Required views: Head, Face, Body – top and side view (while standing on all four legs) and Genitals. Max. file size: 8MB</p>
                         </div>
                     </div>
+                    
+                    <!-- Navigation Buttons for Part 2 -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="goToStep(1)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="button" onclick="goToStep(3)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: Agreement
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- C. AGREEMENT -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b">C. AGREEMENT</h3>
+                <!-- PART 3: AGREEMENT -->
+                <div id="part3" class="form-part hidden">
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 3: Agreement</h3>
+                    </div>
 
-                    <!-- Blood Test Section -->
-                    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
-                        <p class="font-medium text-gray-700 mb-2">Blood Test Agreement</p>
+                    <div class="mt-8 space-y-6">
+                        <!-- Blood Test Section -->
+                        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                            <p class="font-medium text-gray-700 mb-2">Blood Test Agreement</p>
                         
                         <!-- For mixed/purebred dogs and/or over 4 years old -->
                         <div class="mb-4" id="blood_test_mixed">
@@ -726,17 +782,26 @@
                         <p class="text-sm text-red-700 mt-2">*** Pure and half-breed pets or brachycephalic (short-nosed) breeds are required to submit the results of blood tests prior to surgery. It is highly recommended that aspins and puspins with preexisting conditions be tested as well.</p>
                         <p class="text-sm text-red-700 mt-2">*** Photos of brachycephalic breed (short-nose dogs), small breeds and overweight breeds are needed to be evaluated first by our veterinarian before getting their blood test as some of them cannot be accommodated at the PAWS clinic as they may need confinement which is not available at PAWS.</p>
                     </div>
-                </div>
 
-                <!-- Submit Button -->
-                <div class="text-center space-y-4">
-                    <button type="submit" class="bg-primary text-white px-12 py-4 rounded-xl font-semibold text-lg hover:bg-primary-light transition-colors">
-                        Submit
-                    </button>
-                    <div>
-                        <a href="{{ url('/kapon') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
-                            ← Back to Kapon
-                        </a>
+                    <!-- Submit Button with Navigation -->
+                    <div class="text-center space-y-4 mt-12 pt-8 border-t">
+                        <div class="flex justify-start mb-6">
+                            <button type="button" onclick="goToStep(2)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                                </svg>
+                                Previous
+                            </button>
+                        </div>
+                        
+                        <button type="submit" class="bg-primary text-white px-12 py-4 rounded-xl font-semibold text-lg hover:bg-primary-light transition-colors">
+                            Submit
+                        </button>
+                        <div>
+                            <a href="{{ url('/kapon') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
+                                ← Back to Kapon
+                            </a>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -752,6 +817,50 @@
 </footer>
 
 <script>
+    // Multi-step form navigation
+    function goToStep(step) {
+        // Hide all parts
+        document.querySelectorAll('.form-part').forEach(part => {
+            part.classList.add('hidden');
+        });
+        
+        // Show the selected part
+        document.getElementById('part' + step).classList.remove('hidden');
+        
+        // Update progress bar
+        const progressBar = document.getElementById('progressBar');
+        const stepLabel = document.getElementById('stepLabel');
+        const stepTitle = document.getElementById('stepTitle');
+        const step1Indicator = document.getElementById('step1Indicator');
+        const step2Indicator = document.getElementById('step2Indicator');
+        const step3Indicator = document.getElementById('step3Indicator');
+        
+        // Update progress percentage
+        progressBar.style.width = (step * 33.33) + '%';
+        stepLabel.textContent = 'Step ' + step + ' of 3';
+        
+        // Update step titles
+        if (step === 1) {
+            stepTitle.textContent = 'Part 1: Owner\'s Information';
+            step1Indicator.className = 'font-semibold text-primary';
+            step2Indicator.className = 'font-semibold text-gray-400';
+            step3Indicator.className = 'font-semibold text-gray-400';
+        } else if (step === 2) {
+            stepTitle.textContent = 'Part 2: Pet\'s Information';
+            step1Indicator.className = 'font-semibold text-green-600';
+            step2Indicator.className = 'font-semibold text-primary';
+            step3Indicator.className = 'font-semibold text-gray-400';
+        } else if (step === 3) {
+            stepTitle.textContent = 'Part 3: Agreement';
+            step1Indicator.className = 'font-semibold text-green-600';
+            step2Indicator.className = 'font-semibold text-green-600';
+            step3Indicator.className = 'font-semibold text-primary';
+        }
+        
+        // Scroll to top of form
+        document.getElementById('part' + step).scrollIntoView({ behavior: 'smooth' });
+    }
+
     // Cat breeds list
     const catBreedsList = [
         "Mixed Breed (Puspin)", "Abyssinian", "Aegean", "American Bobtail", "American Curl", 
