@@ -386,7 +386,7 @@
                                 @if(count($petsArray) === 0)
                                     <div class="text-center py-8">
                                         <p class="text-gray-500 mb-4">You haven't registered any pets yet.</p>
-                                        <a href="{{ route('pet.registration') }}" class="text-primary hover:text-primary-light font-medium">
+                                        <a href="{{ url('/pet-registration/form') }}" class="text-primary hover:text-primary-light font-medium">
                                             Register a Pet
                                         </a>
                                     </div>
@@ -455,6 +455,27 @@
                     let selectedPets = [];
 
                     function openPetModal() {
+                        // Check if user has no pets registered
+                        if (petsData.length === 0) {
+                            document.getElementById('petModal').classList.remove('hidden');
+                            document.getElementById('petSelectionList').innerHTML = `
+                                <div class="text-center py-8 px-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <p class="text-gray-600 mb-4">It looks like you haven't registered your pets yet.</p>
+                                    <a href="{{ url('/pet-registration/form') }}" class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-light transition-colors">
+                                        Register Your Pet
+                                    </a>
+                                </div>
+                            `;
+                            // Hide the footer with confirm button when no pets
+                            document.querySelector('#petModal .bg-gray-50').classList.add('hidden');
+                            document.body.style.overflow = 'hidden';
+                            return;
+                        }
+                        
+                        // Show normal modal with pets
                         document.getElementById('petModal').classList.remove('hidden');
                         document.body.style.overflow = 'hidden';
                     }
@@ -484,7 +505,12 @@
                         const container = document.getElementById('selectedPetsList');
                         const noPetsMessage = document.getElementById('noPetsSelected');
                         const photoContainer = document.getElementById('petPhotoFields');
-                        const noPhotosMessage = document.getElementById('noPhotosMessage');
+                        const modalFooter = document.querySelector('#petModal .bg-gray-50');
+
+                        // Restore footer if it was hidden
+                        if (modalFooter) {
+                            modalFooter.classList.remove('hidden');
+                        }
 
                         if (selectedPets.length > 0) {
                             if (noPetsMessage) {
@@ -604,25 +630,21 @@
                     <div class="mt-8 space-y-6">
                         <!-- Blood Test Section -->
                         <div class="mb-6 p-4 bg-gray-50 rounded-lg">
-                            <p class="font-medium text-gray-700 mb-2">Blood Test Agreement</p>
+                            <p class="font-medium text-gray-700 mb-2">Blood Test Agreement <span class="text-red-500">*</span> </p>
                         
                         <!-- For mixed/purebred dogs and/or over 4 years old -->
                         <div class="mb-4" id="blood_test_mixed">
                             <p class="text-sm text-gray-600 mb-2">For those with mixed or purebred dogs and/or over 4 years old:</p>
-                            <p class="text-xs text-gray-500 mb-2">A Blood test package for CBC, SGPT & CREA is available at the PAWS Clinic for only ₱1,250 (inclusive of check-up). This will be scheduled by our staff prior to the kapon schedule as results cannot be released on the same day. Please also be informed that we do not recommend pursuing blood tests for in-heat female dogs.</p>
+                            <p class="text-xs text-gray-500 mb-2">For the safety of your pet, the City Veterinary Office (CVO) highly recommends a blood test (CBC, SGPT, and CREA) prior to surgery. Since the CVO is a public service facility with limited laboratory resources, please have these tests performed at a private veterinary clinic of your choice. You must upload the results here at least 48 hours before your appointment.</p>
                             
                             <div class="space-y-2">
                                 <label class="inline-flex items-start">
-                                    <input type="radio" name="blood_test_mixed_option" value="office_test" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">Yes, I would like to have blood test (CBC, SGPT & CREA) of my pet at the office before my chosen kapon appointment date.</span>
-                                </label>
-                                <label class="inline-flex items-start">
                                     <input type="radio" name="blood_test_mixed_option" value="submit_results" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">Yes, I will submit the blood test results (CBC, SGPT & CREA) of my pet/s to vetdasma@gmail.com 2 days before my chosen appointment date.</span>
+                                    <span class="ml-2 text-sm text-gray-700">Yes, I will upload the blood test results. I will provide a clear photo or PDF of the results (CBC, SGPT, & CREA) via this portal at least 48 hours before my schedule.</span>
                                 </label>
                                 <label class="inline-flex items-start">
                                     <input type="radio" name="blood_test_mixed_option" value="waiver_mixed" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">This waiver does not apply to me, my pet/s is/are healthy CAT/ASPIN (not mixed/purebred dog) under 4 years old. <strong class="text-red-600">The Vet and its shelter veterinarian will not be held liable in the event of complications, injury, or death that may result from the surgery due to undiagnosed illnesses that could have been treated if a blood test was performed.</strong></span>
+                                    <span class="ml-2 text-sm text-gray-700">This waiver does not apply to me, my pet/s is/are healthy CAT/ASPIN (not mixed/purebred dog) under 4 years old. <strong class="text-red-600">The City Veterinary Office (CVO) will not be held liable in the event of complications, injury, or death that may result from the surgery due to undiagnosed illnesses that could have been treated if a blood test was performed.</strong></span>
                                 </label>
                             </div>
                         </div>
@@ -630,20 +652,15 @@
                         <!-- For Aspins, Cats under 4 years old -->
                         <div id="blood_test_aspin">
                             <p class="text-sm text-gray-600 mb-2">For those with Aspins, Cats under 4 years old:</p>
-                            <p class="text-xs text-gray-500 mb-2">A Blood test package for CBC, SGPT & CREA is available at the PAWS Clinic for only ₱1,250 (inclusive of check-up).</p>
                             
                             <div class="space-y-2">
                                 <label class="inline-flex items-start">
-                                    <input type="radio" name="blood_test_aspin_option" value="office_test" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">I would like to have the blood test of my pet at PAWS before my chosen kapon appointment date.</span>
-                                </label>
-                                <label class="inline-flex items-start">
                                     <input type="radio" name="blood_test_aspin_option" value="submit_results" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">I will submit the blood test results of my pet/s to vetdasma@gmail.com 2 days before my chosen appointment date.</span>
+                                    <span class="ml-2 text-sm text-gray-700">Yes, I will upload the blood test results. I will provide a clear photo or PDF of the results (CBC, SGPT, & CREA) via this portal at least 48 hours before my schedule.</span>
                                 </label>
                                 <label class="inline-flex items-start">
                                     <input type="radio" name="blood_test_aspin_option" value="waive_risk" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">I understand the risks of not getting the blood test for my pet/s so I am waiving the option as I am sure that my pet/s is/are healthy ASPIN/S or CAT/S under 4 years old. <strong class="text-red-600">The Vet and its shelter veterinarian will not be held liable in the event of complications, injury, or death that may result from the surgery due to undiagnosed illnesses that could have been treated if a blood test was performed.</strong></span>
+                                    <span class="ml-2 text-sm text-gray-700">I understand the risks of not getting the blood test for my pet/s so I am waiving the option as I am sure that my pet/s is/are healthy ASPIN/S or CAT/S under 4 years old. <strong class="text-red-600">The City Veterinary Office will not be held liable in the event of complications, injury, or death that may result from the surgery due to undiagnosed illnesses that could have been treated if a blood test was performed.</strong></span>
                                 </label>
                                 <p class="text-xs text-gray-500 ml-6 italic">DO NOT choose this option if your dog/s is/are mixed/purebred or over 4 years old. NO option to waive for these categories.</p>
                             </div>

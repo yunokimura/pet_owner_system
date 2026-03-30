@@ -110,7 +110,7 @@ Route::get('/missing-pets', function () {
 // Pet Registration Page Route
 Route::get('/pet-registration', function () {
     return view('pet_registration_page');
-});
+})->name('pet.registration');
 
 // Pet Registration Form Page Route
 Route::get('/pet-registration/form', function () {
