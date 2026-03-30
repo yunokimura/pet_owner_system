@@ -145,138 +145,97 @@
         @endif
 
         <div class="bg-white border border-gray-200 rounded-lg p-8">
-            <!-- Progress Bar -->
-            <div class="mb-8">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-sm font-medium text-gray-700" id="stepLabel">Step 1 of 4</span>
-                    <span class="text-sm font-medium text-primary" id="stepTitle">Part 1: Owner's Information</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                    <div id="progressBar" class="bg-primary h-2.5 rounded-full transition-all duration-300" style="width: 25%"></div>
-                </div>
-                <div class="flex justify-between mt-2">
-                    <div class="text-xs text-center flex-1">
-                        <div id="step1Indicator" class="font-semibold text-primary">1</div>
-                        <div class="text-gray-500">Owner</div>
-                    </div>
-                    <div class="text-xs text-center flex-1">
-                        <div id="step2Indicator" class="font-semibold text-gray-400">2</div>
-                        <div class="text-gray-400">Pet</div>
-                    </div>
-                    <div class="text-xs text-center flex-1">
-                        <div id="step3Indicator" class="font-semibold text-gray-400">3</div>
-                        <div class="text-gray-400">Appointment</div>
-                    </div>
-                    <div class="text-xs text-center flex-1">
-                        <div id="step4Indicator" class="font-semibold text-gray-400">4</div>
-                        <div class="text-gray-400">Medical History</div>
-                    </div>
-                </div>
-            </div>
-
             <form id="vaccinationForm" method="POST" action="{{ url('/vaccination/form') }}" enctype="multipart/form-data">
                 @csrf
 
-                <!-- PART 1: OWNER'S INFORMATION -->
-                <div id="part1" class="form-part">
-                    <div class="mb-8">
-                        <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 1: Owner's Information</h3>
+                <!-- OWNER'S INFORMATION -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Owner's Information</h3>
 
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <!-- Name -->
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-medium mb-1.5">
-                                    Pet Owner's Name <span class="text-red-500">*</span>
-                                    <span class="text-gray-500 text-xs ml-2">(First name and Last name)</span>
-                                </label>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <input type="text" name="owner_first_name" placeholder="First Name" value="{{ old('owner_first_name', $petOwner->first_name ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                                    <input type="text" name="owner_last_name" placeholder="Last Name" value="{{ old('owner_last_name', $petOwner->last_name ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                                </div>
-                            </div>
-
-                            <!-- Email -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5">
-                                    Email <span class="text-red-500">*</span>
-                                </label>
-                                <input type="email" name="owner_email" placeholder="Enter Email" value="{{ old('owner_email', $user->email ?? '') }}"
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <!-- Name -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium mb-1.5">
+                                Pet Owner's Name <span class="text-red-500">*</span>
+                                <span class="text-gray-500 text-xs ml-2">(First name and Last name)</span>
+                            </label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="text" name="owner_first_name" placeholder="First Name" value="{{ old('owner_first_name', $petOwner->first_name ?? '') }}"
                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                            </div>
-
-                            <!-- Contact Number -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5">
-                                    Contact Number <span class="text-red-500">*</span>
-                                </label>
-                                <div class="flex">
-                                    <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
-                                        +63
-                                    </span>
-                                    <input type="tel" name="owner_contact" placeholder="943 210 2012" maxlength="12" value="{{ old('owner_contact', $petOwner->phone_number ?? '') }}"
-                                           class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                                </div>
-                            </div>
-
-                            <!-- Alternate Mobile Number -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5">
-                                    Alternate Mobile Number
-                                </label>
-                                <div class="flex">
-                                    <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
-                                        +63
-                                    </span>
-                                    <input type="tel" name="alt_mobile_number" placeholder="943 210 2012" maxlength="12" value="{{ old('alt_mobile_number', $petOwner->alternate_phone_number ?? '') }}"
-                                           class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                                </div>
-                            </div>
-
-                            <!-- House No. / Unit No. -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5">
-                                    House No. / Unit No. <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" name="house_no" placeholder="House No. / Unit No." value="{{ old('house_no', $petOwner->house_no ?? '') }}"
-                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                            </div>
-
-                            <!-- Street -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5">
-                                    Street <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" name="street" placeholder="Street" value="{{ old('street', $petOwner->street ?? '') }}"
-                                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                            </div>
-
-                            <!-- Barangay -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5">
-                                    Barangay <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" name="barangay" placeholder="Barangay" value="{{ old('barangay', $petOwner->barangay ?? '') }}"
+                                <input type="text" name="owner_last_name" placeholder="Last Name" value="{{ old('owner_last_name', $petOwner->last_name ?? '') }}"
                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Navigation Buttons for Part 1 -->
-                    <div class="flex justify-end mt-8">
-                        <button type="button" onclick="goToStep(2)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
-                            Next: Pet's Information
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
+
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-sm font-medium mb-1.5">
+                                Email <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" name="owner_email" placeholder="Enter Email" value="{{ old('owner_email', $user->email ?? '') }}"
+                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                        </div>
+
+                        <!-- Contact Number -->
+                        <div>
+                            <label class="block text-sm font-medium mb-1.5">
+                                Contact Number <span class="text-red-500">*</span>
+                            </label>
+                            <div class="flex">
+                                <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
+                                    +63
+                                </span>
+                                <input type="tel" name="owner_contact" placeholder="943 210 2012" maxlength="12" value="{{ old('owner_contact', $petOwner->phone_number ?? '') }}"
+                                       class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
+                        </div>
+
+                        <!-- Alternate Mobile Number -->
+                        <div>
+                            <label class="block text-sm font-medium mb-1.5">
+                                Alternate Mobile Number
+                            </label>
+                            <div class="flex">
+                                <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
+                                    +63
+                                </span>
+                                <input type="tel" name="alt_mobile_number" placeholder="943 210 2012" maxlength="12" value="{{ old('alt_mobile_number', $petOwner->alternate_phone_number ?? '') }}"
+                                       class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                            </div>
+                        </div>
+
+                        <!-- House No. / Unit No. -->
+                        <div>
+                            <label class="block text-sm font-medium mb-1.5">
+                                House No. / Unit No. <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="house_no" placeholder="House No. / Unit No." value="{{ old('house_no', $petOwner->house_no ?? '') }}"
+                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                        </div>
+
+                        <!-- Street -->
+                        <div>
+                            <label class="block text-sm font-medium mb-1.5">
+                                Street <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="street" placeholder="Street" value="{{ old('street', $petOwner->street ?? '') }}"
+                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                        </div>
+
+                        <!-- Barangay -->
+                        <div>
+                            <label class="block text-sm font-medium mb-1.5">
+                                Barangay <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="barangay" placeholder="Barangay" value="{{ old('barangay', $petOwner->barangay ?? '') }}"
+                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                        </div>
                     </div>
                 </div>
 
-                <!-- PART 2: PET'S INFORMATION -->
-                <div id="part2" class="form-part hidden">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 2: Pet's Information</h3>
+                <!-- PET'S INFORMATION -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Pet's Information</h3>
 
                     <!-- Selected Pets Display Area -->
                     <div id="selectedPetsContainer" class="mb-6">
@@ -304,54 +263,22 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Navigation Buttons for Part 2 -->
-                    <div class="flex justify-between mt-8">
-                        <button type="button" onclick="goToStep(1)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                            </svg>
-                            Previous
-                        </button>
-                        <button type="button" onclick="goToStep(3)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
-                            Next: Appointment Date
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div>
                 </div>
 
-                <!-- PART 3: APPOINTMENT DATE -->
-                <div id="part3" class="form-part hidden">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 3: Appointment Date</h3>
+                <!-- APPOINTMENT DATE -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Appointment Date</h3>
 
                     <!-- Appointment Date -->
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Appointment Date <span class="text-red-500">*</span></label>
                         <input type="date" name="appointment_date" value="{{ old('appointment_date') }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
                     </div>
-
-                    <!-- Navigation Buttons for Part 3 -->
-                    <div class="flex justify-between mt-8">
-                        <button type="button" onclick="goToStep(2)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                            </svg>
-                            Previous
-                        </button>
-                        <button type="button" onclick="goToStep(4)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
-                            Next: Medical History
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div>
                 </div>
 
-                <!-- PART 4: MEDICAL HISTORY -->
-                <div id="part4" class="form-part hidden">
-                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 4: Medical History</h3>
+                <!-- MEDICAL HISTORY -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Medical History</h3>
 
                     <!-- Date of Last Anti-Rabies -->
                     <div class="mb-6">
@@ -383,19 +310,13 @@
                             </span>
                         </label>
                     </div>
+                </div>
 
-                    <!-- Navigation Buttons for Part 4 -->
-                    <div class="flex justify-between mt-8">
-                        <button type="button" onclick="goToStep(3)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                            </svg>
-                            Previous
-                        </button>
-                        <button type="submit" class="bg-primary text-white px-12 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
-                            Submit
-                        </button>
-                    </div>
+                <!-- Submit Button -->
+                <div class="flex justify-center mt-8">
+                    <button type="submit" class="bg-primary text-white px-12 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                        Submit
+                    </button>
                 </div>
             </form>
 
@@ -491,216 +412,6 @@
     </footer>
 
     <script>
-        // Multi-step form navigation
-        function goToStep(step) {
-            // Hide all parts
-            document.querySelectorAll('.form-part').forEach(part => {
-                part.classList.add('hidden');
-            });
-            
-            // Show the selected part
-            document.getElementById('part' + step).classList.remove('hidden');
-            
-            // Update progress bar
-            const progressBar = document.getElementById('progressBar');
-            const stepLabel = document.getElementById('stepLabel');
-            const stepTitle = document.getElementById('stepTitle');
-            
-            progressBar.style.width = (step * 25) + '%';
-            stepLabel.textContent = 'Step ' + step + ' of 4';
-            
-            const titles = {
-                1: 'Part 1: Owner\'s Information',
-                2: 'Part 2: Pet\'s Information',
-                3: 'Part 3: Appointment Date',
-                4: 'Part 4: Medical History'
-            };
-            stepTitle.textContent = titles[step];
-            
-            // Update step indicators
-            for (let i = 1; i <= 4; i++) {
-                const indicator = document.getElementById('step' + i + 'Indicator');
-                if (i <= step) {
-                    indicator.classList.remove('text-gray-400');
-                    indicator.classList.add('text-primary');
-                } else {
-                    indicator.classList.remove('text-primary');
-                    indicator.classList.add('text-gray-400');
-                }
-            }
-            
-            // Scroll to top of form
-            document.querySelector('.form-part:not(.hidden)').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Cat breeds list
-        const catBreeds = [
-            "Mixed Breed (Puspin)", "Abyssinian", "Aegean", "American Bobtail", "American Curl", 
-            "American Shorthair", "American Wirehair", "Arabian Mau", "Australian Mist", "Balinese", 
-            "Bambino", "Bengal", "Birman", "Bombay", "British Longhair", "British Shorthair", 
-            "Burmese", "Burmilla", "California Spangled", "Chantilly-Tiffany", "Chartreux", 
-            "Chausie", "Cheetoh", "Colorpoint Shorthair", "Cornish Rex", "Cymric", "Devon Rex", 
-            "Donskoy", "Egyptian Mau", "Exotic Shorthair", "Havana Brown", "Highlander", 
-            "Himalayan", "Japanese Bobtail", "Javanese", "Khao Manee", "Korat", "Kurilian Bobtail", 
-            "LaPerm", "Lykoi", "Maine Coon", "Manx", "Mexican Hairless", "Minskin", "Minuet", 
-            "Munchkin", "Nebelung", "Norwegian Forest Cat", "Ocicat", "Ojos Azules", 
-            "Oriental Shorthair", "Persian", "Peterbald", "Pixiebob", "Ragamuffin", "Ragdoll", 
-            "Russian Blue", "Savannah", "Scottish Fold", "Scottish Straight", "Selkirk Rex", 
-            "Serengeti", "Siamese", "Siberian", "Singapura", "Snowshoe", "Somali", "Sphynx", 
-            "Thai", "Tonkinese", "Toybob", "Toyger", "Turkish Angora", "Turkish Van", 
-            "York Chocolate", "Unknown"
-        ];
-
-        // Dog breeds list
-        const dogBreeds = [
-            "Mixed Breed (Aspin)", "Akita", "Alaskan Klee Kai", "Alaskan Malamute", "American Eskimo", 
-            "Appenzeller Sennenhund", "Australian Stumpy Tail Cattle Dog", "Azawakh", "Barbado da Terciera", "Barbet", "Basenji",
-            "Basset Fauve de Bretagne", "Basset Hound", "Beagle", "Belgian Laekenois", "Belgian Tervuren", 
-            "Berger Picard", "Bichon Frise", "Bloodhound", "Boerboel", "Bolognese", "Borzoi", "Boxer", 
-            "Bracco Italiano", "Braque Francais Pyrenean", "Braques du Bourbonnais", "Broholmer", 
-            "Brussels Griffon", "Bull Terrier", "Boston Bull Terrier", "Staffordshire Bull Terrier", 
-            "Miniature Bull Terrier", "Bulldog", "French Bulldog", "Olde English Bulldogge", 
-            "American Bulldog", "Continental Bulldog", "Ca de Bou", "Serrano Bulldog", "Campeiro Bulldog", 
-            "Alano Español", "Canaan Dog", "Canadian Eskimo Dog", "Cane Corso", "Carolina Dog", 
-            "Catahoula Leopard", "Cesky Fousek", "Chihuahua", "Chinese Crested", "Chinese Shar-Pei", 
-            "Chinook", "Chow Chow", "Cirneco dell'Etna", "American English Coonhound", 
-            "Black and Tan Coonhound", "Bluetick Coonhound", "Redbone Coonhound", "Treeing Walker Coonhound", 
-            "Plott Hound", "Cardigan Welsh Corgi", "Pembroke Welsh Corgi", "Coton de Tulear", 
-            "Czechoslovakian Vlcak", "Dachshund", "Dalmatian", "Danish-Swedish Farmdog", 
-            "Deutscher Watchtelhund", "Dogo Argentino", "Dogue de Bordeaux", "Drever", "Dutch Partridge", 
-            "Dutch Smoushond", "East Siberian Laika", "Eurasier", "Finnish Spitz", "American Foxhound", 
-            "English Foxhound", "German Spitz", "Grand Basset Griffon Vendeen", "Grand Bleu de Gascogne", 
-            "Great Dane", "Great Pyrenees", "Greenland Dog", "Hanoverian Scenthound", "Harrier", 
-            "Havanese", "Hokkaido", "Afghan Hound", "American Leopard Hound", 
-            "Bavarian Mountain Scent Hound", "Caravan (Mudhol) Hound", "Finnish Hound", 
-            "French White & Black Hound", "German Hound", "Hamilton Hound", "Ibizan Hound", 
-            "Pharaoh Hound", "Transylvanian Hound", "Hovawart", "Irish Wolfhound", "Italian Greyhound", 
-            "Japanese Akitainu", "Japanese Chin", "Japanese Spitz", "Jindo", "Kai Ken", 
-            "Karelian Bear Dog", "Keeshond", "Kishu Ken", "Komondor", "Kromfohrlander", "Kuvasz", 
-            "Lagotto Romagnolo", "Lancashire Heeler", "Lapponian Herder", "Leonberger", "Lhasa Apso", 
-            "Lowchen", "Maltese", "Standard Manchester Terrier", "Toy Manchester Terrier", "Mastiff", 
-            "Bullmastiff", "Brazilian Mastiff", "Neapolitan Mastiff", "Pyrenean Mastiff", 
-            "Spanish Mastiff", "Tibetan Mastiff", "Moscow Watchdog", "Mountain Cur", "Bernese Mountain Dog", 
-            "Entlebucher Mountain Dog", "Estrela Mountain Dog", "Greater Swiss Mountain Dog", "Mudi", 
-            "Newfoundland", "Norrbottenspets", "Norwegian Buhund", "Norwegian Elkhound", 
-            "Norwegian Lundehund", "Otterhound", "Pekingese", "Perro de Presa Canario", "Peruvian Inca Orchid", 
-            "Petit Basset Griffon Vendeen", "Affenpinscher Pinscher", "Doberman Pinscher", 
-            "German Pinscher", "Miniature Pinscher", "German Longhaired Pointer", "German Shorthaired Pointer", 
-            "German Wirehaired Pointer", "Portuguese Pointer", "Slovakian Wirehaired Pointer", 
-            "Chart Polski Polish Greyhound", "Pomeranian", "Miniature Poodle", "Standard Poodle", 
-            "Toy Poodle", "Porcelaine", "Portuguese Podengo", "Portuguese Podengo Pequeno", 
-            "Pudelpointer", "Pug", "Puli", "Pumi", "Rafeiro do Alentejo", "Chesapeake Bay Retriever", 
-            "Curly-coated Retriever", "Flat-Coated Retriever", "Golden Retriever", "Labrador Retriever", 
-            "Nova Scotia Duck Tolling Retriever", "Rhodesian Ridgeback", "Rottweiler", "Russian Toy", 
-            "Russian Tsvetnaya Bolonka", "Saint Bernard", "Saluki", "Samoyed", "Schapendoes", 
-            "Schipperke", "Giant Schnauzer", "Miniature Schnauzer", "Standard Schnauzer", 
-            "Scottish Deerhound", "Sealyham Terrier", "Segugio Italiano", "English Setter", 
-            "Gordon Setter", "Irish Red and White Setter", "Irish Setter", "Anatolian Shepherd", 
-            "Australian Cattle Dog", "American Miniature Shepherd", "Australian Kelpie Shepherd", 
-            "Australian Shepherd", "Bearded Collie", "Beauceron", "Belgian Malinois", 
-            "Belgian Sheepdog (Groenendael)", "Briard", "Border Collie", "Bouvier des Flandres", 
-            "Collie", "Finnish Lapphund", "Miniature American Shepherd", "Bergamasco Shepherd", 
-            "Bohemian Shepherd", "Catalan Shepherd", "Caucasian Shepherd", "Central Asian Shepherd", 
-            "Croatian Shepherd", "Dutch Shepherd", "English Shepherd", "German Shepherd", 
-            "Icelandic Shepherd", "Karst Shepherd", "Old English Shepherd", "Polish Lowland Shepherd", 
-            "Portuguese Shepherd", "Pyrenean Shepherd", "Romanian Carpathian Shepherd Dog", 
-            "Romanian Mioritic Shepherd Dog", "Shetland Sheepdog", "Shiba Inu", "Shih Tzu", "Shikoku", 
-            "Siberian Husky", "Sloughi", "Slovensky Cubac", "Slovensky Kopov", "Small Munsterlander", 
-            "American Water Spaniel", "Boykin Spaniel", "Brittany", "Cavalier King Charles Spaniel", 
-            "Clumber Spaniel", "Cocker Spaniel", "English Cocker Spaniel", "English Springer Spaniel", 
-            "English Toy Spaniel", "Field Spaniel", "French Spaniel", "Irish Water Spaniel", 
-            "Nederlandse Kooikerhondje", "Papillon Spaniel", "Sussex Spaniel", "Tibetan Spaniel", 
-            "Welsh Springer Spaniel", "Spinone Italiano", "Stabyhoun", "Swedish Vallhund", "Taiwan Dog", 
-            "Airedale Terrier", "American Hairless Terrier", "American Staffordshire Terrier", 
-            "Australian Terrier", "Bedlington Terrier", "Border Terrier", "Biewer Terrier", 
-            "Black Russian Terrier", "Cairn Terrier", "Cesky Terrier", "Dandie Dinmont Terrier", 
-            "Glen of Imaal Terrier", "Irish Terrier", "Jagdterrier", "Japanese Terrier", 
-            "Kerry Blue Terrier", "Lakeland Terrier", "Norfolk Terrier", "Norwich Terrier", 
-            "Parson Russell Terrier", "Rat Terrier", "Jack Russell Terrier", "Scottish Terrier", 
-            "Silky Terrier", "Skye Terrier", "Smooth Fox Terrier", "Soft Coated Wheaten Terrier", 
-            "Teddy Roosevelt Terrier", "Tibetan Terrier", "Toy Fox Terrier", "Welsh Terrier", 
-            "West Highland White Terrier", "Wire Fox Terrier", "Thai Ridgeback", "Tornjak", "Tosa", 
-            "Treeing Tennessee Brindle", "Vizsla", "Volpino Italiano", "Portuguese Water Dog", 
-            "Spanish Water Dog", "Weimaraner", "Wetterhoun", "Whippet", "Wirehaired Pointing Griffon", 
-            "Wirehaired Vizsla", "Working Kelpie", "Xoloitzcuintli", "Yakutian Laika", "Yorkshire Terrier", 
-            "Unknown"
-        ];
-
-        let selectedBreed = '';
-
-        // Toggle breed dropdown
-        function toggleBreedDropdown() {
-            const dropdown = document.getElementById('breedDropdown');
-            dropdown.classList.toggle('hidden');
-            
-            // Populate options if not already done
-            if (!dropdown.classList.contains('hidden')) {
-                updateBreedOptions();
-            }
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('breedDropdown');
-            const display = document.getElementById('breedDisplay');
-            if (dropdown && display && !dropdown.contains(e.target) && !display.contains(e.target)) {
-                dropdown.classList.add('hidden');
-            }
-        });
-
-        // Update breed options based on species
-        function updateBreedOptions() {
-            const speciesSelect = document.querySelector('select[name="pet_species"]');
-            const currentSpecies = speciesSelect ? speciesSelect.value : '';
-            const breedOptions = document.getElementById('breedOptions');
-            
-            let breeds = [];
-            if (currentSpecies === 'cat') {
-                breeds = catBreeds;
-            } else if (currentSpecies === 'dog') {
-                breeds = dogBreeds;
-            } else {
-                breeds = [...dogBreeds, ...catBreeds];
-            }
-            
-            // Sort breeds alphabetically
-            breeds.sort();
-            
-            // Generate HTML for breed options
-            breedOptions.innerHTML = breeds.map(breed => 
-                `<div class="dropdown-option px-4 py-2 cursor-pointer hover:bg-gray-100 ${selectedBreed === breed ? 'selected bg-green-50' : ''}" 
-                     onclick="selectBreed('${breed.replace(/'/g, "\\'")}')">
-                    ${breed}
-                </div>`
-            ).join('');
-        }
-
-        // Select a breed
-        function selectBreed(breed) {
-            selectedBreed = breed;
-            document.getElementById('selectedBreedText').textContent = breed;
-            document.getElementById('selectedBreed').value = breed;
-            document.getElementById('breedDropdown').classList.add('hidden');
-            updateBreedOptions(); // Update visual selection
-        }
-
-        // Filter breeds based on search
-        function filterBreeds() {
-            const searchInput = document.getElementById('breedSearch');
-            const filter = searchInput.value.toLowerCase();
-            const breedOptions = document.getElementById('breedOptions');
-            const options = breedOptions.getElementsByClassName('dropdown-option');
-            
-            for (let i = 0; i < options.length; i++) {
-                const text = options[i].textContent || options[i].innerText;
-                if (text.toLowerCase().indexOf(filter) > -1) {
-                    options[i].style.display = "";
-                } else {
-                    options[i].style.display = "none";
-                }
-            }
-        }
-
         // Dropdown toggle for user menu
         function toggleDropdown() {
             const dropdown = document.getElementById('userDropdown');
