@@ -18,6 +18,7 @@ class PetOwner extends Model
         'middle_name',
         'suffix',
         'phone_number',
+        'alternate_phone_number',
         'house_no',
         'street',
         'subdivision',

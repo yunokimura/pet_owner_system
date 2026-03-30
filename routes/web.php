@@ -129,8 +129,22 @@ Route::get('/vaccination', function () {
 Route::get('/vaccination/form', function () {
     $user = auth()->user();
     $petOwner = $user ? $user->petOwner : null;
+    $pets = $petOwner ? $petOwner->pets : collect([]);
     
-    return view('vaccination_form', compact('user', 'petOwner'));
+    // Convert pets to simple array to avoid Blade @json issues
+    $petsArray = $pets->map(function($pet) {
+        return [
+            'id' => $pet->pet_id,
+            'name' => $pet->pet_name,
+            'species' => $pet->species,
+            'breed' => $pet->breed,
+            'age' => $pet->estimated_age,
+            'weight' => $pet->pet_weight,
+            'image' => $pet->pet_image
+        ];
+    })->toArray();
+    
+    return view('vaccination_form', compact('user', 'petOwner', 'petsArray'));
 });
 
 // Owner Dashboard Route
