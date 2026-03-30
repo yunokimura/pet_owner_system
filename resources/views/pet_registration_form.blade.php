@@ -117,14 +117,15 @@
 
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="bg-white rounded-2xl shadow-lg p-8">
-            <!-- Page Title -->
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900">Pet Registration</h2>
-                <p class="text-gray-600 mt-2">Register your pet with Dasmariñas City Veterinary Services</p>
-                <p class="text-gray-500 text-sm mt-1">Fields marked with <span class="text-red-500">*</span> are required</p>
-            </div>
+        <!-- Page Title -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">Pet Registration</h2>
+            <p class="text-gray-600 mt-2">Register your pet with Dasmariñas City Veterinary Services</p>
+            <p class="text-gray-500 text-sm mt-1">Fields marked with <span class="text-red-500">*</span> are required</p>
+        </div>
 
+        <!-- Form Container -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
             <form id="petRegistrationForm" method="POST" action="{{ url('/pet-registration/form') }}" enctype="multipart/form-data">
                 @csrf
                 
@@ -401,6 +402,7 @@
                         <a href="{{ url('/pet-registration') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
                             ← Back to Pet Registration
                         </a>
+                    </div>
                     </div>
                 </div>
             </form>
