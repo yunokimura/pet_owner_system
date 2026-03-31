@@ -175,14 +175,15 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 @foreach($adoptionPets as $pet)
                 <button type="button" onclick="openPetModal({{ $pet->id }})" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
-                    <div class="aspect-square bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative flex items-center justify-center p-6">
+                    <div class="aspect-square bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
                         @if($pet->image)
                             <img src="{{ asset($pet->image) }}" alt="{{ $pet->pet_name }}" class="w-full h-full object-cover">
                         @else
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-pink-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-pink-500/40 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
                         @endif
+                        <span class="absolute top-2 right-2 text-xs px-2 py-1 rounded-full @if($pet->species === 'Dog') bg-[#E0F2FE] text-gray-800 @else bg-[#FCE7F3] text-gray-800 @endif">{{ $pet->species }}</span>
                     </div>
                     <div class="p-4">
                         <h3 class="font-bold text-gray-900">{{ $pet->pet_name }}</h3>
