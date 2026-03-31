@@ -368,71 +368,9 @@
         </div>
     </section>
 
-    <!-- Base Rates Section -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Kapon Base Rates</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Affordable spay/neuter services for your beloved pets</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-8 mb-12">
-                <!-- Cats -->
-                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8">
-                    <h3 class="text-2xl font-bold text-purple-700 mb-6 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                        Cats
-                    </h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
-                            <span class="text-gray-700 font-medium">Native Female cat</span>
-                            <span class="text-primary font-bold text-xl">₱1,000</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
-                            <span class="text-gray-700 font-medium">Native Male cat</span>
-                            <span class="text-primary font-bold text-xl">₱700</span>
-                        </div>
-                    </div>
-                </div>
+    
 
-                <!-- Dogs -->
-                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8">
-                    <h3 class="text-2xl font-bold text-green-700 mb-6 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                        Dogs
-                    </h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
-                            <span class="text-gray-700 font-medium">Native Female dog up to 15kg</span>
-                            <span class="text-primary font-bold text-xl">₱1,500</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
-                            <span class="text-gray-700 font-medium">Native Female dog 16-20kg</span>
-                            <span class="text-primary font-bold text-xl">₱2,000</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
-                            <span class="text-gray-700 font-medium">Native Female dog 21-24kg</span>
-                            <span class="text-primary font-bold text-xl">₱2,500</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
-                            <span class="text-gray-700 font-medium">Native Female dog 25-35kg</span>
-                            <span class="text-primary font-bold text-xl">₱5,000</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
-                            <span class="text-gray-700 font-medium">Native Male dog up to 15kg</span>
-                            <span class="text-primary font-bold text-xl">₱1,000</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
-                            <span class="text-gray-700 font-medium">Native Male dog 16-20kg</span>
-                            <span class="text-primary font-bold text-xl">₱1,500</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+              
 
             <!-- Requirements for Castration -->
             <div class="bg-gray-50 rounded-2xl p-8">
