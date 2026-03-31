@@ -172,215 +172,128 @@
     <!-- Pets Grid -->
     <section class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Row 1 -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
-                <!-- Pet 1 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden pet-card">
-                    <div class="aspect-square bg-gradient-to-br from-primary/20 to-primary/30 relative flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-primary/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                        <span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Available</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-gray-900">Buddy</h3>
-                        <p class="text-sm text-gray-500">Golden Retriever</p>
-                        <div class="flex items-center space-x-3 mt-2 text-xs text-gray-600">
-                            <span>♂ Male</span>
-                            <span>•</span>
-                            <span>2 years</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pet 2 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden pet-card">
-                    <div class="aspect-square bg-gradient-to-br from-secondary/20 to-secondary/30 relative flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-secondary/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                        <span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Available</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-gray-900">Luna</h3>
-                        <p class="text-sm text-gray-500">Labrador Mix</p>
-                        <div class="flex items-center space-x-3 mt-2 text-xs text-gray-600">
-                            <span>♀ Female</span>
-                            <span>•</span>
-                            <span>1 year</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pet 3 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden pet-card">
-                    <div class="aspect-square bg-gradient-to-br from-purple-400/20 to-purple-500/30 relative flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-purple-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                        <span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Available</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-gray-900">Max</h3>
-                        <p class="text-sm text-gray-500">German Shepherd</p>
-                        <div class="flex items-center space-x-3 mt-2 text-xs text-gray-600">
-                            <span>♂ Male</span>
-                            <span>•</span>
-                            <span>3 years</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pet 4 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden pet-card">
-                    <div class="aspect-square bg-gradient-to-br from-red-400/20 to-red-500/30 relative flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-red-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                        <span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Available</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-gray-900">Bella</h3>
-                        <p class="text-sm text-gray-500">Beagle</p>
-                        <div class="flex items-center space-x-3 mt-2 text-xs text-gray-600">
-                            <span>♀ Female</span>
-                            <span>•</span>
-                            <span>6 months</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pet 5 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden pet-card">
-                    <div class="aspect-square bg-gradient-to-br from-yellow-400/20 to-yellow-500/30 relative flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-yellow-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                        <span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Available</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-gray-900">Charlie</h3>
-                        <p class="text-sm text-gray-500">Poodle Mix</p>
-                        <div class="flex items-center space-x-3 mt-2 text-xs text-gray-600">
-                            <span>♂ Male</span>
-                            <span>•</span>
-                            <span>4 years</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 2 -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                <!-- Pet 6 - Naya from Database -->
-                @if($adoptionPet)
-                <button type="button" onclick="openPetModal()" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
+                @foreach($adoptionPets as $pet)
+                <button type="button" onclick="openPetModal({{ $pet->id }})" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
                     <div class="aspect-square bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative flex items-center justify-center">
-                        @if($adoptionPet->image)
-                            <img src="{{ asset($adoptionPet->image) }}" alt="{{ $adoptionPet->pet_name }}" class="w-full h-full object-cover">
+                        @if($pet->image)
+                            <img src="{{ asset($pet->image) }}" alt="{{ $pet->pet_name }}" class="w-full h-full object-cover">
                         @else
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-pink-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
                         @endif
-                        <span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Available</span>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-bold text-gray-900">{{ $adoptionPet->pet_name }}</h3>
-                        <p class="text-sm text-gray-500">{{ $adoptionPet->breed }}</p>
+                        <h3 class="font-bold text-gray-900">{{ $pet->pet_name }}</h3>
+                        <p class="text-sm text-gray-500">{{ $pet->breed }}</p>
                         <div class="flex items-center space-x-3 mt-2 text-xs text-gray-600">
-                            <span>{{ $adoptionPet->gender === 'Female' ? '♀' : '♂' }} {{ $adoptionPet->gender }}</span>
+                            <span>{{ $pet->gender === 'Female' ? '♀' : '♂' }} {{ $pet->gender }}</span>
                             <span>•</span>
-                            <span>{{ $adoptionPet->age }} years</span>
+                            <span>{{ $pet->age }} years</span>
                         </div>
                     </div>
                 </button>
-                @endif
+                @endforeach
             </div>
-
-            <!-- Pet Detail Modal -->
-            @if($adoptionPet)
-            <div id="petModal" class="fixed inset-0 z-50 hidden">
-                <!-- Backdrop -->
-                <div class="absolute inset-0 bg-black/50" onclick="closePetModal()"></div>
-                <!-- Modal Content -->
-                <div class="flex items-center justify-center min-h-screen p-4">
-                    <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl relative z-10 overflow-hidden flex flex-col md:flex-row">
-                        <button onclick="closePetModal()" class="absolute top-4 right-4 text-white hover:text-gray-200 z-20 bg-black/30 rounded-full p-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                        <!-- Left Side - Image -->
-                        <div class="w-full md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
-                            @if($adoptionPet->image)
-                                <img src="{{ asset($adoptionPet->image) }}" alt="{{ $adoptionPet->pet_name }}" class="w-full h-full object-cover">
-                            @else
-                                <div class="w-full h-full flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-32 h-32 text-pink-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                    </svg>
-                                </div>
-                            @endif
-                            <span class="absolute top-4 left-4 bg-green-500 text-white text-sm px-3 py-1 rounded-full">Available</span>
-                        </div>
-                        <!-- Right Side - Details -->
-                        <div class="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
-                            <div class="flex items-center justify-between mb-2">
-                                <h2 class="text-2xl md:text-3xl font-bold text-gray-900">{{ $adoptionPet->pet_name }}</h2>
-                                <span class="text-base text-gray-500">{{ $adoptionPet->species }}</span>
-                            </div>
-                            <p class="text-lg text-primary font-semibold mb-4">{{ $adoptionPet->breed }}</p>
-                            <div class="space-y-3 mb-4">
-                                <div class="flex items-center justify-between py-2 border-b border-gray-100">
-                                    <span class="text-gray-600">Age</span>
-                                    <span class="font-medium text-gray-900">{{ $adoptionPet->age }} years old</span>
-                                </div>
-                                <div class="flex items-center justify-between py-2 border-b border-gray-100">
-                                    <span class="text-gray-600">Gender</span>
-                                    <span class="font-medium text-gray-900">{{ $adoptionPet->gender }}</span>
-                                </div>
-                                <div class="flex items-center justify-between py-2 border-b border-gray-100">
-                                    <span class="text-gray-600">Weight</span>
-                                    <span class="font-medium text-gray-900">{{ $adoptionPet->weight }}</span>
-                                </div>
-                            </div>
-                            @if($adoptionPet->description)
-                            <div class="mb-4">
-                                <h3 class="font-semibold text-gray-900 mb-1">Description</h3>
-                                <p class="text-gray-600 text-sm">{{ $adoptionPet->description }}</p>
-                            </div>
-                            @endif
-                            @if($adoptionPet->traits)
-                            <div class="mb-4">
-                                <h3 class="font-semibold text-gray-900 mb-2">Traits</h3>
-                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">{{ $adoptionPet->traits }}</span>
-                            </div>
-                            @endif
-                            <a href="{{ url('/adoption/form') }}" class="block w-full bg-primary text-white text-center px-6 py-3 rounded-xl font-semibold hover:bg-primary-light transition-colors mt-auto">
-                                Adopt {{ $adoptionPet->pet_name }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
-
-            <script>
-                function openPetModal() {
-                    document.getElementById('petModal').classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                }
-                function closePetModal() {
-                    document.getElementById('petModal').classList.add('hidden');
-                    document.body.style.overflow = 'auto';
-                }
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape') closePetModal();
-                });
-            </script>
         </div>
     </section>
+
+    <!-- Pet Detail Modal -->
+    <div id="petModal" class="fixed inset-0 z-50 hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/50" onclick="closePetModal()"></div>
+        <!-- Modal Content -->
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl relative z-10 overflow-hidden flex flex-col md:flex-row">
+                <button onclick="closePetModal()" class="absolute top-4 right-4 text-white hover:text-gray-200 z-20 bg-black/30 rounded-full p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <!-- Left Side - Image -->
+                <div class="w-full md:w-1/2 h-64 md:h-96 bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
+                    <img id="modalPetImage" src="" alt="" class="w-full h-full object-cover hidden">
+                    <div id="modalPetImagePlaceholder" class="w-full h-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-32 h-32 text-pink-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <!-- Right Side - Details -->
+                <div class="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 id="modalPetName" class="text-2xl md:text-3xl font-bold text-gray-900"></h2>
+                        <span id="modalPetSpecies" class="text-base text-gray-500"></span>
+                    </div>
+                    <p id="modalPetBreed" class="text-lg text-primary font-semibold mb-4"></p>
+                    <div class="space-y-3 mb-4">
+                        <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-600">Age</span>
+                            <span id="modalPetAge" class="font-medium text-gray-900"></span>
+                        </div>
+                        <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-600">Gender</span>
+                            <span id="modalPetGender" class="font-medium text-gray-900"></span>
+                        </div>
+                        <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-600">Weight</span>
+                            <span id="modalPetWeight" class="font-medium text-gray-900"></span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-gray-900 mb-1">Description</h3>
+                        <p id="modalPetDescription" class="text-gray-600 text-sm"></p>
+                    </div>
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-gray-900 mb-2">Traits</h3>
+                        <span id="modalPetTraits" class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium"></span>
+                    </div>
+                    <a id="modalPetAdoptBtn" href="{{ url('/adoption/form') }}" class="block w-full bg-primary text-white text-center px-6 py-3 rounded-xl font-semibold hover:bg-primary-light transition-colors mt-auto">
+                        Adopt
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const adoptionPets = @json($adoptionPets);
+        
+        function openPetModal(petId) {
+            const pet = adoptionPets.find(p => p.id === petId);
+            if (!pet) return;
+            
+            document.getElementById('modalPetName').textContent = pet.pet_name;
+            document.getElementById('modalPetSpecies').textContent = pet.species;
+            document.getElementById('modalPetBreed').textContent = pet.breed;
+            document.getElementById('modalPetAge').textContent = pet.age + ' years old';
+            document.getElementById('modalPetGender').textContent = pet.gender;
+            document.getElementById('modalPetWeight').textContent = pet.weight ? pet.weight + ' kg' : '';
+            document.getElementById('modalPetDescription').textContent = pet.description || 'No description available';
+            document.getElementById('modalPetTraits').textContent = pet.traits || 'No traits listed';
+            document.getElementById('modalPetAdoptBtn').textContent = 'Adopt ' + pet.pet_name;
+            
+            if (pet.image) {
+                document.getElementById('modalPetImage').src = pet.image;
+                document.getElementById('modalPetImage').classList.remove('hidden');
+                document.getElementById('modalPetImagePlaceholder').classList.add('hidden');
+            } else {
+                document.getElementById('modalPetImage').classList.add('hidden');
+                document.getElementById('modalPetImagePlaceholder').classList.remove('hidden');
+            }
+            
+            document.getElementById('petModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closePetModal() {
+            document.getElementById('petModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closePetModal();
+        });
+    </script>
 
     <!-- Adoption Info -->
     <section class="py-16 bg-white">
