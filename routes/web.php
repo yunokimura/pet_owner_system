@@ -84,7 +84,8 @@ Route::get('/kapon/form', function () {
 
 // Adoption Page Route
 Route::get('/adoption', function () {
-    return view('adoption');
+    $adoptionPet = \App\Models\AdoptionPet::where('pet_name', 'Naya')->first();
+    return view('adoption', compact('adoptionPet'));
 });
 
 // Adoption Form Page Route
