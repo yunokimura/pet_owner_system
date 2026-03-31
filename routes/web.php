@@ -88,6 +88,18 @@ Route::get('/adoption', function () {
     return view('adoption', compact('adoptionPets'));
 });
 
+// AJAX Pagination Route
+Route::get('/adoption/paginate', function () {
+    $adoptionPets = \App\Models\AdoptionPet::paginate(10);
+    return response()->json([
+        'pets' => $adoptionPets->items(),
+        'currentPage' => $adoptionPets->currentPage(),
+        'lastPage' => $adoptionPets->lastPage(),
+        'hasMorePages' => $adoptionPets->hasMorePages(),
+        'total' => $adoptionPets->total()
+    ]);
+});
+
 // Adoption Form Page Route
 Route::get('/adoption/form', function () {
     $user = auth()->user();
