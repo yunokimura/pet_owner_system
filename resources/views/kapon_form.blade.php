@@ -174,11 +174,11 @@
             <!-- Progress Bar -->
             <div class="mb-8">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-sm font-medium text-gray-700" id="stepLabel">Step 1 of 3</span>
+                    <span class="text-sm font-medium text-gray-700" id="stepLabel">Step 1 of 4</span>
                     <span class="text-sm font-medium text-primary" id="stepTitle">Part 1: Owner's Information</span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2.5">
-                    <div id="progressBar" class="bg-primary h-2.5 rounded-full transition-all duration-300" style="width: 33%"></div>
+                    <div id="progressBar" class="bg-primary h-2.5 rounded-full transition-all duration-300" style="width: 25%"></div>
                 </div>
                 <div class="flex justify-between mt-2">
                     <div class="text-xs text-center flex-1">
@@ -192,6 +192,10 @@
                     <div class="text-xs text-center flex-1">
                         <div id="step3Indicator" class="font-semibold text-gray-400">3</div>
                         <div class="text-gray-400">Agreement</div>
+                    </div>
+                    <div class="text-xs text-center flex-1">
+                        <div id="step4Indicator" class="font-semibold text-gray-400">4</div>
+                        <div class="text-gray-400">General</div>
                     </div>
                 </div>
             </div>
@@ -633,255 +637,100 @@
                     });
                 </script>
 
-                <!-- PART 3: AGREEMENT -->
+                <!-- PART 3: PER-PET AGREEMENT -->
                 <div id="part3" class="form-part hidden">
                     <div class="mb-8">
                         <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 3: Agreement</h3>
                     </div>
 
-                    <div class="mt-8 space-y-6">
-                        <!-- Blood Test Section -->
-                        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
-                            <p class="font-medium text-gray-700 mb-2">Blood Test Agreement <span class="text-red-500">*</span> </p>
-                        
-                        <!-- For mixed/purebred dogs and/or over 4 years old -->
-                        <div class="mb-4" id="blood_test_mixed">
-                            <p class="text-sm text-gray-600 mb-2">For those with mixed or purebred dogs and/or over 4 years old:</p>
-                            <p class="text-xs text-gray-500 mb-2">For the safety of your pet, the Dasmariñas City Veterinary Office (CVO) highly recommends a blood test (CBC, SGPT, and CREA) prior to surgery. Since the CVO is a public service facility with limited laboratory resources, please have these tests performed at a private veterinary clinic of your choice. You must upload the results here at least 48 hours before your appointment.</p>
-                            
-                            <div class="space-y-2">
-                                <label class="inline-flex items-start">
-                                    <input type="radio" name="blood_test_mixed_option" value="submit_results" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">Yes, I will upload the blood test results. I will provide a clear photo or PDF of the results (CBC, SGPT, & CREA) via this portal at least 48 hours before my schedule.</span>
-                                </label>
-                                <label class="inline-flex items-start">
-                                    <input type="radio" name="blood_test_mixed_option" value="waiver_mixed" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">This waiver does not apply to me, my pet/s is/are healthy CAT/ASPIN (not mixed/purebred dog) under 4 years old. <strong class="text-red-600">The Dasmariñas City Veterinary Office (CVO) will not be held liable in the event of complications, injury, or death that may result from the surgery due to undiagnosed illnesses that could have been treated if a blood test was performed.</strong></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- For Aspins, Cats under 4 years old -->
-                        <div id="blood_test_aspin">
-                            <p class="text-sm text-gray-600 mb-2">For those with Aspins, Cats under 4 years old:</p>
-                            
-                            <div class="space-y-2">
-                                <label class="inline-flex items-start">
-                                    <input type="radio" name="blood_test_aspin_option" value="submit_results" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">Yes, I will upload the blood test results. I will provide a clear photo or PDF of the results (CBC, SGPT, & CREA) via this portal at least 48 hours before my schedule.</span>
-                                </label>
-                                <label class="inline-flex items-start">
-                                    <input type="radio" name="blood_test_aspin_option" value="waive_risk" class="mt-1 text-primary">
-                                    <span class="ml-2 text-sm text-gray-700">I understand the risks of not getting the blood test for my pet/s so I am waiving the option as I am sure that my pet/s is/are healthy ASPIN/S or CAT/S under 4 years old. <strong class="text-red-600">The Dasmariñas City Veterinary Office (CVO) will not be held liable in the event of complications, injury, or death that may result from the surgery due to undiagnosed illnesses that could have been treated if a blood test was performed.</strong></span>
-                                </label>
-                                <p class="text-xs text-gray-500 ml-6 italic">DO NOT choose this option if your dog/s is/are mixed/purebred or over 4 years old. NO option to waive for these categories.</p>
-                            </div>
+                    <!-- Dynamic Per-Pet Agreement Cards -->
+                    <div id="petAgreementsContainer" class="space-y-6">
+                        <!-- Pet agreement cards will be dynamically generated here -->
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+                            <p class="text-sm text-yellow-700">Please select pets in Part 2 first to see the agreement forms.</p>
                         </div>
                     </div>
 
-                    <!-- Yes/No Questions -->
-                    <div class="space-y-4">
-                        <!-- Previous surgery -->
-                        <div>
-                            <label class="block text-sm font-medium mb-2">
-                                My pet had undergone previous surgery. <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="previous_surgery" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="previous_surgery" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
-                        </div>
+                    <!-- Navigation Buttons for Part 3 -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" onclick="goToStep(2)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="button" onclick="goToStep(4)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
+                            Next: General Agreement
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
 
-                        <!-- Good health -->
-                        <div>
-                            <label class="block text-sm font-medium mb-2">
-                                My pet/s has/have been in good health for the past three weeks or longer. <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="good_health" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="good_health" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
-                        </div>
+                <!-- PART 4: GENERAL AGREEMENT -->
+                <div id="part4" class="form-part hidden">
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Part 4: General Agreement</h3>
+                    </div>
 
-                        <!-- Other health information -->
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                Other health information about your pet
-                            </label>
-                            <p class="text-xs text-gray-500 italic mb-2">If your pet has any existing or previously treated health condition that was not disclosed to us prior to the procedure, CVO cannot be held liable for any health issues that may arise afterward.</p>
-                            <textarea name="health_info" rows="3"
-                                      class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none resize-y"
-                                      placeholder="Please share any relevant medical information..."></textarea>
-                        </div>
-
-                        <!-- Physical Assessment -->
-                        <div>
-                            <label class="inline-flex items-start">
-                                <input type="checkbox" name="physical_assessment" value="yes" class="mt-1 text-primary">
-                                <span class="ml-2 text-sm text-gray-700"><strong>Physical Assessment: <span class="text-red-500">*</span> </strong> Your pet's safety is our priority. Please understand that as an LGU with limited facilities and no confinement area; we may not be equipped to handle certain medical conditions. By checking the box, you acknowledged that a veterinary assessment is required before surgery, and that the procedure may be declined based on the results of the evaluation.</span>
-                            </label>
-                        </div>
-
-                        <!-- Pyometra -->
-                        <div>
-                            <label class="block text-sm font-medium mb-2">
-                                My pet has pyometra <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="pyometra" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="pyometra" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- In Heat -->
-                        <div>
-                            <label class="block text-sm font-medium mb-2">
-                                My dog/s is/are in heat. <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="in_heat" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="in_heat" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Fasting -->
-                        <div>
-                            <label class="block text-sm font-medium mb-2">
-                                My pet/s will not eat any food or any liquids for the past 12 hours prior to surgery. <span class="text-red-500">*</span>
-                            </label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="fasting" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="fasting" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
-                        </div>
-
+                    <div class="space-y-6">
                         <!-- Secure cage/leash -->
                         <div>
-                            <label class="block text-sm font-medium mb-1.5">
-                                I understand that I must place my pets inside a secure cage or leash. CVO will not be liable for any escaped animals due to defective cages or leashes. <span class="text-red-500">*</span>
+                            <label class="inline-flex items-start">
+                                <input type="checkbox" name="general_agreement[secure_cage]" value="yes" class="mt-1 text-primary">
+                                <span class="ml-2 text-sm text-gray-700">I understand that I must place my pet/s inside a secure cage or leash. <span class="text-red-500">*</span></span>
                             </label>
-                            <p class="text-xs text-gray-500 italic mb-2">Many cases of animals escaping involve soft or foldable or collapsible cages that have not been secured properly. Also, please do not attempt to open your pet's cages or remove leashes within the veterinary office.</p>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="secure_cage" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="secure_cage" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
                         </div>
 
                         <!-- Keep indoors -->
                         <div>
-                            <label class="block text-sm font-medium mb-2">
-                                I will keep my pet/s indoors until they are fully healed (2-3 days for cats; 1 week for dogs; 2 weeks for pregnant females). <span class="text-red-500">*</span>
+                            <label class="inline-flex items-start">
+                                <input type="checkbox" name="general_agreement[keep_indoors]" value="yes" class="mt-1 text-primary">
+                                <span class="ml-2 text-sm text-gray-700">I will keep my pet/s indoors until they are fully healed. <span class="text-red-500">*</span></span>
                             </label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="keep_indoors" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="keep_indoors" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
                         </div>
 
                         <!-- Keep incision dry -->
                         <div>
-                            <label class="block text-sm font-medium mb-2">
-                                I will keep their incision dry and refrain from bathing this animal for the next 2 weeks, and place an e-collar if needed. <span class="text-red-500">*</span>
+                            <label class="inline-flex items-start">
+                                <input type="checkbox" name="general_agreement[keep_dry]" value="yes" class="mt-1 text-primary">
+                                <span class="ml-2 text-sm text-gray-700">I will keep their incision dry and refrain from bathing this animal for the next 2 weeks. <span class="text-red-500">*</span></span>
                             </label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="keep_dry" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="keep_dry" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
                         </div>
 
                         <!-- Full authority -->
                         <div>
-                            <label class="block text-sm font-medium mb-2">
-                                I hereby give the Dasmariñas City Veterinary Office (CVO) and its attending veterinarians and staff, full authority while the animal is under their care, to perform the spay/neuter operation and whatever treatment that the latter feel may be necessary. <span class="text-red-500">*</span>
+                            <label class="inline-flex items-start">
+                                <input type="checkbox" name="general_agreement[full_authority]" value="yes" class="mt-1 text-primary">
+                                <span class="ml-2 text-sm text-gray-700">I hereby give the Dasmariñas City Veterinary Office (CVO) and its attending veterinarians and staff full authority to perform the procedure. <span class="text-red-500">*</span></span>
                             </label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="full_authority" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="full_authority" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
                         </div>
 
                         <!-- Valid ID -->
                         <div>
-                            <label class="block text-sm font-medium mb-2">
-                                I will bring and present a valid primary ID before entering the premises of CVO for security purposes. <span class="text-red-500">*</span>
+                            <label class="inline-flex items-start">
+                                <input type="checkbox" name="general_agreement[valid_id]" value="yes" class="mt-1 text-primary">
+                                <span class="ml-2 text-sm text-gray-700">I will bring and present a valid primary ID before entering the premises of the CVO for security purposes. <span class="text-red-500">*</span></span>
                             </label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="valid_id" value="yes" class="text-primary">
-                                    <span class="ml-2">Yes</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="valid_id" value="no" class="text-primary">
-                                    <span class="ml-2">No</span>
-                                </label>
-                            </div>
+                        </div>
+
+                        <!-- Confirmation of Location -->
+                        <div>
+                            <label class="inline-flex items-start">
+                                <input type="checkbox" name="general_agreement[location]" value="yes" class="mt-1 text-primary">
+                                <span class="ml-2 text-sm text-gray-700">Confirmation of location: I am aware that the spay/neuter surgery will be performed at the veterinary office located in Dasmariñas City. <span class="text-red-500">*</span></span>
+                            </label>
+                        </div>
+
+                        <!-- Card Reminder - Non-interactive -->
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                            <p class="text-sm text-blue-700">Card reminder</p>
                         </div>
                     </div>
 
-                    <!-- Confirmation of Location and Costs -->
-                    <div class="mt-6">
-                        <label class="inline-flex items-start">
-                            <input type="checkbox" name="confirmation" value="yes" class="mt-1 text-primary">
-                            <span class="ml-2 text-sm text-gray-700"><strong>Confirmation of location: <span class="text-red-500">*</span> </strong> I am aware that the spay/neuter surgery will be performed at the veterinary office located in Dasmariñas City.</span>
-                        </label>
-                    </div>
-
                     <!-- Disclaimer -->
-                    <div class="mt-4 bg-red-50 border-l-4 border-red-500 p-4">
+                    <div class="mt-6 bg-red-50 border-l-4 border-red-500 p-4">
                         <p class="text-sm text-red-700">*** Dasmariñas City Veterinary Office (CVO) and its licensed veterinarians will not be held liable in the event of complications, including injury or death, during surgery. These may result due to undiagnosed illnesses that may be detected and treated if a blood test is performed.</p>
                         <p class="text-sm text-red-700 mt-2">*** Pure and half-breed pets or brachycephalic (short-nosed) breeds are required to submit the results of blood tests prior to surgery. It is highly recommended that aspins and puspins with preexisting conditions be tested as well.</p>
                     </div>
@@ -890,7 +739,7 @@
                     <div class="mt-12 pt-8 border-t">
                         <!-- Row 1: Previous and Submit buttons -->
                         <div class="flex justify-between items-center mb-6">
-                            <button type="button" onclick="goToStep(2)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center w-40 justify-center">
+                            <button type="button" onclick="goToStep(3)" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex items-center w-40 justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                                 </svg>
@@ -940,10 +789,11 @@
         const step1Indicator = document.getElementById('step1Indicator');
         const step2Indicator = document.getElementById('step2Indicator');
         const step3Indicator = document.getElementById('step3Indicator');
+        const step4Indicator = document.getElementById('step4Indicator');
         
         // Update progress percentage
-        progressBar.style.width = (step * 33.33) + '%';
-        stepLabel.textContent = 'Step ' + step + ' of 3';
+        progressBar.style.width = (step * 25) + '%';
+        stepLabel.textContent = 'Step ' + step + ' of 4';
         
         // Update step titles
         if (step === 1) {
@@ -951,20 +801,212 @@
             step1Indicator.className = 'font-semibold text-primary';
             step2Indicator.className = 'font-semibold text-gray-400';
             step3Indicator.className = 'font-semibold text-gray-400';
+            step4Indicator.className = 'font-semibold text-gray-400';
         } else if (step === 2) {
             stepTitle.textContent = 'Part 2: Pet\'s Information';
             step1Indicator.className = 'font-semibold text-green-600';
             step2Indicator.className = 'font-semibold text-primary';
             step3Indicator.className = 'font-semibold text-gray-400';
+            step4Indicator.className = 'font-semibold text-gray-400';
         } else if (step === 3) {
             stepTitle.textContent = 'Part 3: Agreement';
             step1Indicator.className = 'font-semibold text-green-600';
             step2Indicator.className = 'font-semibold text-green-600';
             step3Indicator.className = 'font-semibold text-primary';
+            step4Indicator.className = 'font-semibold text-gray-400';
+            // Generate pet agreement cards when entering Part 3
+            generatePetAgreementCards();
+        } else if (step === 4) {
+            stepTitle.textContent = 'Part 4: General Agreement';
+            step1Indicator.className = 'font-semibold text-green-600';
+            step2Indicator.className = 'font-semibold text-green-600';
+            step3Indicator.className = 'font-semibold text-green-600';
+            step4Indicator.className = 'font-semibold text-primary';
         }
         
         // Scroll to top of form
         document.getElementById('part' + step).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Generate per-pet agreement cards for Part 3
+    function generatePetAgreementCards() {
+        const container = document.getElementById('petAgreementsContainer');
+        
+        if (selectedPets.length === 0) {
+            container.innerHTML = `
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+                    <p class="text-sm text-yellow-700">Please select pets in Part 2 first to see the agreement forms.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = '';
+        
+        selectedPets.forEach(petId => {
+            const pet = petsData.find(p => String(p.id) === String(petId));
+            if (pet) {
+                // Determine if pet is over 4 years old
+                // Parse age - check if it's a number or has 'years' in it
+                let isOver4Years = false;
+                const ageStr = String(pet.age).toLowerCase();
+                
+                // Try to extract numeric age
+                const yearMatch = ageStr.match(/(\d+)\s*year/);
+                if (yearMatch) {
+                    const years = parseInt(yearMatch[1]);
+                    isOver4Years = years > 4;
+                } else if (ageStr.includes('over')) {
+                    isOver4Years = true;
+                }
+                
+                const petCard = document.createElement('div');
+                petCard.className = 'bg-white border border-gray-200 rounded-lg p-6 mb-6';
+                petCard.id = 'pet-agreement-' + petId;
+                
+                let bloodTestSection = '';
+                if (isOver4Years) {
+                    // Over 4 years: require blood test, no waiver
+                    bloodTestSection = `
+                        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                            <p class="font-medium text-gray-700 mb-2">Blood Test Agreement <span class="text-red-500">*</span></p>
+                            <p class="text-sm text-gray-600 mb-3">For the safety of your pet, the Dasmariñas City Veterinary Office (CVO) highly recommends a blood test (CBC, SGPT, and CREA) prior to surgery. Since the CVO is a public service facility with limited laboratory resources, please have these tests performed at a private veterinary clinic of your choice. You must upload the results here at least 48 hours before your appointment.</p>
+                            
+                            <div class="space-y-3">
+                                <label class="inline-flex items-start">
+                                    <input type="radio" name="pet_agreement[${pet.id}][blood_test]" value="submit_results" class="mt-1 text-primary" required>
+                                    <span class="ml-2 text-sm text-gray-700">Yes, I will upload the blood test results (CBC, SGPT, & CREA) at least 48 hours before my schedule.</span>
+                                </label>
+                                <p class="text-xs text-gray-500 ml-6">For pets over 4 years old, blood test upload is required. No waiver option available.</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // 4 years or below: allow blood test or waiver
+                    bloodTestSection = `
+                        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                            <p class="font-medium text-gray-700 mb-2">Blood Test Agreement <span class="text-red-500">*</span></p>
+                            <p class="text-sm text-gray-600 mb-3">For the safety of your pet, the Dasmariñas City Veterinary Office (CVO) highly recommends a blood test (CBC, SGPT, and CREA) prior to surgery. Since the CVO is a public service facility with limited laboratory resources, please have these tests performed at a private veterinary clinic of your choice.</p>
+                            
+                            <div class="space-y-3">
+                                <label class="inline-flex items-start">
+                                    <input type="radio" name="pet_agreement[${pet.id}][blood_test]" value="submit_results" class="mt-1 text-primary">
+                                    <span class="ml-2 text-sm text-gray-700">Yes, I will upload the blood test results (CBC, SGPT, & CREA) at least 48 hours before my schedule.</span>
+                                </label>
+                                <label class="inline-flex items-start">
+                                    <input type="radio" name="pet_agreement[${pet.id}][blood_test]" value="waive" class="mt-1 text-primary">
+                                    <span class="ml-2 text-sm text-gray-700">I waive the blood test option as my pet is healthy and under 4 years old. <strong class="text-red-600">CVO will not be held liable for any complications.</strong></span>
+                                </label>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                petCard.innerHTML = `
+                    <div class="flex items-center mb-4 pb-3 border-b">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-semibold text-gray-900">${pet.name}</h4>
+                            <p class="text-xs text-gray-500">${pet.species || 'Unknown'} • ${pet.breed || 'Unknown'} • Age: ${formatAge(pet.age)}</p>
+                        </div>
+                        ${isOver4Years ? '<span class="ml-auto text-xs px-2 py-1 bg-orange-100 text-orange-700 rounded">Over 4 years - Blood test required</span>' : ''}
+                    </div>
+                    
+                    ${bloodTestSection}
+                    
+                    <!-- Previous Surgery -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">
+                            Previous Surgery <span class="text-red-500">*</span>
+                        </label>
+                        <div class="flex gap-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="pet_agreement[${pet.id}][previous_surgery]" value="yes" class="text-primary">
+                                <span class="ml-2">Yes</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="pet_agreement[${pet.id}][previous_surgery]" value="no" class="text-primary">
+                                <span class="ml-2">No</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Health Condition -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">
+                            Health Condition (Has the pet been healthy for the past 3 weeks or longer?) <span class="text-red-500">*</span>
+                        </label>
+                        <div class="flex gap-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="pet_agreement[${pet.id}][health_condition]" value="yes" class="text-primary">
+                                <span class="ml-2">Yes</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="pet_agreement[${pet.id}][health_condition]" value="no" class="text-primary">
+                                <span class="ml-2">No</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Pyometra -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">
+                            Pyometra <span class="text-red-500">*</span>
+                        </label>
+                        <div class="flex gap-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="pet_agreement[${pet.id}][pyometra]" value="yes" class="text-primary">
+                                <span class="ml-2">Yes</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="pet_agreement[${pet.id}][pyometra]" value="no" class="text-primary">
+                                <span class="ml-2">No</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- In Heat -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">
+                            In Heat <span class="text-red-500">*</span>
+                        </label>
+                        <div class="flex gap-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="pet_agreement[${pet.id}][in_heat]" value="yes" class="text-primary">
+                                <span class="ml-2">Yes</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="pet_agreement[${pet.id}][in_heat]" value="no" class="text-primary">
+                                <span class="ml-2">No</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Food Restriction -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">
+                            Food Restriction (Has the pet not eaten any food or liquids for the past 12 hours prior to surgery?) <span class="text-red-500">*</span>
+                        </label>
+                        <div class="flex gap-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="pet_agreement[${pet.id}][food_restriction]" value="yes" class="text-primary">
+                                <span class="ml-2">Yes</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="pet_agreement[${pet.id}][food_restriction]" value="no" class="text-primary">
+                                <span class="ml-2">No</span>
+                            </label>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(petCard);
+            }
+        });
     }
 
     // Cat breeds list
