@@ -722,11 +722,6 @@
                                 <span class="ml-2 text-sm text-gray-700">Confirmation of location: I am aware that the spay/neuter surgery will be performed at the veterinary office located in Dasmariñas City. <span class="text-red-500">*</span></span>
                             </label>
                         </div>
-
-                        <!-- Card Reminder - Non-interactive -->
-                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
-                            <p class="text-sm text-blue-700">Card reminder</p>
-                        </div>
                     </div>
 
                     <!-- Disclaimer -->
