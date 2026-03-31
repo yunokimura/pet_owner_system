@@ -290,7 +290,13 @@
                     </div>
                     
                     <!-- Navigation Buttons for Part 1 -->
-                    <div class="flex justify-end mt-8">
+                    <div class="flex justify-between items-center mt-8">
+                        <a href="{{ url('/kapon') }}" class="text-gray-600 hover:text-primary transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Back to Kapon Page
+                        </a>
                         <button type="button" onclick="goToStep(2)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
                             Next: Pet's Information
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -787,7 +793,7 @@
                         <!-- Row 2: Back to Kapon link (centered) -->
                         <div class="text-center">
                             <a href="{{ url('/kapon') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
-                                ← Back to Kapon
+                                ← Back to Kapon Page
                             </a>
                         </div>
                     </div>
