@@ -358,7 +358,13 @@
                     </div>
                     
                     <!-- Navigation Buttons for Part 1 -->
-                    <div class="flex justify-end mt-8">
+                    <div class="flex justify-between items-center mt-8">
+                        <a href="{{ url('/adoption') }}" class="text-gray-600 hover:text-primary transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Back to Adoption Page
+                        </a>
                         <button type="button" onclick="goToStep(2)" class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center">
                             Next: Alternate Contact
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -934,11 +940,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-
-        <!-- Back Link -->
-        <div class="text-center mt-6 text-sm">
-            <a href="{{ url('/adoption') }}" class="text-primary font-medium">← Back to Adoption</a>
         </div>
     </div>
 </main>
