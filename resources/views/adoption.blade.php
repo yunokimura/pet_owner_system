@@ -197,6 +197,11 @@
                 </button>
                 @endforeach
             </div>
+            
+            <!-- Pagination -->
+            <div class="mt-8">
+                {{ $adoptionPets->links() }}
+            </div>
         </div>
     </section>
 
@@ -259,7 +264,7 @@
     </div>
 
     <script>
-        const adoptionPets = @json($adoptionPets);
+        const adoptionPets = @json($adoptionPets->items());
         
         function openPetModal(petId) {
             const pet = adoptionPets.find(p => p.id === petId);

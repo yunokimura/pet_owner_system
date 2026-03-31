@@ -84,7 +84,7 @@ Route::get('/kapon/form', function () {
 
 // Adoption Page Route
 Route::get('/adoption', function () {
-    $adoptionPets = \App\Models\AdoptionPet::all();
+    $adoptionPets = \App\Models\AdoptionPet::paginate(10);
     return view('adoption', compact('adoptionPets'));
 });
 
