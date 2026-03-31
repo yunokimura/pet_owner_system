@@ -257,7 +257,7 @@
                     </svg>
                 </button>
                 <!-- Left Side - Image -->
-                <div class="w-full md:w-1/2 h-full bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
+                <div class="w-[370px] h-full bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative overflow-hidden flex-shrink-0">
                     <img id="modalPetImage" src="" alt="" class="w-full h-full object-cover hidden">
                     <div id="modalPetImagePlaceholder" class="w-full h-full flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-32 h-32 text-pink-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -266,7 +266,7 @@
                     </div>
                 </div>
                 <!-- Right Side - Details -->
-                <div class="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+                <div class="flex-1 p-6 md:p-8 flex flex-col justify-center">
                     <div class="flex items-center justify-between mb-2">
                         <h2 id="modalPetName" class="text-2xl md:text-3xl font-bold text-gray-900"></h2>
                         <span id="modalPetSpecies" class="text-base text-gray-500"></span>
