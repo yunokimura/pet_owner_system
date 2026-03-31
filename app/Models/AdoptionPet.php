@@ -18,5 +18,14 @@ class AdoptionPet extends Model
         'description',
         'traits',
         'image',
+        'weight',
     ];
+
+    /**
+     * Get the pet's weight with "kg" appended.
+     */
+    public function getWeightAttribute($value)
+    {
+        return $value ? $value . ' kg' : null;
+    }
 }
