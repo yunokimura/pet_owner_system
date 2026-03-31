@@ -175,11 +175,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 @foreach($adoptionPets as $pet)
                 <button type="button" onclick="openPetModal({{ $pet->id }})" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
-                    <div class="aspect-square bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative flex items-center justify-center p-8">
+                    <div class="aspect-square bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative flex items-center justify-center p-6">
                         @if($pet->image)
                             <img src="{{ asset($pet->image) }}" alt="{{ $pet->pet_name }}" class="w-full h-full object-cover">
                         @else
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full text-pink-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-pink-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
                         @endif
@@ -204,7 +204,7 @@
         <!-- Backdrop -->
         <div class="absolute inset-0 bg-black/50" onclick="closePetModal()"></div>
         <!-- Modal Content -->
-        <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="flex items-stretch justify-center min-h-screen p-4">
             <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl relative z-10 overflow-hidden flex flex-col md:flex-row">
                 <button onclick="closePetModal()" class="absolute top-4 right-4 text-white hover:text-gray-200 z-20 bg-black/30 rounded-full p-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -212,10 +212,10 @@
                     </svg>
                 </button>
                 <!-- Left Side - Image -->
-                <div class="w-full md:w-1/2 h-full min-h-[400px] bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
+                <div class="w-full md:w-1/2 h-full bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
                     <img id="modalPetImage" src="" alt="" class="w-full h-full object-cover hidden">
-                    <div id="modalPetImagePlaceholder" class="w-full h-full flex items-center justify-center p-8">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full text-pink-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <div id="modalPetImagePlaceholder" class="w-full h-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-32 h-32 text-pink-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
                     </div>
