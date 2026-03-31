@@ -946,11 +946,12 @@
                 
                 petCard.innerHTML = `
                     <div class="flex items-center mb-4 pb-3 border-b">
+                        ${pet.image ? `<img src="{{ asset('storage/') }}/${pet.image}" alt="${pet.name}" class="w-10 h-10 rounded-full object-cover">` : `
                         <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                        </div>
+                        </div>`}
                         <div class="ml-3">
                             <h4 class="font-semibold text-gray-900">${pet.name}</h4>
                             <p class="text-xs text-gray-500">${pet.species || 'Unknown'} • ${pet.breed || 'Unknown'} • Age: ${formatAge(pet.age)}</p>
@@ -963,16 +964,16 @@
                     <!-- Previous Surgery -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium mb-2">
-                            Previous Surgery <span class="text-red-500">*</span>
+                            My pet had undergone previous surgery <span class="text-red-500">*</span>
                         </label>
                         <div class="flex gap-4">
                             <label class="inline-flex items-center">
                                 <input type="radio" name="pet_agreement[${pet.id}][previous_surgery]" value="yes" class="text-primary">
-                                <span class="ml-2">Yes</span>
+                                <span class="ml-2 text-gray-900 font-medium">Yes</span>
                             </label>
                             <label class="inline-flex items-center">
                                 <input type="radio" name="pet_agreement[${pet.id}][previous_surgery]" value="no" class="text-primary">
-                                <span class="ml-2">No</span>
+                                <span class="ml-2 text-gray-900 font-medium">No</span>
                             </label>
                         </div>
                     </div>
@@ -985,28 +986,47 @@
                         <div class="flex gap-4">
                             <label class="inline-flex items-center">
                                 <input type="radio" name="pet_agreement[${pet.id}][health_condition]" value="yes" class="text-primary">
-                                <span class="ml-2">Yes</span>
+                                <span class="ml-2 text-gray-900 font-medium">Yes</span>
                             </label>
                             <label class="inline-flex items-center">
                                 <input type="radio" name="pet_agreement[${pet.id}][health_condition]" value="no" class="text-primary">
-                                <span class="ml-2">No</span>
+                                <span class="ml-2 text-gray-900 font-medium">No</span>
                             </label>
                         </div>
+                    </div>
+                    
+                    <!-- Other health information -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1.5">
+                            Other health information about your pet
+                        </label>
+                        <p class="text-xs text-gray-500 italic mb-2">If your pet has any existing or previously treated health condition that was not disclosed to us prior to the procedure, CVO cannot be held liable for any health issues that may arise afterward.</p>
+                        <textarea name="pet_agreement[${pet.id}][health_info]" rows="3"
+                                  class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none resize-y"
+                                  placeholder="Please share any relevant medical information..."></textarea>
+                    </div>
+                    
+                    <!-- Physical Assessment -->
+                    <div class="mb-4">
+                        <label class="inline-flex items-start">
+                            <input type="checkbox" name="pet_agreement[${pet.id}][physical_assessment]" value="yes" class="mt-1 text-primary">
+                            <span class="ml-2 text-sm text-gray-600"><strong>Physical Assessment: <span class="text-red-500">*</span> </strong> Your pet's safety is our priority. Please understand that as an LGU with limited facilities and no confinement area; we may not be equipped to handle certain medical conditions. By checking the box, you acknowledged that a veterinary assessment is required before surgery, and that the procedure may be declined based on the results of the evaluation.</span>
+                        </label>
                     </div>
                     
                     <!-- Pyometra -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium mb-2">
-                            Pyometra <span class="text-red-500">*</span>
+                            My pet has pyometra <span class="text-red-500">*</span>
                         </label>
                         <div class="flex gap-4">
                             <label class="inline-flex items-center">
                                 <input type="radio" name="pet_agreement[${pet.id}][pyometra]" value="yes" class="text-primary">
-                                <span class="ml-2">Yes</span>
+                                <span class="ml-2 text-gray-900 font-medium">Yes</span>
                             </label>
                             <label class="inline-flex items-center">
                                 <input type="radio" name="pet_agreement[${pet.id}][pyometra]" value="no" class="text-primary">
-                                <span class="ml-2">No</span>
+                                <span class="ml-2 text-gray-900 font-medium">No</span>
                             </label>
                         </div>
                     </div>
@@ -1014,16 +1034,16 @@
                     <!-- In Heat -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium mb-2">
-                            In Heat <span class="text-red-500">*</span>
+                            My pet is/are in heat <span class="text-red-500">*</span>
                         </label>
                         <div class="flex gap-4">
                             <label class="inline-flex items-center">
                                 <input type="radio" name="pet_agreement[${pet.id}][in_heat]" value="yes" class="text-primary">
-                                <span class="ml-2">Yes</span>
+                                <span class="ml-2 text-gray-900 font-medium">Yes</span>
                             </label>
                             <label class="inline-flex items-center">
                                 <input type="radio" name="pet_agreement[${pet.id}][in_heat]" value="no" class="text-primary">
-                                <span class="ml-2">No</span>
+                                <span class="ml-2 text-gray-900 font-medium">No</span>
                             </label>
                         </div>
                     </div>
@@ -1036,11 +1056,11 @@
                         <div class="flex gap-4">
                             <label class="inline-flex items-center">
                                 <input type="radio" name="pet_agreement[${pet.id}][food_restriction]" value="yes" class="text-primary">
-                                <span class="ml-2">Yes</span>
+                                <span class="ml-2 text-gray-900 font-medium">Yes</span>
                             </label>
                             <label class="inline-flex items-center">
                                 <input type="radio" name="pet_agreement[${pet.id}][food_restriction]" value="no" class="text-primary">
-                                <span class="ml-2">No</span>
+                                <span class="ml-2 text-gray-900 font-medium">No</span>
                             </label>
                         </div>
                     </div>
