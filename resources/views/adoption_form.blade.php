@@ -938,6 +938,13 @@
                             </svg>
                         </button>
                     </div>
+                    
+                    <!-- Back to Adoption Page Link -->
+                    <div class="text-center mt-6">
+                        <a href="{{ url('/adoption') }}" class="text-gray-600 hover:text-primary transition-colors">
+                            ← Back to Adoption Page
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>
