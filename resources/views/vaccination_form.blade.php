@@ -386,6 +386,30 @@
                 </div>
             </div>
 
+            <!-- Pet Limit Modal -->
+            <div id="petLimitModal" class="fixed inset-0 z-50 hidden">
+                <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+                <div class="fixed inset-0 flex items-center justify-center p-4">
+                    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-center">
+                        <div class="mb-4">
+                            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Pet Limit Reached</h3>
+                        <p class="text-gray-600 mb-6">
+                            To ensure fair slot distribution and smooth form submission, a maximum of 3 pets is allowed per transaction. Please complete this form first and submit a new application for additional pets.
+                        </p>
+                        <button type="button" onclick="closePetLimitModal()" 
+                                class="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-light transition-colors w-full">
+                            I understand
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Back Link -->
             <div class="text-center mt-6">
                 <a href="{{ url('/vaccination') }}" class="inline-block text-gray-600 hover:text-primary transition-colors">
@@ -482,6 +506,13 @@
         function togglePetSelection(checkbox) {
             const petId = String(checkbox.value);
             if (checkbox.checked) {
+                // Check if limit of 3 is reached
+                if (selectedPets.length >= 3) {
+                    // Show limit modal and uncheck the checkbox
+                    checkbox.checked = false;
+                    showPetLimitModal();
+                    return;
+                }
                 if (!selectedPets.includes(petId)) {
                     selectedPets.push(petId);
                 }
@@ -489,6 +520,16 @@
                 selectedPets = selectedPets.filter(id => String(id) !== petId);
             }
             updateSelectedCount();
+        }
+
+        function showPetLimitModal() {
+            document.getElementById('petLimitModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePetLimitModal() {
+            document.getElementById('petLimitModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
         }
 
         function updateSelectedCount() {
