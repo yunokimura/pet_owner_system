@@ -303,7 +303,7 @@
     </div>
 
     <script>
-        let adoptionPets = @json($adoptionPets->toArray()['data']);
+        let adoptionPets = {!! json_encode($adoptionPets->map(function($pet) { return [ 'adoption_id' => $pet->adoption_id, 'pet_name' => $pet->pet_name, 'species' => $pet->species, 'breed' => $pet->breed, 'gender' => $pet->gender, 'age' => $pet->age, 'date_of_birth' => $pet->date_of_birth, 'is_age_estimated' => $pet->is_age_estimated, 'weight' => $pet->weight, 'description' => $pet->description, 'traits' => $pet->traits->pluck('name')->toArray(), 'image' => $pet->image ]; })) !!};
         let currentPage = {{ $adoptionPets->currentPage() }};
         let lastPage = {{ $adoptionPets->lastPage() }};
         
