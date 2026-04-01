@@ -292,7 +292,7 @@
     <section id="pets-section" class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div id="pets-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                @foreach($adoptionPets as $pet)
+                @forelse($adoptionPets as $pet)
                 <button type="button" onclick="openPetModal({{ $pet->adoption_id }})" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
                     <div class="aspect-square bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
                         @if($pet->image)
@@ -314,7 +314,15 @@
                         </div>
                     </div>
                 </button>
-                @endforeach
+                @empty
+                <div class="col-span-full text-center py-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                    <p class="text-gray-500 text-lg">No pets found.</p>
+                    <p class="text-gray-400 text-sm mt-1">Try adjusting your filters or check back later.</p>
+                </div>
+                @endforelse
             </div>
             
             <!-- Pagination -->
@@ -643,31 +651,42 @@
             const grid = document.getElementById('pets-grid');
             let html = '';
             
-            pets.forEach(pet => {
-                const genderIcon = pet.gender === 'Female' ? '♀' : '♂';
-                const genderClass = pet.gender === 'Female' ? 'text-pink-500' : 'text-blue-500';
-                const imageHtml = pet.image 
-                    ? `<img src="${pet.image}" alt="${pet.pet_name}" class="w-full h-full object-cover">`
-                    : `<svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-pink-500/40 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                       </svg>`;
-                
-                html += `<button type="button" onclick="openPetModal(${pet.adoption_id})" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
-                    <div class="aspect-square bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
-                        ${imageHtml}
-                        <span class="absolute top-2 right-2 text-xs px-2 py-1 rounded-full bg-[#E6F4EA] text-gray-800">${pet.species}</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-gray-900">${pet.pet_name}</h3>
-                        <p class="text-sm text-gray-500">${pet.breed}</p>
-                        <div class="flex items-center space-x-3 mt-2 text-xs">
-                            <span class="${genderClass}">${genderIcon} ${pet.gender}</span>
-                            <span class="text-gray-400">•</span>
-                            <span class="text-gray-600">${pet.age || 'Age not available'}</span>
+            if (pets.length === 0) {
+                // Show message when no pets found
+                html = `<div class="col-span-full text-center py-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                    <p class="text-gray-500 text-lg">No pets found in this age range.</p>
+                    <p class="text-gray-400 text-sm mt-1">Try selecting a different age filter or clear the filter.</p>
+                </div>`;
+            } else {
+                pets.forEach(pet => {
+                    const genderIcon = pet.gender === 'Female' ? '♀' : '♂';
+                    const genderClass = pet.gender === 'Female' ? 'text-pink-500' : 'text-blue-500';
+                    const imageHtml = pet.image 
+                        ? `<img src="${pet.image}" alt="${pet.pet_name}" class="w-full h-full object-cover">`
+                        : `<svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-pink-500/40 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                           </svg>`;
+                    
+                    html += `<button type="button" onclick="openPetModal(${pet.adoption_id})" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
+                        <div class="aspect-square bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
+                            ${imageHtml}
+                            <span class="absolute top-2 right-2 text-xs px-2 py-1 rounded-full bg-[#E6F4EA] text-gray-800">${pet.species}</span>
                         </div>
-                    </div>
-                </button>`;
-            });
+                        <div class="p-4">
+                            <h3 class="font-bold text-gray-900">${pet.pet_name}</h3>
+                            <p class="text-sm text-gray-500">${pet.breed}</p>
+                            <div class="flex items-center space-x-3 mt-2 text-xs">
+                                <span class="${genderClass}">${genderIcon} ${pet.gender}</span>
+                                <span class="text-gray-400">•</span>
+                                <span class="text-gray-600">${pet.age || 'Age not available'}</span>
+                            </div>
+                        </div>
+                    </button>`;
+                });
+            }
             
             grid.innerHTML = html;
         }
