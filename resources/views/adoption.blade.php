@@ -434,8 +434,13 @@
                 let isActive = false;
                 
                 if (filterType === 'filter') {
-                    // Only highlight if filter is explicitly selected (not default 'all')
-                    isActive = currentFilter !== 'all' && currentFilter === filterValue;
+                    // For "All Pets" - highlight when no species filter is selected
+                    if (filterValue === 'all') {
+                        isActive = currentSpecies === 'all';
+                    } else {
+                        // Other filters like "recommended" - highlight when explicitly selected
+                        isActive = currentFilter === filterValue;
+                    }
                 } else if (filterType === 'species') {
                     isActive = currentSpecies !== 'all' && currentSpecies === filterValue;
                 } else if (filterType === 'gender') {
@@ -972,6 +977,8 @@
         // Close dropdown when clicking outside
         document.addEventListener('click', function(event) {
             const dropdown = document.getElementById('userDropdown');
+            if (!dropdown) return;
+            
             const button = event.target.closest('button');
             if (!button && !dropdown.contains(event.target)) {
                 dropdown.classList.add('hidden');
