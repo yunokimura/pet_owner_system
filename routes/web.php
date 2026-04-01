@@ -101,6 +101,13 @@ Route::get('/adoption', function (\Illuminate\Http\Request $request) {
     // Apply smart filtering based on existing pets
     $adoptionPets = \App\Models\AdoptionPet::with('traits');
     
+    // Get unique breeds for the filter dropdown
+    $availableBreeds = \App\Models\AdoptionPet::whereNotNull('breed')
+        ->where('breed', '!=', '')
+        ->distinct()
+        ->orderBy('breed')
+        ->pluck('breed');
+    
     // Handle filter parameter (special filters like recommended)
     $filter = $request->input('filter', 'all');
     
@@ -112,6 +119,9 @@ Route::get('/adoption', function (\Illuminate\Http\Request $request) {
     
     // Handle age filter
     $age = $request->input('age', 'all');
+    
+    // Handle breed filter (can be multiple, comma-separated)
+    $breeds = $request->input('breeds', 'all');
     
     // Apply species filter
     if ($species === 'Dog') {
@@ -144,6 +154,12 @@ Route::get('/adoption', function (\Illuminate\Http\Request $request) {
                                    ->where('date_of_birth', '<', now()->subYears(3));
     }
     
+    // Apply breed filter
+    if ($breeds !== 'all' && !empty($breeds)) {
+        $breedArray = explode(',', $breeds);
+        $adoptionPets = $adoptionPets->whereIn('breed', $breedArray);
+    }
+    
     // Handle special filters
     if ($filter === 'recommended' && auth()->check() && $petOwner && $hasPets) {
         // Recommended filter - show pets that would work well with user's existing pets
@@ -163,7 +179,7 @@ Route::get('/adoption', function (\Illuminate\Http\Request $request) {
     }
     
     $adoptionPets = $adoptionPets->paginate(10);
-    return view('adoption', compact('adoptionPets', 'userPets', 'hasPets'));
+    return view('adoption', compact('adoptionPets', 'userPets', 'hasPets', 'availableBreeds'));
 });
 
 // AJAX Pagination Route
@@ -196,6 +212,9 @@ Route::get('/adoption/paginate', function (\Illuminate\Http\Request $request) {
     // Handle age filter
     $age = $request->input('age', 'all');
     
+    // Handle breed filter (can be multiple, comma-separated)
+    $breeds = $request->input('breeds', 'all');
+    
     // Apply species filter
     if ($species === 'Dog') {
         $adoptionPets = $adoptionPets->where('species', 'Dog');
@@ -225,6 +244,12 @@ Route::get('/adoption/paginate', function (\Illuminate\Http\Request $request) {
     } elseif ($age === '3+') {
         $adoptionPets = $adoptionPets->whereNotNull('date_of_birth')
                                    ->where('date_of_birth', '<', now()->subYears(3));
+    }
+    
+    // Apply breed filter
+    if ($breeds !== 'all' && !empty($breeds)) {
+        $breedArray = explode(',', $breeds);
+        $adoptionPets = $adoptionPets->whereIn('breed', $breedArray);
     }
     
     // Handle special filters
