@@ -84,26 +84,28 @@ Route::get('/kapon/form', function () {
 
 // Adoption Page Route
 Route::get('/adoption', function () {
-    $adoptionPets = \App\Models\AdoptionPet::paginate(10);
+    $adoptionPets = \App\Models\AdoptionPet::with('traits')->paginate(10);
     return view('adoption', compact('adoptionPets'));
 });
 
 // AJAX Pagination Route
 Route::get('/adoption/paginate', function () {
-    $adoptionPets = \App\Models\AdoptionPet::paginate(10);
+    $adoptionPets = \App\Models\AdoptionPet::with('traits')->paginate(10);
     
     // Map pets to include computed age attribute
     $pets = collect($adoptionPets->items())->map(function ($pet) {
         return [
-            'id' => $pet->id,
+            'id' => $pet->adoption_id,
+            'adoption_id' => $pet->adoption_id,
             'pet_name' => $pet->pet_name,
             'species' => $pet->species,
             'gender' => $pet->gender,
             'breed' => $pet->breed,
             'description' => $pet->description,
-            'traits' => $pet->traits,
+            'traits' => $pet->traits->pluck('name')->toArray(),
             'weight' => $pet->weight,
-            'image' => $pet->image,
+            'image' => $pet->image ? asset($pet->image) : null,
+            'image_path' => $pet->image,
             'date_of_birth' => $pet->date_of_birth,
             'is_age_estimated' => $pet->is_age_estimated,
             'age' => $pet->age, // This calls the accessor
@@ -123,8 +125,12 @@ Route::get('/adoption/paginate', function () {
 Route::get('/adoption/form', function () {
     $user = auth()->user();
     $petOwner = $user ? $user->petOwner : null;
-    return view('adoption_form', compact('user', 'petOwner'));
+    $traits = \App\Models\AdoptionTrait::orderBy('name')->get();
+    return view('adoption_form', compact('user', 'petOwner', 'traits'));
 });
+
+// Store Adoption Pet Route
+Route::post('/adoption', [\App\Http\Controllers\AdoptionPetController::class, 'store'])->name('adoption.store');
 
 // Animal Cruelty Page Route
 Route::get('/animal-cruelty', function () {

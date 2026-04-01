@@ -174,7 +174,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div id="pets-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 @foreach($adoptionPets as $pet)
-                <button type="button" onclick="openPetModal({{ $pet->id }})" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
+                <button type="button" onclick="openPetModal({{ $pet->adoption_id }})" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
                     <div class="aspect-square bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
                         @if($pet->image)
                             <img src="{{ asset($pet->image) }}" alt="{{ $pet->pet_name }}" class="w-full h-full object-cover">
@@ -303,7 +303,7 @@
     </div>
 
     <script>
-        let adoptionPets = @json($adoptionPets->items());
+        let adoptionPets = @json($adoptionPets->toArray()['data']);
         let currentPage = {{ $adoptionPets->currentPage() }};
         let lastPage = {{ $adoptionPets->lastPage() }};
         
@@ -341,7 +341,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                        </svg>`;
                 
-                html += `<button type="button" onclick="openPetModal(${pet.id})" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
+                html += `<button type="button" onclick="openPetModal(${pet.adoption_id})" class="bg-white rounded-xl shadow-lg overflow-hidden pet-card block text-left w-full">
                     <div class="aspect-square bg-gradient-to-br from-pink-400/20 to-pink-500/30 relative">
                         ${imageHtml}
                         <span class="absolute top-2 right-2 text-xs px-2 py-1 rounded-full bg-[#E6F4EA] text-gray-800">${pet.species}</span>
@@ -408,7 +408,7 @@
         }
         
         function openPetModal(petId) {
-            const pet = adoptionPets.find(p => p.id === petId);
+            const pet = adoptionPets.find(p => p.adoption_id === petId);
             if (!pet) return;
             
             document.getElementById('modalPetName').textContent = pet.pet_name;
@@ -443,7 +443,7 @@
             document.getElementById('modalPetGender').textContent = pet.gender;
             document.getElementById('modalPetWeight').textContent = pet.weight || '';
             document.getElementById('modalPetDescription').textContent = pet.description || 'No description available';
-            document.getElementById('modalPetTraits').textContent = pet.traits || 'No traits listed';
+            document.getElementById('modalPetTraits').textContent = Array.isArray(pet.traits) ? pet.traits.join(', ') : (pet.traits || 'No traits listed');
             document.getElementById('modalPetAdoptBtn').textContent = 'Adopt ' + pet.pet_name;
             
             if (pet.image) {

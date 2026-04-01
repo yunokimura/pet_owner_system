@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Carbon\Carbon;
 
 class AdoptionPet extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'adoption_id';
+    public $incrementing = true;
 
     protected $fillable = [
         'pet_name',
@@ -16,12 +20,20 @@ class AdoptionPet extends Model
         'gender',
         'breed',
         'description',
-        'traits',
         'weight',
         'image',
         'date_of_birth',
         'is_age_estimated',
     ];
+
+    /**
+     * Get the traits for this pet.
+     */
+    public function traits(): BelongsToMany
+    {
+        return $this->belongsToMany(AdoptionTrait::class, 'pet_traits', 'adoption_id', 'trait_id')
+            ->withTimestamps();
+    }
 
     /**
      * Get the pet's weight with "kg" appended.
