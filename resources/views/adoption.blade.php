@@ -328,9 +328,14 @@
             
             <!-- Panel Footer -->
             <div class="p-4 border-t border-gray-200">
-                <button onclick="applyFilters()" class="w-full bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-light transition-colors">
-                    Apply Filters
-                </button>
+                <div class="flex gap-3">
+                    <button onclick="clearFilters()" class="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors">
+                        Clear Filter
+                    </button>
+                    <button onclick="applyFilters()" class="flex-1 bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-light transition-colors">
+                        Apply Filters
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -670,6 +675,45 @@
             
             // Update button highlights - don't auto-apply
             updateFilterButtons();
+        }
+        
+        function clearFilters() {
+            // Reset all filter variables
+            currentFilter = 'all';
+            currentSpecies = 'all';
+            currentGender = 'all';
+            currentAge = 'all';
+            currentBreeds = [];
+            currentTraits = [];
+            
+            // Uncheck all filter checkboxes
+            document.querySelectorAll('.species-checkbox').forEach(cb => cb.checked = false);
+            document.querySelectorAll('.gender-checkbox').forEach(cb => cb.checked = false);
+            document.querySelectorAll('.age-checkbox').forEach(cb => cb.checked = false);
+            document.querySelectorAll('.breed-checkbox').forEach(cb => cb.checked = false);
+            document.querySelectorAll('.trait-checkbox').forEach(cb => cb.checked = false);
+            
+            // Reset all dropdown displays
+            const speciesDisplay = document.getElementById('selected-species-display');
+            if (speciesDisplay) speciesDisplay.textContent = 'Select species';
+            
+            const genderDisplay = document.getElementById('selected-gender-display');
+            if (genderDisplay) genderDisplay.textContent = 'Select gender';
+            
+            const ageDisplay = document.getElementById('selected-age-display');
+            if (ageDisplay) ageDisplay.textContent = 'Select age';
+            
+            const breedsDisplay = document.getElementById('selected-breeds-display');
+            if (breedsDisplay) breedsDisplay.textContent = 'Select breeds';
+            
+            const traitsDisplay = document.getElementById('selected-traits-display');
+            if (traitsDisplay) traitsDisplay.textContent = 'Select traits';
+            
+            // Update filter buttons
+            updateFilterButtons();
+            
+            // Load page 1 with no filters
+            window.location.href = '/adoption?page=1';
         }
         
         function applyFilters() {
