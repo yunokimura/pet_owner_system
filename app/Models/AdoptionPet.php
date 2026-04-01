@@ -12,13 +12,14 @@ class AdoptionPet extends Model
     protected $fillable = [
         'pet_name',
         'species',
-        'breed',
-        'age',
         'gender',
+        'breed',
         'description',
         'traits',
-        'image',
         'weight',
+        'image',
+        'date_of_birth',
+        'is_age_estimated',
     ];
 
     /**
