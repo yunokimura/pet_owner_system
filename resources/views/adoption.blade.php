@@ -191,7 +191,7 @@
                         <div class="flex items-center space-x-3 mt-2 text-xs">
                             <span class="@if($pet->gender === 'Female') text-pink-500 @else text-blue-500 @endif">{{ $pet->gender === 'Female' ? '♀' : '♂' }} {{ $pet->gender }}</span>
                             <span class="text-gray-400">•</span>
-                            <span class="text-gray-600">{{ $pet->age }}</span>
+                            <span class="text-gray-600">{{ $pet->age ?? 'Age not available' }}</span>
                         </div>
                     </div>
                 </button>
@@ -352,7 +352,7 @@
                         <div class="flex items-center space-x-3 mt-2 text-xs">
                             <span class="${genderClass}">${genderIcon} ${pet.gender}</span>
                             <span class="text-gray-400">•</span>
-                            <span class="text-gray-600">${pet.age} years</span>
+                            <span class="text-gray-600">${pet.age || 'Age not available'}</span>
                         </div>
                     </div>
                 </button>`;

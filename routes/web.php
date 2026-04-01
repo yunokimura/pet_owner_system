@@ -91,8 +91,27 @@ Route::get('/adoption', function () {
 // AJAX Pagination Route
 Route::get('/adoption/paginate', function () {
     $adoptionPets = \App\Models\AdoptionPet::paginate(10);
+    
+    // Map pets to include computed age attribute
+    $pets = collect($adoptionPets->items())->map(function ($pet) {
+        return [
+            'id' => $pet->id,
+            'pet_name' => $pet->pet_name,
+            'species' => $pet->species,
+            'gender' => $pet->gender,
+            'breed' => $pet->breed,
+            'description' => $pet->description,
+            'traits' => $pet->traits,
+            'weight' => $pet->weight,
+            'image' => $pet->image,
+            'date_of_birth' => $pet->date_of_birth,
+            'is_age_estimated' => $pet->is_age_estimated,
+            'age' => $pet->age, // This calls the accessor
+        ];
+    });
+    
     return response()->json([
-        'pets' => $adoptionPets->items(),
+        'pets' => $pets,
         'currentPage' => $adoptionPets->currentPage(),
         'lastPage' => $adoptionPets->lastPage(),
         'hasMorePages' => $adoptionPets->hasMorePages(),
