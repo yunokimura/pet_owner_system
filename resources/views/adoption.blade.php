@@ -169,6 +169,39 @@
         </div>
     </section>
 
+    <!-- Filter Section -->
+    <section class="py-8 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex flex-wrap items-center gap-4">
+                    <span class="text-gray-600 font-medium">Filter by:</span>
+                    <button onclick="filterPets('all')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-primary text-white" data-filter="all">
+                        All Pets
+                    </button>
+                    <button onclick="filterPets('Dog')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200" data-filter="Dog">
+                        Dogs
+                    </button>
+                    <button onclick="filterPets('Cat')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200" data-filter="Cat">
+                        Cats
+                    </button>
+                    @auth
+                        @if($hasPets ?? false)
+                    <button onclick="filterPets('recommended')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200" data-filter="recommended">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Recommended for You
+                    </button>
+                        @endif
+                    @endauth
+                </div>
+                <div class="text-sm text-gray-500">
+                    Showing <span id="pet-count">{{ $adoptionPets->total() }}</span> pets
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Pets Grid -->
     <section id="pets-section" class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -306,15 +339,57 @@
         let adoptionPets = {!! json_encode($adoptionPets->map(function($pet) { return [ 'adoption_id' => $pet->adoption_id, 'pet_name' => $pet->pet_name, 'species' => $pet->species, 'breed' => $pet->breed, 'gender' => $pet->gender, 'age' => $pet->age, 'date_of_birth' => $pet->date_of_birth, 'is_age_estimated' => $pet->is_age_estimated, 'weight' => $pet->weight, 'description' => $pet->description, 'traits' => $pet->traits->pluck('name')->toArray(), 'image' => $pet->image ]; })) !!};
         let currentPage = {{ $adoptionPets->currentPage() }};
         let lastPage = {{ $adoptionPets->lastPage() }};
+        let currentFilter = 'all';
         
-        function loadPage(page) {
-            fetch('/adoption/paginate?page=' + page)
+        // Check for filter parameter in URL on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterParam = urlParams.get('filter');
+            
+            if (filterParam && ['all', 'Dog', 'Cat', 'recommended'].includes(filterParam)) {
+                currentFilter = filterParam;
+                updateFilterButtons(filterParam);
+            }
+        });
+        
+        function updateFilterButtons(filter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200', 'bg-green-100', 'text-green-700', 'hover:bg-green-200');
+                    btn.classList.add('bg-primary', 'text-white');
+                } else {
+                    btn.classList.remove('bg-primary', 'text-white', 'bg-green-100', 'text-green-700', 'hover:bg-green-200');
+                    btn.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
+                }
+            });
+        }
+        
+        function filterPets(filter) {
+            currentFilter = filter;
+            updateFilterButtons(filter);
+            
+            // Load first page with filter
+            loadPage(1, filter);
+        }
+        
+        function loadPage(page, filter = null) {
+            const filterParam = filter || currentFilter;
+            let url = '/adoption/paginate?page=' + page;
+            
+            if (filterParam && filterParam !== 'all') {
+                url += '&filter=' + filterParam;
+            }
+            
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     // Update pets data
                     adoptionPets = data.pets;
                     currentPage = data.currentPage;
                     lastPage = data.lastPage;
+                    
+                    // Update pet count
+                    document.getElementById('pet-count').textContent = data.total;
                     
                     // Render new pets
                     renderPets(data.pets);
@@ -325,7 +400,10 @@
                     // Scroll to pets section
                     document.getElementById('pets-section').scrollIntoView({ behavior: 'smooth' });
                 })
-                .catch(error => console.error('Error loading page:', error));
+                .catch(error => {
+                    console.error('Error loading page:', error);
+                    alert('Error loading pets. Please try again.');
+                });
         }
         
         function renderPets(pets) {

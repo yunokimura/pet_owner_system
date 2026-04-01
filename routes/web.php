@@ -6,6 +6,7 @@ use App\Http\Controllers\PetRegistrationController;
 use App\Http\Controllers\PetController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,14 +84,94 @@ Route::get('/kapon/form', function () {
 });
 
 // Adoption Page Route
-Route::get('/adoption', function () {
-    $adoptionPets = \App\Models\AdoptionPet::with('traits')->paginate(10);
-    return view('adoption', compact('adoptionPets'));
+Route::get('/adoption', function (\Illuminate\Http\Request $request) {
+    // Get user's existing pets for filtering recommendations
+    $userPets = [];
+    $petOwner = null;
+    $hasPets = false;
+    
+    if (auth()->check()) {
+        $petOwner = auth()->user()->petOwner;
+        if ($petOwner) {
+            $userPets = $petOwner->pets()->get(['species', 'sex', 'behavior', 'likes', 'dislikes']);
+            $hasPets = $petOwner->pets()->exists();
+        }
+    }
+    
+    // Apply smart filtering based on existing pets
+    $adoptionPets = \App\Models\AdoptionPet::with('traits');
+    
+    // Handle filter parameter
+    $filter = $request->input('filter', 'all');
+    
+    if ($filter === 'Dog') {
+        $adoptionPets = $adoptionPets->where('species', 'Dog');
+    } elseif ($filter === 'Cat') {
+        $adoptionPets = $adoptionPets->where('species', 'Cat');
+    } elseif ($filter === 'recommended' && auth()->check() && $petOwner && $hasPets) {
+        // Recommended filter - show pets that would work well with user's existing pets
+        $userSpecies = $petOwner->pets()->pluck('species')->unique()->toArray();
+        
+        // Get all unique species user already has
+        if (!empty($userSpecies)) {
+            // Show pets with different species (to avoid same-species conflicts)
+            // OR pets with "Good with other pets" trait
+            $adoptionPets = $adoptionPets->where(function($query) use ($userSpecies) {
+                $query->whereNotIn('species', $userSpecies)
+                      ->orWhereHas('traits', function($q) {
+                          $q->whereIn('name', ['Good with other pets', 'Friendly', 'Gentle', 'Calm']);
+                      });
+            });
+        }
+    }
+    
+    $adoptionPets = $adoptionPets->paginate(10);
+    return view('adoption', compact('adoptionPets', 'userPets', 'hasPets'));
 });
 
 // AJAX Pagination Route
-Route::get('/adoption/paginate', function () {
-    $adoptionPets = \App\Models\AdoptionPet::with('traits')->paginate(10);
+Route::get('/adoption/paginate', function (\Illuminate\Http\Request $request) {
+    \Illuminate\Support\Facades\Log::info('Filter received: ' . $request->input('filter'));
+    
+    // Get user's existing pets for filtering recommendations
+    $userPets = [];
+    $petOwner = null;
+    
+    if (auth()->check()) {
+        $petOwner = auth()->user()->petOwner;
+        if ($petOwner) {
+            $userPets = $petOwner->pets()->get(['species', 'sex', 'behavior', 'likes', 'dislikes']);
+        }
+    }
+    
+    // Apply smart filtering based on existing pets
+    $adoptionPets = \App\Models\AdoptionPet::with('traits');
+    
+    // Handle filter parameter
+    $filter = $request->input('filter', 'all');
+    
+    if ($filter === 'Dog') {
+        $adoptionPets = $adoptionPets->where('species', 'Dog');
+    } elseif ($filter === 'Cat') {
+        $adoptionPets = $adoptionPets->where('species', 'Cat');
+    } elseif ($filter === 'recommended' && auth()->check() && $petOwner && $petOwner->pets()->exists()) {
+        // Recommended filter - show pets that would work well with user's existing pets
+        $userSpecies = $petOwner->pets()->pluck('species')->unique()->toArray();
+        
+        // Get all unique species user already has
+        if (!empty($userSpecies)) {
+            // Show pets with different species (to avoid same-species conflicts)
+            // OR pets with "Good with other pets" trait
+            $adoptionPets = $adoptionPets->where(function($query) use ($userSpecies) {
+                $query->whereNotIn('species', $userSpecies)
+                      ->orWhereHas('traits', function($q) {
+                          $q->whereIn('name', ['Good with other pets', 'Friendly', 'Gentle', 'Calm']);
+                      });
+            });
+        }
+    }
+    
+    $adoptionPets = $adoptionPets->paginate(10);
     
     // Map pets to include computed age attribute
     $pets = collect($adoptionPets->items())->map(function ($pet) {
