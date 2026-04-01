@@ -205,18 +205,36 @@
                 <div class="space-y-4">
                     <p class="text-sm text-gray-500 mb-3">Filter by:</p>
                     
-                    <button onclick="filterPets('all')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-primary text-white text-left" data-filter="all">
+                    <button onclick="filterPets('filter', 'all')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-primary text-white text-left" data-filter="all" data-filter-type="filter">
                         All Pets
                     </button>
-                    <button onclick="filterPets('Dog')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="Dog">
-                        🐕 Dogs
-                    </button>
-                    <button onclick="filterPets('Cat')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="Cat">
-                        🐱 Cats
-                    </button>
+                    
+                    <!-- Species filters side by side -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="filterPets('species', 'Dog')" class="filter-btn px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="Dog" data-filter-type="species">
+                            🐕 Dogs
+                        </button>
+                        <button onclick="filterPets('species', 'Cat')" class="filter-btn px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="Cat" data-filter-type="species">
+                            🐱 Cats
+                        </button>
+                    </div>
+                    
+                    <!-- Gender filters side by side -->
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-500 mb-3">Gender:</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="filterPets('gender', 'Male')" class="filter-btn gender-btn px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="Male" data-filter-type="gender">
+                                ♂ Male
+                            </button>
+                            <button onclick="filterPets('gender', 'Female')" class="filter-btn gender-btn px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="Female" data-filter-type="gender">
+                                ♀ Female
+                            </button>
+                        </div>
+                    </div>
+                    
                     @auth
                         @if($hasPets ?? false)
-                    <button onclick="filterPets('recommended')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="recommended">
+                    <button onclick="filterPets('filter', 'recommended')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="recommended" data-filter-type="filter">
                         ⭐ Recommended for You
                     </button>
                         @endif
@@ -237,7 +255,7 @@
             
             <!-- Panel Footer -->
             <div class="p-4 border-t border-gray-200">
-                <button onclick="toggleFilterPanel()" class="w-full bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-light transition-colors">
+                <button onclick="applyFilters()" class="w-full bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-light transition-colors">
                     Apply Filters
                 </button>
             </div>
@@ -385,25 +403,59 @@
         let currentPage = {{ $adoptionPets->currentPage() }};
         let lastPage = {{ $adoptionPets->lastPage() }};
         let currentFilter = 'all';
+        let currentSpecies = 'all';
+        let currentGender = 'all';
         
-        // Check for filter parameter in URL on page load
+        // Check for filter parameters in URL on page load
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const filterParam = urlParams.get('filter');
+            const speciesParam = urlParams.get('species');
+            const genderParam = urlParams.get('gender');
             
             if (filterParam && ['all', 'Dog', 'Cat', 'recommended'].includes(filterParam)) {
                 currentFilter = filterParam;
-                updateFilterButtons(filterParam);
             }
+            if (speciesParam && ['Dog', 'Cat'].includes(speciesParam)) {
+                currentSpecies = speciesParam;
+            }
+            if (genderParam && ['Male', 'Female'].includes(genderParam)) {
+                currentGender = genderParam;
+            }
+            updateFilterButtons();
         });
         
-        function updateFilterButtons(filter) {
+        function updateFilterButtons() {
+            // Update special filters (All Pets, Recommended)
             document.querySelectorAll('.filter-btn').forEach(btn => {
-                if (btn.dataset.filter === filter) {
-                    btn.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200', 'bg-green-100', 'text-green-700', 'hover:bg-green-200');
-                    btn.classList.add('bg-primary', 'text-white');
+                const filterType = btn.dataset.filterType || 'filter';
+                const filterValue = btn.dataset.filter;
+                
+                let isActive = false;
+                
+                if (filterType === 'filter') {
+                    // Only highlight if filter is explicitly selected (not default 'all')
+                    isActive = currentFilter !== 'all' && currentFilter === filterValue;
+                } else if (filterType === 'species') {
+                    isActive = currentSpecies !== 'all' && currentSpecies === filterValue;
+                } else if (filterType === 'gender') {
+                    isActive = currentGender !== 'all' && currentGender === filterValue;
+                }
+                
+                if (isActive) {
+                    btn.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
+                    
+                    // Gender-specific colors
+                    if (filterValue === 'Male') {
+                        btn.classList.add('bg-blue-300', 'text-blue-900', 'ring-2', 'ring-blue-400');
+                    } else if (filterValue === 'Female') {
+                        btn.classList.add('bg-pink-200', 'text-pink-900', 'ring-2', 'ring-pink-300');
+                    } else {
+                        btn.classList.add('bg-primary', 'text-white', 'ring-2', 'ring-green-400');
+                    }
                 } else {
-                    btn.classList.remove('bg-primary', 'text-white', 'bg-green-100', 'text-green-700', 'hover:bg-green-200');
+                    // Remove all highlight classes
+                    btn.classList.remove('bg-primary', 'text-white', 'bg-blue-300', 'text-blue-900', 'ring-2', 'ring-blue-400', 'bg-pink-200', 'text-pink-900', 'ring-pink-300', 'ring-green-400');
                     btn.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
                 }
             });
@@ -413,17 +465,27 @@
                 'all': 'All Pets',
                 'Dog': 'Dogs',
                 'Cat': 'Cats',
-                'recommended': 'Recommended for You'
+                'recommended': 'Recommended for You',
+                'Male': 'Male',
+                'Female': 'Female'
             };
+            
+            let activeFilters = [];
+            if (currentFilter !== 'all') activeFilters.push(filterNames[currentFilter] || currentFilter);
+            if (currentSpecies !== 'all') activeFilters.push(filterNames[currentSpecies] || currentSpecies);
+            if (currentGender !== 'all') activeFilters.push(filterNames[currentGender] || currentGender);
+            
             const displayEl = document.getElementById('currentFilterDisplay');
             if (displayEl) {
-                displayEl.textContent = filterNames[filter] || 'All Pets';
+                displayEl.textContent = activeFilters.length > 0 ? activeFilters.join(', ') : 'All Pets';
             }
         }
         
         function toggleFilterPanel() {
             const panel = document.getElementById('filterPanel');
             const overlay = document.getElementById('filterOverlay');
+            
+            if (!panel || !overlay) return;
             
             if (panel.classList.contains('translate-x-full')) {
                 // Open panel
@@ -440,14 +502,41 @@
             }
         }
         
-        function filterPets(filter) {
-            currentFilter = filter;
-            updateFilterButtons(filter);
+        function filterPets(filterType, filterValue) {
+            // Check if we're clicking on an already active filter - if so, deselect it
+            let shouldDeselect = false;
             
-            // Load first page with filter
-            loadPage(1, filter);
+            if (filterType === 'filter') {
+                if (currentFilter !== 'all' && currentFilter === filterValue) {
+                    currentFilter = 'all';
+                    shouldDeselect = true;
+                } else {
+                    currentFilter = filterValue;
+                }
+            } else if (filterType === 'species') {
+                if (currentSpecies !== 'all' && currentSpecies === filterValue) {
+                    currentSpecies = 'all';
+                    shouldDeselect = true;
+                } else {
+                    currentSpecies = filterValue;
+                }
+            } else if (filterType === 'gender') {
+                if (currentGender !== 'all' && currentGender === filterValue) {
+                    currentGender = 'all';
+                    shouldDeselect = true;
+                } else {
+                    currentGender = filterValue;
+                }
+            }
             
-            // Close panel after selection
+            // Update button highlights - don't auto-apply
+            updateFilterButtons();
+        }
+        
+        function applyFilters() {
+            // Apply all current filters and close panel
+            loadPage(1);
+            
             const panel = document.getElementById('filterPanel');
             const overlay = document.getElementById('filterOverlay');
             panel.classList.add('translate-x-full');
@@ -456,12 +545,21 @@
             document.body.style.overflow = 'auto';
         }
         
-        function loadPage(page, filter = null) {
+        function loadPage(page, filter = null, species = null, gender = null) {
             const filterParam = filter || currentFilter;
+            const speciesParam = species || currentSpecies;
+            const genderParam = gender || currentGender;
+            
             let url = '/adoption/paginate?page=' + page;
             
             if (filterParam && filterParam !== 'all') {
                 url += '&filter=' + filterParam;
+            }
+            if (speciesParam && speciesParam !== 'all') {
+                url += '&species=' + speciesParam;
+            }
+            if (genderParam && genderParam !== 'all') {
+                url += '&gender=' + genderParam;
             }
             
             fetch(url)

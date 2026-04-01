@@ -101,14 +101,31 @@ Route::get('/adoption', function (\Illuminate\Http\Request $request) {
     // Apply smart filtering based on existing pets
     $adoptionPets = \App\Models\AdoptionPet::with('traits');
     
-    // Handle filter parameter
+    // Handle filter parameter (special filters like recommended)
     $filter = $request->input('filter', 'all');
     
-    if ($filter === 'Dog') {
+    // Handle species filter
+    $species = $request->input('species', 'all');
+    
+    // Handle gender filter
+    $gender = $request->input('gender', 'all');
+    
+    // Apply species filter
+    if ($species === 'Dog') {
         $adoptionPets = $adoptionPets->where('species', 'Dog');
-    } elseif ($filter === 'Cat') {
+    } elseif ($species === 'Cat') {
         $adoptionPets = $adoptionPets->where('species', 'Cat');
-    } elseif ($filter === 'recommended' && auth()->check() && $petOwner && $hasPets) {
+    }
+    
+    // Apply gender filter
+    if ($gender === 'Male') {
+        $adoptionPets = $adoptionPets->where('gender', 'Male');
+    } elseif ($gender === 'Female') {
+        $adoptionPets = $adoptionPets->where('gender', 'Female');
+    }
+    
+    // Handle special filters
+    if ($filter === 'recommended' && auth()->check() && $petOwner && $hasPets) {
         // Recommended filter - show pets that would work well with user's existing pets
         $userSpecies = $petOwner->pets()->pluck('species')->unique()->toArray();
         
@@ -150,11 +167,28 @@ Route::get('/adoption/paginate', function (\Illuminate\Http\Request $request) {
     // Handle filter parameter
     $filter = $request->input('filter', 'all');
     
-    if ($filter === 'Dog') {
+    // Handle species filter
+    $species = $request->input('species', 'all');
+    
+    // Handle gender filter
+    $gender = $request->input('gender', 'all');
+    
+    // Apply species filter
+    if ($species === 'Dog') {
         $adoptionPets = $adoptionPets->where('species', 'Dog');
-    } elseif ($filter === 'Cat') {
+    } elseif ($species === 'Cat') {
         $adoptionPets = $adoptionPets->where('species', 'Cat');
-    } elseif ($filter === 'recommended' && auth()->check() && $petOwner && $petOwner->pets()->exists()) {
+    }
+    
+    // Apply gender filter
+    if ($gender === 'Male') {
+        $adoptionPets = $adoptionPets->where('gender', 'Male');
+    } elseif ($gender === 'Female') {
+        $adoptionPets = $adoptionPets->where('gender', 'Female');
+    }
+    
+    // Handle special filters
+    if ($filter === 'recommended' && auth()->check() && $petOwner && $petOwner->pets()->exists()) {
         // Recommended filter - show pets that would work well with user's existing pets
         $userSpecies = $petOwner->pets()->pluck('species')->unique()->toArray();
         
