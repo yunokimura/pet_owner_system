@@ -280,6 +280,31 @@
                         </div>
                     </div>
                     
+                    <!-- Traits filter -->
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-500 mb-2">Traits:</p>
+                        <div class="relative">
+                            <button onclick="toggleTraitsDropdown()" type="button" class="w-full px-3 py-2 text-left text-sm bg-gray-100 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary flex items-center justify-between" id="traits-dropdown-button">
+                                <span id="selected-traits-display">Select traits</span>
+                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div id="traits-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-48 overflow-y-auto">
+                                @if(isset($availableTraits) && count($availableTraits) > 0)
+                                    @foreach($availableTraits as $trait)
+                                    <label class="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" value="{{ $trait }}" class="trait-checkbox rounded text-primary focus:ring-primary" onchange="updateTraitsSelection()">
+                                        <span class="ml-2 text-sm text-gray-700">{{ $trait }}</span>
+                                    </label>
+                                    @endforeach
+                                @else
+                                    <div class="px-3 py-2 text-sm text-gray-500">No traits available</div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    
                     @auth
                         @if($hasPets ?? false)
                     <button onclick="filterPets('filter', 'recommended')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="recommended" data-filter-type="filter">
@@ -463,6 +488,7 @@
         let currentGender = 'all';
         let currentAge = 'all';
         let currentBreeds = [];
+        let currentTraits = [];
         
         // Check for filter parameters in URL on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -472,6 +498,7 @@
             const genderParam = urlParams.get('gender');
             const ageParam = urlParams.get('age');
             const breedsParam = urlParams.get('breeds');
+            const traitsParam = urlParams.get('traits');
             
             if (filterParam && ['all', 'Dog', 'Cat', 'recommended'].includes(filterParam)) {
                 currentFilter = filterParam;
@@ -492,6 +519,14 @@
                     checkbox.checked = currentBreeds.includes(checkbox.value);
                 });
                 updateBreedSelection();
+            }
+            if (traitsParam) {
+                currentTraits = traitsParam.split(',');
+                // Check the checkboxes
+                document.querySelectorAll('.trait-checkbox').forEach(checkbox => {
+                    checkbox.checked = currentTraits.includes(checkbox.value);
+                });
+                updateTraitsSelection();
             }
             updateFilterButtons();
         });
@@ -562,6 +597,13 @@
                     activeFilters.push(currentBreeds[0]);
                 } else {
                     activeFilters.push(currentBreeds.length + ' breeds');
+                }
+            }
+            if (currentTraits.length > 0) {
+                if (currentTraits.length === 1) {
+                    activeFilters.push(currentTraits[0]);
+                } else {
+                    activeFilters.push(currentTraits.length + ' traits');
                 }
             }
             
@@ -642,12 +684,13 @@
             document.body.style.overflow = 'auto';
         }
         
-        function loadPage(page, filter = null, species = null, gender = null, age = null, breeds = null) {
+        function loadPage(page, filter = null, species = null, gender = null, age = null, breeds = null, traits = null) {
             const filterParam = filter || currentFilter;
             const speciesParam = species || currentSpecies;
             const genderParam = gender || currentGender;
             const ageParam = age || currentAge;
             const breedsParam = breeds || (currentBreeds.length > 0 ? currentBreeds.join(',') : '');
+            const traitsParam = traits || (currentTraits.length > 0 ? currentTraits.join(',') : '');
             
             let url = '/adoption/paginate?page=' + page;
             
@@ -665,6 +708,9 @@
             }
             if (breedsParam) {
                 url += '&breeds=' + breedsParam;
+            }
+            if (traitsParam) {
+                url += '&traits=' + traitsParam;
             }
             
             fetch(url)
@@ -860,12 +906,37 @@
             }
         }
         
+        function toggleTraitsDropdown() {
+            const dropdown = document.getElementById('traits-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+        
+        function updateTraitsSelection() {
+            const checkboxes = document.querySelectorAll('.trait-checkbox:checked');
+            const selectedTraits = Array.from(checkboxes).map(cb => cb.value);
+            currentTraits = selectedTraits;
+            
+            const display = document.getElementById('selected-traits-display');
+            if (selectedTraits.length === 0) {
+                display.textContent = 'Select traits';
+            } else if (selectedTraits.length === 1) {
+                display.textContent = selectedTraits[0];
+            } else {
+                display.textContent = selectedTraits.length + ' traits selected';
+            }
+        }
+        
         // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             const dropdown = document.getElementById('breed-dropdown');
             const button = document.getElementById('breed-dropdown-button');
             if (!dropdown.contains(e.target) && !button.contains(e.target)) {
                 dropdown.classList.add('hidden');
+            }
+            const traitsDropdown = document.getElementById('traits-dropdown');
+            const traitsButton = document.getElementById('traits-dropdown-button');
+            if (!traitsDropdown.contains(e.target) && !traitsButton.contains(e.target)) {
+                traitsDropdown.classList.add('hidden');
             }
         });
         

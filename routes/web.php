@@ -108,6 +108,9 @@ Route::get('/adoption', function (\Illuminate\Http\Request $request) {
         ->orderBy('breed')
         ->pluck('breed');
     
+    // Get all available traits for the filter dropdown
+    $availableTraits = \App\Models\AdoptionTrait::orderBy('name')->pluck('name');
+    
     // Handle filter parameter (special filters like recommended)
     $filter = $request->input('filter', 'all');
     
@@ -160,6 +163,15 @@ Route::get('/adoption', function (\Illuminate\Http\Request $request) {
         $adoptionPets = $adoptionPets->whereIn('breed', $breedArray);
     }
     
+    // Handle traits filter
+    $traits = $request->input('traits', 'all');
+    if ($traits !== 'all' && !empty($traits)) {
+        $traitArray = explode(',', $traits);
+        $adoptionPets = $adoptionPets->whereHas('traits', function($query) use ($traitArray) {
+            $query->whereIn('name', $traitArray);
+        });
+    }
+    
     // Handle special filters
     if ($filter === 'recommended' && auth()->check() && $petOwner && $hasPets) {
         // Recommended filter - show pets that would work well with user's existing pets
@@ -179,7 +191,7 @@ Route::get('/adoption', function (\Illuminate\Http\Request $request) {
     }
     
     $adoptionPets = $adoptionPets->paginate(10);
-    return view('adoption', compact('adoptionPets', 'userPets', 'hasPets', 'availableBreeds'));
+    return view('adoption', compact('adoptionPets', 'userPets', 'hasPets', 'availableBreeds', 'availableTraits'));
 });
 
 // AJAX Pagination Route
@@ -252,19 +264,56 @@ Route::get('/adoption/paginate', function (\Illuminate\Http\Request $request) {
         $adoptionPets = $adoptionPets->whereIn('breed', $breedArray);
     }
     
+    // Handle traits filter
+    $traits = $request->input('traits', 'all');
+    if ($traits !== 'all' && !empty($traits)) {
+        $traitArray = explode(',', $traits);
+        $adoptionPets = $adoptionPets->whereHas('traits', function($query) use ($traitArray) {
+            $query->whereIn('name', $traitArray);
+        });
+    }
+    
     // Handle special filters
     if ($filter === 'recommended' && auth()->check() && $petOwner && $petOwner->pets()->exists()) {
         // Recommended filter - show pets that would work well with user's existing pets
-        $userSpecies = $petOwner->pets()->pluck('species')->unique()->toArray();
+        $userPets = $petOwner->pets()->get(['species', 'behavior', 'likes', 'dislikes']);
+        $userSpecies = $userPets->pluck('species')->unique()->toArray();
+        
+        // Get all behavior traits from user's pets
+        $userBehaviors = [];
+        foreach ($userPets as $pet) {
+            if (is_array($pet->behavior)) {
+                $userBehaviors = array_merge($userBehaviors, $pet->behavior);
+            }
+        }
+        $userBehaviors = array_unique($userBehaviors);
+        
+        // If user has aggressive/shy pets, recommend gentle/calm pets
+        // If user has calm/playful pets, recommend playful/friendly pets
+        $recommendedTraits = [];
+        
+        if (in_array('Aggressive', $userBehaviors) || in_array('Dominant', $userBehaviors)) {
+            // Recommend gentle, calm, docile pets for aggressive owners
+            $recommendedTraits = ['Gentle', 'Calm', 'Docile', 'Quiet'];
+        } elseif (in_array('Shy', $userBehaviors) || in_array('Timid', $userBehaviors)) {
+            // Recommend gentle pets for shy owners
+            $recommendedTraits = ['Gentle', 'Calm', 'Friendly', 'Good with children'];
+        } elseif (in_array('Playful', $userBehaviors) || in_array('Energetic', $userBehaviors)) {
+            // Recommend playful/friendly pets for playful owners
+            $recommendedTraits = ['Playful', 'Friendly', 'Energetic', 'Good with other pets'];
+        } else {
+            // Default: show different species OR pets with good-with-pets traits
+            $recommendedTraits = ['Good with other pets', 'Friendly', 'Gentle', 'Calm'];
+        }
         
         // Get all unique species user already has
         if (!empty($userSpecies)) {
-            // Show pets with different species (to avoid same-species conflicts)
-            // OR pets with "Good with other pets" trait
-            $adoptionPets = $adoptionPets->where(function($query) use ($userSpecies) {
+            $adoptionPets = $adoptionPets->where(function($query) use ($userSpecies, $recommendedTraits) {
+                // Show pets with different species (to avoid same-species conflicts)
+                // OR pets with recommended traits
                 $query->whereNotIn('species', $userSpecies)
-                      ->orWhereHas('traits', function($q) {
-                          $q->whereIn('name', ['Good with other pets', 'Friendly', 'Gentle', 'Calm']);
+                      ->orWhereHas('traits', function($q) use ($recommendedTraits) {
+                          $q->whereIn('name', $recommendedTraits);
                       });
             });
         }
