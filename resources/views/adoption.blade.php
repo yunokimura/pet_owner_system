@@ -169,38 +169,83 @@
         </div>
     </section>
 
-    <!-- Filter Section -->
+    <!-- Section Title -->
     <section class="py-8 bg-white border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-wrap items-center justify-between gap-4">
-                <div class="flex flex-wrap items-center gap-4">
-                    <span class="text-gray-600 font-medium">Filter by:</span>
-                    <button onclick="filterPets('all')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-primary text-white" data-filter="all">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Available Pets</h2>
+                    <p class="text-sm text-gray-500 mt-1">Find your perfect companion</p>
+                </div>
+                <button onclick="toggleFilterPanel()" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                    </svg>
+                    <span class="font-medium">Filters</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide-out Filter Panel -->
+    <div id="filterPanel" class="fixed inset-y-0 right-0 w-80 bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="h-full flex flex-col">
+            <!-- Panel Header -->
+            <div class="flex items-center justify-between p-4 border-b border-gray-200">
+                <h2 class="text-lg font-bold text-gray-900">Filter Pets</h2>
+                <button onclick="toggleFilterPanel()" class="text-gray-400 hover:text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Panel Content -->
+            <div class="flex-1 overflow-y-auto p-4">
+                <div class="space-y-4">
+                    <p class="text-sm text-gray-500 mb-3">Filter by:</p>
+                    
+                    <button onclick="filterPets('all')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-primary text-white text-left" data-filter="all">
                         All Pets
                     </button>
-                    <button onclick="filterPets('Dog')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200" data-filter="Dog">
-                        Dogs
+                    <button onclick="filterPets('Dog')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="Dog">
+                        🐕 Dogs
                     </button>
-                    <button onclick="filterPets('Cat')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200" data-filter="Cat">
-                        Cats
+                    <button onclick="filterPets('Cat')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="Cat">
+                        🐱 Cats
                     </button>
                     @auth
                         @if($hasPets ?? false)
-                    <button onclick="filterPets('recommended')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200" data-filter="recommended">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Recommended for You
+                    <button onclick="filterPets('recommended')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="recommended">
+                        ⭐ Recommended for You
                     </button>
                         @endif
                     @endauth
                 </div>
-                <div class="text-sm text-gray-500">
-                    Showing <span id="pet-count">{{ $adoptionPets->total() }}</span> pets
+                
+                <!-- Current Filter Display -->
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <p class="text-sm text-gray-600">
+                        <span class="font-medium">Current filter:</span> 
+                        <span id="currentFilterDisplay" class="text-primary font-bold">All Pets</span>
+                    </p>
+                    <p class="text-xs text-gray-400 mt-1">
+                        Showing <span id="pet-count">{{ $adoptionPets->total() }}</span> pets
+                    </p>
                 </div>
             </div>
+            
+            <!-- Panel Footer -->
+            <div class="p-4 border-t border-gray-200">
+                <button onclick="toggleFilterPanel()" class="w-full bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-light transition-colors">
+                    Apply Filters
+                </button>
+            </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Overlay -->
+    <div id="filterOverlay" onclick="toggleFilterPanel()" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity"></div>
 
     <!-- Pets Grid -->
     <section id="pets-section" class="py-16 bg-gray-50">
@@ -362,6 +407,37 @@
                     btn.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
                 }
             });
+            
+            // Update current filter display in panel
+            const filterNames = {
+                'all': 'All Pets',
+                'Dog': 'Dogs',
+                'Cat': 'Cats',
+                'recommended': 'Recommended for You'
+            };
+            const displayEl = document.getElementById('currentFilterDisplay');
+            if (displayEl) {
+                displayEl.textContent = filterNames[filter] || 'All Pets';
+            }
+        }
+        
+        function toggleFilterPanel() {
+            const panel = document.getElementById('filterPanel');
+            const overlay = document.getElementById('filterOverlay');
+            
+            if (panel.classList.contains('translate-x-full')) {
+                // Open panel
+                panel.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Close panel
+                panel.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+                document.body.style.overflow = 'auto';
+            }
         }
         
         function filterPets(filter) {
@@ -370,6 +446,14 @@
             
             // Load first page with filter
             loadPage(1, filter);
+            
+            // Close panel after selection
+            const panel = document.getElementById('filterPanel');
+            const overlay = document.getElementById('filterOverlay');
+            panel.classList.add('translate-x-full');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+            document.body.style.overflow = 'auto';
         }
         
         function loadPage(page, filter = null) {
