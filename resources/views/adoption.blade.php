@@ -232,6 +232,29 @@
                         </div>
                     </div>
                     
+                    <!-- Age filters -->
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-500 mb-3">Age:</p>
+                        <div class="space-y-2">
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="filterPets('age', '0-6')" class="filter-btn age-btn px-3 py-2 rounded-lg text-xs font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="0-6" data-filter-type="age">
+                                    🐾 0–6 months
+                                </button>
+                                <button onclick="filterPets('age', '6-12')" class="filter-btn age-btn px-3 py-2 rounded-lg text-xs font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="6-12" data-filter-type="age">
+                                    🐾 6–12 months
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="filterPets('age', '1-3')" class="filter-btn age-btn px-3 py-2 rounded-lg text-xs font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="1-3" data-filter-type="age">
+                                    🐾 1–3 years
+                                </button>
+                                <button onclick="filterPets('age', '3+')" class="filter-btn age-btn px-3 py-2 rounded-lg text-xs font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="3+" data-filter-type="age">
+                                    🐾 3+ years
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
                     @auth
                         @if($hasPets ?? false)
                     <button onclick="filterPets('filter', 'recommended')" class="filter-btn w-full px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 text-left" data-filter="recommended" data-filter-type="filter">
@@ -405,6 +428,7 @@
         let currentFilter = 'all';
         let currentSpecies = 'all';
         let currentGender = 'all';
+        let currentAge = 'all';
         
         // Check for filter parameters in URL on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -412,6 +436,7 @@
             const filterParam = urlParams.get('filter');
             const speciesParam = urlParams.get('species');
             const genderParam = urlParams.get('gender');
+            const ageParam = urlParams.get('age');
             
             if (filterParam && ['all', 'Dog', 'Cat', 'recommended'].includes(filterParam)) {
                 currentFilter = filterParam;
@@ -421,6 +446,9 @@
             }
             if (genderParam && ['Male', 'Female'].includes(genderParam)) {
                 currentGender = genderParam;
+            }
+            if (ageParam && ['0-6', '6-12', '1-3', '3+'].includes(ageParam)) {
+                currentAge = ageParam;
             }
             updateFilterButtons();
         });
@@ -445,6 +473,8 @@
                     isActive = currentSpecies !== 'all' && currentSpecies === filterValue;
                 } else if (filterType === 'gender') {
                     isActive = currentGender !== 'all' && currentGender === filterValue;
+                } else if (filterType === 'age') {
+                    isActive = currentAge !== 'all' && currentAge === filterValue;
                 }
                 
                 if (isActive) {
@@ -472,13 +502,18 @@
                 'Cat': 'Cats',
                 'recommended': 'Recommended for You',
                 'Male': 'Male',
-                'Female': 'Female'
+                'Female': 'Female',
+                '0-6': '0–6 months',
+                '6-12': '6–12 months',
+                '1-3': '1–3 years',
+                '3+': '3+ years'
             };
             
             let activeFilters = [];
             if (currentFilter !== 'all') activeFilters.push(filterNames[currentFilter] || currentFilter);
             if (currentSpecies !== 'all') activeFilters.push(filterNames[currentSpecies] || currentSpecies);
             if (currentGender !== 'all') activeFilters.push(filterNames[currentGender] || currentGender);
+            if (currentAge !== 'all') activeFilters.push(filterNames[currentAge] || currentAge);
             
             const displayEl = document.getElementById('currentFilterDisplay');
             if (displayEl) {
@@ -532,6 +567,13 @@
                 } else {
                     currentGender = filterValue;
                 }
+            } else if (filterType === 'age') {
+                if (currentAge !== 'all' && currentAge === filterValue) {
+                    currentAge = 'all';
+                    shouldDeselect = true;
+                } else {
+                    currentAge = filterValue;
+                }
             }
             
             // Update button highlights - don't auto-apply
@@ -550,10 +592,11 @@
             document.body.style.overflow = 'auto';
         }
         
-        function loadPage(page, filter = null, species = null, gender = null) {
+        function loadPage(page, filter = null, species = null, gender = null, age = null) {
             const filterParam = filter || currentFilter;
             const speciesParam = species || currentSpecies;
             const genderParam = gender || currentGender;
+            const ageParam = age || currentAge;
             
             let url = '/adoption/paginate?page=' + page;
             
@@ -565,6 +608,9 @@
             }
             if (genderParam && genderParam !== 'all') {
                 url += '&gender=' + genderParam;
+            }
+            if (ageParam && ageParam !== 'all') {
+                url += '&age=' + ageParam;
             }
             
             fetch(url)

@@ -110,6 +110,9 @@ Route::get('/adoption', function (\Illuminate\Http\Request $request) {
     // Handle gender filter
     $gender = $request->input('gender', 'all');
     
+    // Handle age filter
+    $age = $request->input('age', 'all');
+    
     // Apply species filter
     if ($species === 'Dog') {
         $adoptionPets = $adoptionPets->where('species', 'Dog');
@@ -122,6 +125,23 @@ Route::get('/adoption', function (\Illuminate\Http\Request $request) {
         $adoptionPets = $adoptionPets->where('gender', 'Male');
     } elseif ($gender === 'Female') {
         $adoptionPets = $adoptionPets->where('gender', 'Female');
+    }
+    
+    // Apply age filter (using date_of_birth)
+    if ($age === '0-6') {
+        $adoptionPets = $adoptionPets->whereNotNull('date_of_birth')
+                                   ->where('date_of_birth', '>=', now()->subMonths(6));
+    } elseif ($age === '6-12') {
+        $adoptionPets = $adoptionPets->whereNotNull('date_of_birth')
+                                   ->where('date_of_birth', '<', now()->subMonths(6))
+                                   ->where('date_of_birth', '>=', now()->subMonths(12));
+    } elseif ($age === '1-3') {
+        $adoptionPets = $adoptionPets->whereNotNull('date_of_birth')
+                                   ->where('date_of_birth', '<', now()->subMonths(12))
+                                   ->where('date_of_birth', '>=', now()->subYears(3));
+    } elseif ($age === '3+') {
+        $adoptionPets = $adoptionPets->whereNotNull('date_of_birth')
+                                   ->where('date_of_birth', '<', now()->subYears(3));
     }
     
     // Handle special filters
@@ -173,6 +193,9 @@ Route::get('/adoption/paginate', function (\Illuminate\Http\Request $request) {
     // Handle gender filter
     $gender = $request->input('gender', 'all');
     
+    // Handle age filter
+    $age = $request->input('age', 'all');
+    
     // Apply species filter
     if ($species === 'Dog') {
         $adoptionPets = $adoptionPets->where('species', 'Dog');
@@ -185,6 +208,23 @@ Route::get('/adoption/paginate', function (\Illuminate\Http\Request $request) {
         $adoptionPets = $adoptionPets->where('gender', 'Male');
     } elseif ($gender === 'Female') {
         $adoptionPets = $adoptionPets->where('gender', 'Female');
+    }
+    
+    // Apply age filter (using date_of_birth)
+    if ($age === '0-6') {
+        $adoptionPets = $adoptionPets->whereNotNull('date_of_birth')
+                                   ->where('date_of_birth', '>=', now()->subMonths(6));
+    } elseif ($age === '6-12') {
+        $adoptionPets = $adoptionPets->whereNotNull('date_of_birth')
+                                   ->where('date_of_birth', '<', now()->subMonths(6))
+                                   ->where('date_of_birth', '>=', now()->subMonths(12));
+    } elseif ($age === '1-3') {
+        $adoptionPets = $adoptionPets->whereNotNull('date_of_birth')
+                                   ->where('date_of_birth', '<', now()->subMonths(12))
+                                   ->where('date_of_birth', '>=', now()->subYears(3));
+    } elseif ($age === '3+') {
+        $adoptionPets = $adoptionPets->whereNotNull('date_of_birth')
+                                   ->where('date_of_birth', '<', now()->subYears(3));
     }
     
     // Handle special filters
