@@ -788,13 +788,88 @@
             let html = '';
             
             if (pets.length === 0) {
-                // Show message when no pets found
+                // Generate dynamic message based on active filters
+                const filterNames = {
+                    'all': 'All Pets',
+                    'Dog': 'Dogs',
+                    'Cat': 'Cats',
+                    'recommended': 'recommended',
+                    'Male': 'male',
+                    'Female': 'female',
+                    '0-6': '0–6 months',
+                    '6-12': '6–12 months',
+                    '1-3': '1–3 years',
+                    '3+': '3+ years'
+                };
+                
+                let activeFilters = [];
+                let filterMessage = '';
+                
+                // Check which filters are active
+                if (currentFilter !== 'all' && currentFilter !== 'Dog' && currentFilter !== 'Cat') {
+                    // Special filters like 'recommended'
+                    if (currentFilter === 'recommended') {
+                        activeFilters.push('recommended');
+                    }
+                }
+                if (currentSpecies !== 'all') {
+                    activeFilters.push('species: ' + filterNames[currentSpecies] || currentSpecies);
+                }
+                if (currentGender !== 'all') {
+                    activeFilters.push('gender: ' + filterNames[currentGender] || currentGender);
+                }
+                if (currentAge !== 'all') {
+                    activeFilters.push('age: ' + (filterNames[currentAge] || currentAge));
+                }
+                if (currentBreeds.length > 0) {
+                    if (currentBreeds.length === 1) {
+                        activeFilters.push('breed: ' + currentBreeds[0]);
+                    } else {
+                        activeFilters.push('breed: ' + currentBreeds.join(', '));
+                    }
+                }
+                if (currentTraits.length > 0) {
+                    if (currentTraits.length === 1) {
+                        activeFilters.push('trait: ' + currentTraits[0]);
+                    } else {
+                        activeFilters.push('traits: ' + currentTraits.join(', '));
+                    }
+                }
+                
+                // Generate appropriate message
+                if (activeFilters.length === 0) {
+                    filterMessage = 'No pets found.';
+                } else if (activeFilters.length === 1) {
+                    // Single filter - use singular message
+                    const filter = activeFilters[0];
+                    if (filter.startsWith('species: ')) {
+                        const species = filter.replace('species: ', '');
+                        filterMessage = 'No ' + species + 's available for adoption.';
+                    } else if (filter.startsWith('gender: ')) {
+                        const gender = filter.replace('gender: ', '');
+                        filterMessage = 'No ' + gender + ' pets available.';
+                    } else if (filter.startsWith('age: ')) {
+                        filterMessage = 'No pets found in this age range.';
+                    } else if (filter.startsWith('breed: ')) {
+                        filterMessage = 'No pets found with this breed.';
+                    } else if (filter.startsWith('trait: ')) {
+                        filterMessage = 'No pets have this trait.';
+                    } else if (filter === 'recommended') {
+                        filterMessage = 'No recommended pets found for you at this time.';
+                    } else {
+                        filterMessage = 'No pets found with this filter.';
+                    }
+                } else {
+                    // Multiple filters - use plural message
+                    filterMessage = 'No pets found with these filters.';
+                }
+                
                 html = `<div class="col-span-full text-center py-12">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                     </svg>
-                    <p class="text-gray-500 text-lg">No pets found in this age range.</p>
-                    <p class="text-gray-400 text-sm mt-1">Try selecting a different age filter or clear the filter.</p>
+                    <p class="text-gray-500 text-lg">${filterMessage}</p>
+                    <p class="text-gray-400 text-sm mt-1">Try selecting different filters or clear the filter.</p>
                 </div>`;
             } else {
                 pets.forEach(pet => {
