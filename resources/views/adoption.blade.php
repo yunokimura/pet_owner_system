@@ -191,7 +191,7 @@
                         <div class="flex items-center space-x-3 mt-2 text-xs">
                             <span class="@if($pet->gender === 'Female') text-pink-500 @else text-blue-500 @endif">{{ $pet->gender === 'Female' ? '♀' : '♂' }} {{ $pet->gender }}</span>
                             <span class="text-gray-400">•</span>
-                            <span class="text-gray-600">{{ $pet->age }} years</span>
+                            <span class="text-gray-600">{{ $pet->age }}</span>
                         </div>
                     </div>
                 </button>
@@ -414,7 +414,32 @@
             document.getElementById('modalPetName').textContent = pet.pet_name;
             document.getElementById('modalPetSpecies').textContent = pet.species;
             document.getElementById('modalPetBreed').textContent = pet.breed;
-            document.getElementById('modalPetAge').textContent = pet.age + ' years old';
+            
+            // Calculate age from date_of_birth
+            let ageText = '';
+            if (pet.date_of_birth) {
+                const birthDate = new Date(pet.date_of_birth);
+                const today = new Date();
+                const years = Math.floor((today - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
+                const months = Math.floor(((today - birthDate) % (365.25 * 24 * 60 * 60 * 1000)) / (30.44 * 24 * 60 * 60 * 1000));
+                
+                if (years < 1) {
+                    ageText = months + ' month' + (months !== 1 ? 's' : '') + ' old';
+                } else {
+                    ageText = years + ' year' + (years !== 1 ? 's' : '') + ' old';
+                }
+                
+                if (pet.is_age_estimated) {
+                    ageText += ' (estimated)';
+                }
+                
+                // Add birth date display
+                const birthDateStr = new Date(pet.date_of_birth).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                document.getElementById('modalPetAge').textContent = ageText + ' | Born: ' + birthDateStr;
+            } else {
+                document.getElementById('modalPetAge').textContent = 'Age not available';
+            }
+            
             document.getElementById('modalPetGender').textContent = pet.gender;
             document.getElementById('modalPetWeight').textContent = pet.weight || '';
             document.getElementById('modalPetDescription').textContent = pet.description || 'No description available';
