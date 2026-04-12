@@ -44,12 +44,31 @@ class RegisteredUserController extends Controller
             'dob_day' => ['required', 'integer', 'min:1', 'max:31'],
             'phone_number' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'block_lot_phase_house_no' => ['required', 'string', 'max:255'],
+            'block_lot_phase_house_no' => ['nullable', 'string', 'max:255'],
+            'block_lot_phase_house_no_1' => ['nullable', 'string', 'max:50'],
+            'block_lot_phase_house_no_2' => ['nullable', 'string', 'max:50'],
+            'block_lot_phase_house_no_3' => ['nullable', 'string', 'max:50'],
+            'block_lot_phase_house_no_4' => ['nullable', 'string', 'max:50'],
             'street_name' => ['required', 'string', 'max:255'],
             'subdivision' => ['required', 'string', 'max:255'],
             'barangay' => ['required', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
+        // Combine block/lot/phase/house no fields
+        $houseNo = $request->block_lot_phase_house_no;
+        if (!$houseNo && ($request->block_lot_phase_house_no_1 || $request->block_lot_phase_house_no_2 || $request->block_lot_phase_house_no_3)) {
+            $parts = [];
+            if ($request->block_lot_phase_house_no_1) $parts[] = 'Blk ' . $request->block_lot_phase_house_no_1;
+            if ($request->block_lot_phase_house_no_2) $parts[] = 'Lot ' . $request->block_lot_phase_house_no_2;
+            if ($request->block_lot_phase_house_no_3) $parts[] = 'Ph ' . $request->block_lot_phase_house_no_3;
+            if ($request->block_lot_phase_house_no_4) $parts[] = '# ' . $request->block_lot_phase_house_no_4;
+            $houseNo = implode(' ', $parts);
+        }
+
+        if (!$houseNo) {
+            return back()->withErrors(['block_lot_phase_house_no' => 'Block/Lot/Phase is required']);
+        }
 
         // Create user with 'owner' role
         $user = User::create([
@@ -69,7 +88,7 @@ class RegisteredUserController extends Controller
             'middle_name' => $request->middle_name,
             'suffix' => $request->suffix,
             'phone_number' => $request->phone_number,
-            'house_no' => $request->block_lot_phase_house_no,
+            'house_no' => $houseNo,
             'street' => $request->street_name,
             'subdivision' => $request->subdivision,
             'barangay' => $request->barangay,
