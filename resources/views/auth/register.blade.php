@@ -198,6 +198,27 @@
                             @enderror
                         </div>
 
+                        <!-- Alternate Phone Number -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium mb-1.5">
+                                Alternate Phone Number
+                            </label>
+                            <div class="flex">
+                                <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
+                                    +63
+                                </span>
+                                <input type="tel" name="alternate_phone_number" value="{{ old('alternate_phone_number') }}" placeholder="943 210 2012" maxlength="12"
+                                       inputmode="numeric" pattern="[0-9\s]{12}"
+                                       onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                       oninput="this.value = this.value.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3').trim()"
+                                       class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300
+                                       focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none @error('alternate_phone_number') border-red-500 @enderror">
+                            </div>
+                            @error('alternate_phone_number')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <!-- Email Address -->
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium mb-1.5">
