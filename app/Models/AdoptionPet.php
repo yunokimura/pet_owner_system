@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Carbon\Carbon;
 
 class AdoptionPet extends Model
@@ -28,26 +29,28 @@ class AdoptionPet extends Model
 
     protected $appends = ['age'];
 
-    /**
-     * Get the traits for this pet.
-     */
     public function traits(): BelongsToMany
     {
         return $this->belongsToMany(AdoptionTrait::class, 'pet_traits', 'adoption_id', 'trait_id')
             ->withTimestamps();
     }
 
-    /**
-     * Get the pet's weight with "kg" appended.
-     */
+    public function applications(): BelongsToMany
+    {
+        return $this->belongsToMany(AdoptionApplication::class, 'adoption_selected_pets', 'adoption_pet_id', 'adoption_application_id')
+                    ->withTimestamps();
+    }
+
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'model');
+    }
+
     public function getWeightAttribute($value)
     {
         return $value ? $value . ' kg' : null;
     }
 
-    /**
-     * Get the pet's age from date_of_birth.
-     */
     public function getAgeAttribute()
     {
         if (!$this->date_of_birth) {

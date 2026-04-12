@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Pet extends Model
 {
@@ -34,11 +37,6 @@ class Pet extends Model
         'allergy',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'birthdate' => 'datetime',
         'training' => 'array',
@@ -50,11 +48,19 @@ class Pet extends Model
         'allergy' => 'array',
     ];
 
-    /**
-     * Get the pet owner that owns the pet.
-     */
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(PetOwner::class, 'owner_id', 'owner_id');
+    }
+
+    public function medicalRecords(): BelongsToMany
+    {
+        return $this->belongsToMany(MedicalRecord::class, 'medical_record_pets', 'pet_id', 'medical_record_id')
+                    ->withTimestamps();
+    }
+
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'model');
     }
 }
