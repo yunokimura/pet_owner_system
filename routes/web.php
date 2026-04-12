@@ -355,7 +355,8 @@ Route::get('/adoption/form', function () {
     $user = auth()->user();
     $petOwner = $user ? $user->petOwner : null;
     $traits = \App\Models\AdoptionTrait::orderBy('name')->get();
-    return view('adoption_form', compact('user', 'petOwner', 'traits'));
+    $adoptionPets = \App\Models\AdoptionPet::all();
+    return view('adoption_form', compact('user', 'petOwner', 'traits', 'adoptionPets'));
 });
 
 // Store Adoption Pet Route
