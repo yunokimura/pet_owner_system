@@ -609,7 +609,6 @@
                         <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Pet Registration</a></li>
                         <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Anti-Rabies Vaccination</a></li>
                         <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Pet Adoption</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Report Animal Cruelty</a></li>
                     </ul>
                 </div>
                 

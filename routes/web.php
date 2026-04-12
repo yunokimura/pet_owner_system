@@ -361,16 +361,6 @@ Route::get('/adoption/form', function () {
 // Store Adoption Pet Route
 Route::post('/adoption', [\App\Http\Controllers\AdoptionPetController::class, 'store'])->name('adoption.store');
 
-// Animal Cruelty Page Route
-Route::get('/animal-cruelty', function () {
-    return view('animal_cruelty_page');
-});
-
-// Animal Cruelty Form Page Route
-Route::get('/animal-cruelty/form', function () {
-    return view('animal_cruelty_form');
-});
-
 // Missing Pets Page Route
 Route::get('/missing-pets', function () {
     return view('missing_pets_page');
