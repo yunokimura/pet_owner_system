@@ -255,7 +255,7 @@
                                     <span class="inline-flex items-center px-4 py-2.5 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
                                         +63
                                     </span>
-                                    <input type="tel" name="alt_mobile_number" placeholder="943 210 2012" maxlength="12"
+                                    <input type="tel" name="alt_mobile_number" placeholder="943 210 2012" maxlength="12" value="{{ old('alt_mobile_number', $petOwner->alternate_phone_number ?? '') }}"
                                            class="flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                                 </div>
                             </div>
