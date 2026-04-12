@@ -247,7 +247,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-500 mb-1">Block/Lot/Phase/House No.</label>
-                            <p class="text-gray-900 font-medium">{{ $user->petOwner->house_no ?? 'N/A' }}</p>
+                            <p class="text-gray-900 font-medium">{{ $user->petOwner->blk_lot_ph ?? 'N/A' }}</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-500 mb-1">Street Name</label>
@@ -279,7 +279,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Block/Lot/Phase/House No.</label>
-                            <input type="text" name="house_no" value="{{ $user->petOwner->house_no ?? '' }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <input type="text" name="blk_lot_ph" value="{{ $user->petOwner->blk_lot_ph ?? '' }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Street Name</label>

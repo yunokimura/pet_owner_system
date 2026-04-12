@@ -88,7 +88,7 @@ class RegisteredUserController extends Controller
             'middle_name' => $request->middle_name,
             'suffix' => $request->suffix,
             'phone_number' => $request->phone_number,
-            'house_no' => $houseNo,
+            'blk_lot_ph' => $houseNo,
             'street' => $request->street_name,
             'subdivision' => $request->subdivision,
             'barangay' => $request->barangay,

@@ -209,7 +209,7 @@
                             <label class="block text-sm font-medium mb-1.5">
                                 House No. / Unit No. <span class="text-red-500">*</span>
                             </label>
-                            <input type="text" name="house_no" placeholder="House No. / Unit No." value="{{ old('house_no', $petOwner->house_no ?? '') }}"
+                            <input type="text" name="blk_lot_ph" placeholder="House No. / Unit No." value="{{ old('blk_lot_ph', $petOwner->blk_lot_ph ?? '') }}"
                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
                         </div>
 

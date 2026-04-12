@@ -69,7 +69,7 @@ class ProfileController extends Controller
         } elseif ($editSection === 'address') {
             // Validate address information
             $request->validate([
-                'house_no' => ['required', 'string', 'max:255'],
+                'blk_lot_ph' => ['required', 'string', 'max:255'],
                 'street' => ['required', 'string', 'max:255'],
                 'subdivision' => ['required', 'string', 'max:255'],
                 'barangay' => ['required', 'string', 'max:255'],
@@ -77,7 +77,7 @@ class ProfileController extends Controller
 
             // Update PetOwner address
             if ($user->petOwner) {
-                $user->petOwner->house_no = $request->house_no;
+                $user->petOwner->blk_lot_ph = $request->blk_lot_ph;
                 $user->petOwner->street = $request->street;
                 $user->petOwner->subdivision = $request->subdivision;
                 $user->petOwner->barangay = $request->barangay;

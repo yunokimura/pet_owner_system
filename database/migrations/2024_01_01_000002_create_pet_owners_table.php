@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('middle_name')->nullable();
             $table->string('suffix')->nullable();
             $table->string('phone_number');
-            $table->string('house_no');
+            $table->string('blk_lot_ph');
             $table->string('street');
             $table->string('subdivision');
             $table->string('barangay');

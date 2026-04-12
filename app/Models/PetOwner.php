@@ -19,7 +19,7 @@ class PetOwner extends Model
         'suffix',
         'phone_number',
         'alternate_phone_number',
-        'house_no',
+        'blk_lot_ph',
         'street',
         'subdivision',
         'barangay',
