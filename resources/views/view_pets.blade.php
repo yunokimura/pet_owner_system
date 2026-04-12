@@ -618,8 +618,8 @@
                     <ul class="space-y-2 text-gray-600 text-sm">
                         <li>City Veterinary Office</li>
                         <li>Dasmariñas City, Cavite</li>
-                        <li>Phone: (046) 123-4567</li>
-                        <li>Email: vet@dasmarinas.gov.ph</li>
+                        <li>Phone: 0966-881-2010</li>
+                        <li>Email: vetdasma@yahoo.com</li>
                     </ul>
                 </div>
             </div>
