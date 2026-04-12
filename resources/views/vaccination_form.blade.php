@@ -269,11 +269,11 @@
                 <div class="mb-8">
                     <h3 class="text-lg font-semibold mb-4 pb-2 border-b bg-green-50 px-4 py-2 rounded-lg">Appointment Date</h3>
 
-                    <!-- Appointment Date -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Appointment Date <span class="text-red-500">*</span></label>
-                        <input type="date" name="appointment_date" value="{{ old('appointment_date') }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                    </div>
+                    <!-- Slot Picker -->
+                    @include('components.appointment-slot-picker', [
+                        'serviceType' => 'vaccination',
+                        'fieldName' => 'appointment'
+                    ])
                 </div>
 
                 <!-- MEDICAL HISTORY -->

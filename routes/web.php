@@ -84,6 +84,62 @@ Route::get('/kapon/form', function () {
     return view('kapon_form', compact('user', 'petOwner', 'petsArray'));
 });
 
+// Kapon Form POST Route
+Route::post('/kapon/form', function (\Illuminate\Http\Request $request) {
+    // Validate
+    $validated = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|email',
+        'mobile_number' => 'required|string|max:20',
+        'blk_lot_ph' => 'required|string|max:255',
+        'street' => 'required|string|max:255',
+        'barangay' => 'required|string|max:255',
+        'selected_pets' => 'required|array|min:1',
+        'appointment_date_date' => 'required|date',
+        'appointment_date_time' => 'required',
+    ]);
+
+    // Create medical record (kapon)
+    $user = auth()->user();
+    $petOwner = $user->petOwner;
+    
+    $medicalRecord = \App\Models\MedicalRecord::create([
+        'type' => 'kapon',
+        'owner_id' => $petOwner->owner_id,
+        'appointment_date' => $request->appointment_date_date,
+        'status' => 'pending',
+        'metadata' => json_encode([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'mobile_number' => $request->mobile_number,
+            'alt_mobile_number' => $request->alt_mobile_number,
+            'blk_lot_ph' => $request->blk_lot_ph,
+            'street' => $request->street,
+            'barangay' => $request->barangay,
+        ]),
+    ]);
+
+    // Link pets to record using the many-to-many relationship
+    $medicalRecord->pets()->attach($request->selected_pets);
+
+    // Create appointment
+    \App\Models\Appointment::create([
+        'appointment_date' => $request->appointment_date_date,
+        'appointment_time' => $request->appointment_date_time,
+        'service_type' => 'kapon',
+        'service_id' => $medicalRecord->id,
+        'status' => 'pending',
+        'total_weight' => 2, // Kapon = 2 units
+        'metadata' => json_encode([
+            'pet_ids' => $request->selected_pets,
+        ]),
+    ]);
+
+    return redirect('/kapon')->with('status', 'Kapon application submitted successfully!');
+});
+
 // Adoption Page Route
 Route::get('/adoption', function (\Illuminate\Http\Request $request) {
     // Get user's existing pets for filtering recommendations
@@ -360,6 +416,107 @@ Route::get('/adoption/form', function () {
     return view('adoption_form', compact('user', 'petOwner', 'traits', 'adoptionPets'));
 });
 
+// Adoption Form POST Route
+Route::post('/adoption/form', function (\Illuminate\Http\Request $request) {
+    // Validate
+    $validated = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|email',
+        'mobile_number' => 'required|string|max:20',
+        'blk_lot_ph' => 'required|string|max:255',
+        'street' => 'required|string|max:255',
+        'barangay' => 'required|string|max:255',
+        'birth_date' => 'required|date',
+        'company' => 'required|string|max:255',
+        'status' => 'required',
+        'adopted_before' => 'required',
+        'selected_adoption_pets' => 'required|array|min:1',
+        'interview_date_date' => 'required|date',
+        'interview_date_time' => 'required',
+        'zoom_interview' => 'required',
+        'shelter_visit' => 'required',
+    ]);
+
+    // Create adoption application
+    $user = auth()->user();
+    $petOwner = $user->petOwner;
+    
+    $application = \App\Models\AdoptionApplication::create([
+        'owner_id' => $petOwner ? $petOwner->owner_id : null,
+        'user_id' => $user->id,
+        'first_name' => $request->first_name,
+        'last_name' => $request->last_name,
+        'email' => $request->email,
+        'mobile_number' => $request->mobile_number,
+        'alt_mobile_number' => $request->alt_mobile_number,
+        'blk_lot_ph' => $request->blk_lot_ph,
+        'street' => $request->street,
+        'barangay' => $request->barangay,
+        'birth_date' => $request->birth_date,
+        'occupation' => $request->occupation,
+        'company' => $request->company,
+        'social_media' => $request->social_media,
+        'status' => $request->status,
+        'adopted_before' => $request->adopted_before,
+        'alt_first_name' => $request->alt_first_name,
+        'alt_last_name' => $request->alt_last_name,
+        'alt_relationship' => $request->alt_relationship,
+        'alt_phone' => $request->alt_phone,
+        'alt_email' => $request->alt_email,
+        'building_type' => $request->building_type,
+        'rent' => $request->rent,
+        'pet_move_plan' => $request->pet_move_plan,
+        'live_with' => json_encode($request->live_with ?? []),
+        'allergic' => $request->allergic,
+        'pet_caregiver' => $request->pet_caregiver,
+        'financial_responsible' => $request->financial_responsible,
+        'emergency_care' => $request->emergency_care,
+        'hours_alone' => $request->hours_alone,
+        'introduction_steps' => $request->introduction_steps,
+        'family_support' => $request->family_support,
+        'family_support_explain' => $request->family_support_explain,
+        'other_pets' => $request->other_pets,
+        'past_pets' => $request->past_pets,
+        'zoom_interview' => $request->zoom_interview,
+        'zoom_date' => $request->zoom_date,
+        'zoom_time_hour' => $request->zoom_time_hour,
+        'zoom_time_min' => $request->zoom_time_min,
+        'zoom_time_ampm' => $request->zoom_time_ampm,
+        'shelter_visit' => $request->shelter_visit,
+        'interview_date' => $request->interview_date_date,
+        'interview_time' => $request->interview_date_time,
+        'status' => 'pending',
+    ]);
+
+    // Link selected pets
+    foreach ($request->selected_adoption_pets as $petId) {
+        \Illuminate\Support\Facades\DB::table('adoption_selected_pets')->insert([
+            'adoption_application_id' => $application->id,
+            'adoption_pet_id' => $petId,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    // Create appointment for interview
+    \App\Models\Appointment::create([
+        'appointment_date' => $request->interview_date_date,
+        'appointment_time' => $request->interview_date_time,
+        'service_type' => 'adoption_interview',
+        'service_id' => $application->id,
+        'status' => 'pending',
+        'total_weight' => 1, // 1 unit for interview
+        'metadata' => json_encode([
+            'selected_pet_ids' => $request->selected_adoption_pets,
+            'zoom_interview' => $request->zoom_interview,
+            'shelter_visit' => $request->shelter_visit,
+        ]),
+    ]);
+
+    return redirect('/adoption')->with('status', 'Adoption application submitted successfully!');
+});
+
 // Store Adoption Pet Route
 Route::post('/adoption', [\App\Http\Controllers\AdoptionPetController::class, 'store'])->name('adoption.store');
 
@@ -538,6 +695,66 @@ Route::get('/vaccination/form', function () {
     })->toArray();
     
     return view('vaccination_form', compact('user', 'petOwner', 'petsArray'));
+});
+
+// Vaccination Form POST Route
+Route::post('/vaccination/form', function (\Illuminate\Http\Request $request) {
+    // Validate
+    $validated = $request->validate([
+        'owner_first_name' => 'required|string|max:255',
+        'owner_last_name' => 'required|string|max:255',
+        'owner_email' => 'required|email',
+        'owner_contact' => 'required|string|max:20',
+        'blk_lot_ph' => 'required|string|max:255',
+        'street' => 'required|string|max:255',
+        'barangay' => 'required|string|max:255',
+        'selected_pets' => 'required|array|min:1',
+        'appointment_date_date' => 'required|date',
+        'appointment_date_time' => 'required',
+        'recent_surgery' => 'required|in:yes,no',
+    ]);
+
+    // Create medical record (vaccination)
+    $user = auth()->user();
+    $petOwner = $user->petOwner;
+    
+    $medicalRecord = \App\Models\MedicalRecord::create([
+        'type' => 'vaccination',
+        'owner_id' => $petOwner->owner_id,
+        'appointment_date' => $request->appointment_date_date,
+        'status' => 'pending',
+        'metadata' => json_encode([
+            'owner_first_name' => $request->owner_first_name,
+            'owner_last_name' => $request->owner_last_name,
+            'owner_email' => $request->owner_email,
+            'owner_contact' => $request->owner_contact,
+            'alt_mobile_number' => $request->alt_mobile_number,
+            'blk_lot_ph' => $request->blk_lot_ph,
+            'street' => $request->street,
+            'barangay' => $request->barangay,
+            'last_anti_rabies_date' => $request->last_anti_rabies_date,
+            'recent_surgery' => $request->recent_surgery,
+        ]),
+    ]);
+
+    // Link pets to record
+    $medicalRecord->pets()->attach($request->selected_pets);
+
+    // Create appointment
+    $petCount = count($request->selected_pets);
+    \App\Models\Appointment::create([
+        'appointment_date' => $request->appointment_date_date,
+        'appointment_time' => $request->appointment_date_time,
+        'service_type' => 'vaccination',
+        'service_id' => $medicalRecord->id,
+        'status' => 'pending',
+        'total_weight' => $petCount, // 1 unit per pet
+        'metadata' => json_encode([
+            'pet_ids' => $request->selected_pets,
+        ]),
+    ]);
+
+    return redirect('/vaccination')->with('status', 'Vaccination application submitted successfully!');
 });
 
 // Owner Dashboard Route

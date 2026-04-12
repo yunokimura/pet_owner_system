@@ -346,14 +346,11 @@
                         </div>
                     </div>
 
-                    <!-- Desired Date of Kapon -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium mb-1.5">
-                            Desired Date of Kapon (Spay/Neuter) <span class="text-red-500">*</span>
-                        </label>
-                        <input type="date" name="appointment_date" id="appointment_date"
-                               class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
-                    </div>
+                    <!-- Slot Picker for Kapon -->
+                    @include('components.appointment-slot-picker', [
+                        'serviceType' => 'kapon',
+                        'fieldName' => 'appointment'
+                    ])
 
                     <!-- Photo Uploads for Each Selected Pet -->
                     <div id="petPhotosContainer" class="mb-6">

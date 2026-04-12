@@ -1147,6 +1147,18 @@
                                 </label>
                             </div>
                         </div>
+
+                        <!-- Interview Appointment Slot Picker -->
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <h4 class="text-md font-semibold text-gray-800 mb-4">Schedule Interview Appointment</h4>
+                            <p class="text-sm text-gray-500 mb-4">
+                                Select a date and time for your adoption interview. You can choose Zoom or in-person.
+                            </p>
+                            @include('components.appointment-slot-picker', [
+                                'serviceType' => 'adoption_interview',
+                                'fieldName' => 'interview'
+                            ])
+                        </div>
                     </div>
 
                     <!-- Navigation Buttons for Part 6 -->
