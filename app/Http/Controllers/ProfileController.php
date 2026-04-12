@@ -59,6 +59,7 @@ class ProfileController extends Controller
                 $user->petOwner->middle_name = $request->middle_name;
                 $user->petOwner->last_name = $request->last_name;
                 $user->petOwner->phone_number = $request->phone_number;
+                $user->petOwner->alternate_phone_number = $request->alternate_phone_number;
                 
                 if ($request->filled('dob_year') && $request->filled('dob_month') && $request->filled('dob_day')) {
                     $user->petOwner->date_of_birth = $dateOfBirth;
