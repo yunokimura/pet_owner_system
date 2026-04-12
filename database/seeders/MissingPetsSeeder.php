@@ -42,7 +42,7 @@ class MissingPetsSeeder extends Seeder
                 'description' => 'Friendly and playful golden retriever with a white chest mark. Was last seen near the park.',
                 'location' => $barangays[array_rand($barangays)] . ', Dasmariñas, Cavite',
                 'status' => 'missing',
-                'photo_img' => 'images/missing-pets/max.jpg',
+                'photo_img' => 'images/missing pets/max.jpg',
             ],
             [
                 'name' => 'Luna',

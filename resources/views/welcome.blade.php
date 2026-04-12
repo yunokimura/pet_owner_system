@@ -302,7 +302,7 @@
                 @forelse($missingPets as $pet)
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal({{ $pet->missing_id }})">
                     <div class="aspect-square bg-gray-200 relative overflow-hidden">
-                        <img src="{{ $pet->photo_img ? asset($pet->photo_img) : 'https://placehold.co/400x400/e2e8f0/94a3b8?text=' . $pet->name }}" alt="{{ $pet->name }}" class="w-full h-full object-cover pet-image">
+                        <img src="{{ $pet->photo_img ? asset($pet->photo_img) : 'https://placehold.co/400x400/e2e8f0/94a3b8?text=' . urlencode($pet->name) }}" alt="{{ $pet->name }}" class="w-full h-full object-cover pet-image">
                         <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">{{ strtoupper($pet->status) }}</span>
                     </div>
                     <div class="p-4">
