@@ -743,7 +743,7 @@
                                                 </div>
                                                 @if(!empty($pet->image))
                                                 <div class="ml-2 flex-shrink-0">
-                                                    <img src="{{ asset('storage/' . $pet->image) }}" alt="{{ $pet->pet_name }}" class="w-12 h-12 rounded-full object-cover">
+                                                    <img src="{{ asset($pet->image) }}" alt="{{ $pet->pet_name }}" class="w-12 h-12 rounded-full object-cover">
                                                 </div>
                                                 @endif
                                             </label>
@@ -767,6 +767,7 @@
                 <script>
                     // Pet data from server
                     const adoptionPetsData = @json($adoptionPets);
+                    const assetBaseUrl = "{{ asset('') }}";
                     
                     let selectedAdoptionPets = [];
 
@@ -893,7 +894,8 @@
                                 // Determine image source
                                 let imageHtml = '';
                                 if (pet.image) {
-                                    imageHtml = `<img src="{{ asset('storage/') }}/${pet.image}" alt="${pet.pet_name}" class="w-12 h-12 rounded-full object-cover">`;
+                                    const imageSrc = pet.image.startsWith('http') ? pet.image : assetBaseUrl + pet.image;
+                                    imageHtml = `<img src="${imageSrc}" alt="${pet.pet_name}" class="w-12 h-12 rounded-full object-cover">`;
                                 } else {
                                     imageHtml = `<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1201,6 +1203,60 @@
                 formatPhone(this);
             });
         });
+
+        // Check for pre-selected pet from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const preselectedPetId = urlParams.get('pet_id');
+        if (preselectedPetId) {
+            // Find the pet in adoptionPetsData
+            const pet = adoptionPetsData.find(p => String(p.adoption_id) === String(preselectedPetId));
+            if (pet) {
+                // Auto-select the pet
+                selectedAdoptionPets.push(String(preselectedPetId));
+                
+                // Render the selected pet in the form
+                const container = document.getElementById('selectedAdoptionPetsList');
+                const noPetsMessage = document.getElementById('noAdoptionPetsSelected');
+                
+                if (noPetsMessage) {
+                    noPetsMessage.remove();
+                }
+                
+                container.innerHTML = '';
+                
+                selectedAdoptionPets.forEach(petId => {
+                    const petData = adoptionPetsData.find(p => String(p.adoption_id) === String(petId));
+                    if (petData) {
+                        const imageHtml = petData.image 
+                            ? `<img src="${assetBaseUrl}${petData.image}" alt="${petData.pet_name}" class="w-16 h-16 rounded-lg object-cover">`
+                            : `<div class="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                               </div>`;
+                        
+                        const petCard = `
+                            <div class="flex items-center p-4 border border-primary rounded-lg bg-green-50">
+                                ${imageHtml}
+                                <div class="ml-4 flex-1">
+                                    <div class="font-semibold text-gray-900">${petData.pet_name}</div>
+                                    <div class="text-xs text-gray-500">
+                                        <span class="capitalize">${petData.species}</span> · ${petData.gender} · ${petData.age}
+                                    </div>
+                                </div>
+                                <button type="button" onclick="removeAdoptionPet('${petId}')" class="text-red-500 hover:text-red-700 p-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                                <input type="hidden" name="selected_adoption_pets[]" value="${petData.adoption_id}">
+                            </div>
+                        `;
+                        container.innerHTML += petCard;
+                    }
+                });
+            }
+        }
     });
 
     // Step navigation

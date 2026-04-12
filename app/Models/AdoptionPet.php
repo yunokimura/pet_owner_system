@@ -26,6 +26,8 @@ class AdoptionPet extends Model
         'is_age_estimated',
     ];
 
+    protected $appends = ['age'];
+
     /**
      * Get the traits for this pet.
      */

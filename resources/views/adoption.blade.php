@@ -476,9 +476,9 @@
                         <h3 class="font-semibold text-gray-900 mb-2">Traits</h3>
                         <span id="modalPetTraits" class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium"></span>
                     </div>
-                    <a id="modalPetAdoptBtn" href="{{ url('/adoption/form') }}" class="block w-full bg-primary text-white text-center px-6 py-3 rounded-xl font-semibold hover:bg-primary-light transition-colors mt-auto">
+                    <button id="modalPetAdoptBtn" onclick="proceedToAdoption()" class="w-full bg-primary text-white text-center px-6 py-3 rounded-xl font-semibold hover:bg-primary-light transition-colors mt-auto">
                         Adopt
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -494,7 +494,13 @@
         let currentAge = 'all';
         let currentBreeds = [];
         let currentTraits = [];
-        
+        let currentModalPetId = null;
+
+        function proceedToAdoption() {
+            const petId = currentModalPetId;
+            window.location.href = '/adoption/form?pet_id=' + petId;
+        }
+
         // Check for filter parameters in URL on page load
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -953,6 +959,7 @@
             if (!pet) return;
             
             document.getElementById('modalPetName').textContent = pet.pet_name;
+            currentModalPetId = petId;
             document.getElementById('modalPetSpecies').textContent = pet.species;
             document.getElementById('modalPetBreed').textContent = pet.breed;
             
