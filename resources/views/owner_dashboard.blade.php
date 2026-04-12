@@ -380,8 +380,7 @@
                 <div>
                     <h4 class="font-semibold text-lg mb-4">Contact</h4>
                     <ul class="space-y-2 text-gray-600 text-sm">
-                        <li>City Veterinary Office</li>
-                        <li>Dasmariñas City, Cavite</li>
+                        <li>Brgy. Langkaan 2, Sitio Buwisan, Dasmariñas City, Cavite</li>
                         <li>Phone: 0966-881-2010</li>
                         <li>Email: vetdasma@yahoo.com</li>
                     </ul>
