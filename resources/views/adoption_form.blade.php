@@ -1195,6 +1195,22 @@
         input.value = value;
     }
 
+    function showPetSelectedToast(petName) {
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-20 right-4 z-50 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center animate-slide-in';
+        toast.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span><strong>${petName}</strong> has been selected for adoption</span>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
+
     // Apply formatPhone to all phone fields on load
     document.addEventListener('DOMContentLoaded', function() {
         const phoneFields = document.querySelectorAll('input[name="mobile_number"], input[name="alt_phone"]');
@@ -1255,6 +1271,9 @@
                         container.innerHTML += petCard;
                     }
                 });
+                
+                // Show confirmation toast
+                showPetSelectedToast(pet.pet_name);
             }
         }
     });
