@@ -364,8 +364,116 @@ Route::get('/adoption/form', function () {
 Route::post('/adoption', [\App\Http\Controllers\AdoptionPetController::class, 'store'])->name('adoption.store');
 
 // Missing Pets Page Route
-Route::get('/missing-pets', function () {
-    return view('missing_pets_page');
+Route::get('/missing-pets', function (\Illuminate\Http\Request $request) {
+    $missingPets = \App\Models\MissingPet::query();
+    
+    // Get unique breeds for filter dropdown
+    $availableBreeds = \App\Models\MissingPet::whereNotNull('breed')
+        ->where('breed', '!=', '')
+        ->distinct()
+        ->orderBy('breed')
+        ->pluck('breed');
+    
+    // Get unique locations for filter dropdown
+    $availableLocations = \App\Models\MissingPet::whereNotNull('location')
+        ->where('location', '!=', '')
+        ->distinct()
+        ->orderBy('location')
+        ->pluck('location');
+    
+    // Handle species filter
+    $species = $request->input('species', 'all');
+    if ($species === 'Dog') {
+        $missingPets = $missingPets->where('species', 'Dog');
+    } elseif ($species === 'Cat') {
+        $missingPets = $missingPets->where('species', 'Cat');
+    }
+    
+    // Handle gender filter
+    $gender = $request->input('gender', 'all');
+    if ($gender === 'Male') {
+        $missingPets = $missingPets->whereRaw('LOWER(gender) = ?', ['male']);
+    } elseif ($gender === 'Female') {
+        $missingPets = $missingPets->whereRaw('LOWER(gender) = ?', ['female']);
+    }
+    
+    // Handle location filter
+    $location = $request->input('location', 'all');
+    if ($location !== 'all' && !empty($location)) {
+        $missingPets = $missingPets->where('location', $location);
+    }
+    
+    // Handle breed filter
+    $breeds = $request->input('breeds', 'all');
+    if ($breeds !== 'all' && !empty($breeds)) {
+        $breedArray = explode(',', $breeds);
+        $missingPets = $missingPets->whereIn('breed', $breedArray);
+    }
+    
+    $missingPets = $missingPets->paginate(10);
+    return view('missing_pets_page', compact('missingPets', 'availableBreeds', 'availableLocations'));
+});
+
+// AJAX Pagination Route for Missing Pets
+Route::get('/missing-pets/paginate', function (\Illuminate\Http\Request $request) {
+    $missingPets = \App\Models\MissingPet::query();
+    
+    // Handle species filter
+    $species = $request->input('species', 'all');
+    if ($species === 'Dog') {
+        $missingPets = $missingPets->where('species', 'Dog');
+    } elseif ($species === 'Cat') {
+        $missingPets = $missingPets->where('species', 'Cat');
+    }
+    
+    // Handle gender filter
+    $gender = $request->input('gender', 'all');
+    if ($gender === 'Male') {
+        $missingPets = $missingPets->whereRaw('LOWER(gender) = ?', ['male']);
+    } elseif ($gender === 'Female') {
+        $missingPets = $missingPets->whereRaw('LOWER(gender) = ?', ['female']);
+    }
+    
+    // Handle location filter
+    $location = $request->input('location', 'all');
+    if ($location !== 'all' && !empty($location)) {
+        $missingPets = $missingPets->where('location', $location);
+    }
+    
+    // Handle breed filter
+    $breeds = $request->input('breeds', 'all');
+    if ($breeds !== 'all' && !empty($breeds)) {
+        $breedArray = explode(',', $breeds);
+        $missingPets = $missingPets->whereIn('breed', $breedArray);
+    }
+    
+    $missingPets = $missingPets->paginate(10);
+    
+    // Map pets for JSON response
+    $pets = collect($missingPets->items())->map(function ($pet) {
+        return [
+            'missing_id' => $pet->missing_id,
+            'name' => $pet->name,
+            'species' => $pet->species,
+            'gender' => $pet->gender,
+            'breed' => $pet->breed,
+            'color' => $pet->color,
+            'age' => $pet->age,
+            'weight' => $pet->weight,
+            'description' => $pet->description,
+            'location' => $pet->location,
+            'last_seen_at' => $pet->last_seen_at,
+            'photo_img' => $pet->photo_img ? asset($pet->photo_img) : null,
+        ];
+    });
+    
+    return response()->json([
+        'pets' => $pets,
+        'currentPage' => $missingPets->currentPage(),
+        'lastPage' => $missingPets->lastPage(),
+        'hasMorePages' => $missingPets->hasMorePages(),
+        'total' => $missingPets->total()
+    ]);
 });
 
 // Pet Registration Page Route
