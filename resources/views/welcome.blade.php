@@ -953,7 +953,10 @@
         }
         
         function contactOwner() {
-            alert('For inquiries about this missing pet, please contact the City Veterinary Office at (046) 123-4567 or visit us during office hours.');
+            const petName = document.getElementById('modalPetName').textContent;
+            const subject = 'Inquiry about missing pet: ' + petName;
+            const encodedSubject = encodeURIComponent(subject);
+            window.open('https://mail.google.com/mail/u/0/?view=cm&fs=1&to=vetdasma@yahoo.com&su=' + encodedSubject + '&tf=ui', '_blank');
         }
         
         // Close modal when clicking outside
