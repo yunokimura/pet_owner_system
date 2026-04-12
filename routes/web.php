@@ -20,7 +20,8 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $missingPets = \App\Models\MissingPet::where('status', 'missing')->latest()->take(5)->get();
+    return view('welcome', compact('missingPets'));
 });
 
 Route::get('/test-email', function () {

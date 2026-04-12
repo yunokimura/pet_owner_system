@@ -299,154 +299,41 @@
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-                <!-- Missing Pet 1 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal(1)">
+                @forelse($missingPets as $pet)
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal({{ $pet->missing_id }})">
                     <div class="aspect-square bg-gray-200 relative overflow-hidden">
-                        <img src="https://placehold.co/400x400/e2e8f0/94a3b8?text=Buddy" alt="Buddy" class="w-full h-full object-cover pet-image">
-                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MISSING</span>
+                        <img src="{{ $pet->photo_img ? asset($pet->photo_img) : 'https://placehold.co/400x400/e2e8f0/94a3b8?text=' . $pet->name }}" alt="{{ $pet->name }}" class="w-full h-full object-cover pet-image">
+                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">{{ strtoupper($pet->status) }}</span>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Buddy</h3>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $pet->name }}</h3>
                         <div class="space-y-2 text-sm">
                             <div class="flex justify-between">
                                 <span class="text-gray-500">Age:</span>
-                                <span class="text-gray-700 font-medium">3 years</span>
+                                <span class="text-gray-700 font-medium">{{ $pet->age }} years</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-500">Weight:</span>
-                                <span class="text-gray-700 font-medium">25 lbs</span>
+                                <span class="text-gray-700 font-medium">{{ $pet->weight }} kg</span>
                             </div>
                             <div class="border-t pt-2 mt-2">
                                 <p class="text-gray-500 text-xs mb-1">Last Seen:</p>
-                                <p class="text-gray-700 font-medium text-xs">Feb 18, 2026 - 3:30 PM</p>
+                                <p class="text-gray-700 font-medium text-xs">{{ $pet->last_seen_at->format('M d, Y - h:i A') }}</p>
                             </div>
                             <div>
                                 <p class="text-gray-500 text-xs mb-1">Location:</p>
-                                <p class="text-gray-700 font-medium text-xs">Poblacion 1, Dasmariñas City</p>
+                                <p class="text-gray-700 font-medium text-xs">{{ $pet->location }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Missing Pet 2 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal(2)">
-                    <div class="aspect-square bg-gray-200 relative overflow-hidden">
-                        <img src="https://placehold.co/400x400/e2e8f0/94a3b8?text=Luna" alt="Luna" class="w-full h-full object-cover pet-image">
-                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MISSING</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Luna</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Age:</span>
-                                <span class="text-gray-700 font-medium">2 years</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Weight:</span>
-                                <span class="text-gray-700 font-medium">12 lbs</span>
-                            </div>
-                            <div class="border-t pt-2 mt-2">
-                                <p class="text-gray-500 text-xs mb-1">Last Seen:</p>
-                                <p class="text-gray-700 font-medium text-xs">Feb 17, 2026 - 8:00 AM</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-xs mb-1">Location:</p>
-                                <p class="text-gray-700 font-medium text-xs">Salitran 2, Dasmariñas City</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Missing Pet 3 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal(3)">
-                    <div class="aspect-square bg-gray-200 relative overflow-hidden">
-                        <img src="https://placehold.co/400x400/e2e8f0/94a3b8?text=Max" alt="Max" class="w-full h-full object-cover pet-image">
-                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MISSING</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Max</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Age:</span>
-                                <span class="text-gray-700 font-medium">5 years</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Weight:</span>
-                                <span class="text-gray-700 font-medium">45 lbs</span>
-                            </div>
-                            <div class="border-t pt-2 mt-2">
-                                <p class="text-gray-500 text-xs mb-1">Last Seen:</p>
-                                <p class="text-gray-700 font-medium text-xs">Feb 19, 2026 - 6:45 PM</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-xs mb-1">Location:</p>
-                                <p class="text-gray-700 font-medium text-xs">San Jose 1, Dasmariñas City</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Missing Pet 4 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal(4)">
-                    <div class="aspect-square bg-gray-200 relative overflow-hidden">
-                        <img src="https://placehold.co/400x400/e2e8f0/94a3b8?text=Bella" alt="Bella" class="w-full h-full object-cover pet-image">
-                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MISSING</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Bella</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Age:</span>
-                                <span class="text-gray-700 font-medium">1 year</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Weight:</span>
-                                <span class="text-gray-700 font-medium">8 lbs</span>
-                            </div>
-                            <div class="border-t pt-2 mt-2">
-                                <p class="text-gray-500 text-xs mb-1">Last Seen:</p>
-                                <p class="text-gray-700 font-medium text-xs">Feb 16, 2026 - 10:15 AM</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-xs mb-1">Location:</p>
-                                <p class="text-gray-700 font-medium text-xs">Buenavista 1, Dasmariñas City</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Missing Pet 5 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-red-100 card-hover missing-pet-card" onclick="showPetModal(5)">
-                    <div class="aspect-square bg-gray-200 relative overflow-hidden">
-                        <img src="https://placehold.co/400x400/e2e8f0/94a3b8?text=Charlie" alt="Charlie" class="w-full h-full object-cover pet-image">
-                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MISSING</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Charlie</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Age:</span>
-                                <span class="text-gray-700 font-medium">4 years</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Weight:</span>
-                                <span class="text-gray-700 font-medium">30 lbs</span>
-                            </div>
-                            <div class="border-t pt-2 mt-2">
-                                <p class="text-gray-500 text-xs mb-1">Last Seen:</p>
-                                <p class="text-gray-700 font-medium text-xs">Feb 20, 2026 - 7:30 AM</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-xs mb-1">Location:</p>
-                                <p class="text-gray-700 font-medium text-xs">Luzviminda 1, Dasmariñas City</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @empty
+                <p class="col-span-5 text-center text-gray-500">No missing pets found.</p>
+                @endforelse
             </div>
 
             <div class="text-center mt-10">
-                <a href="#" class="inline-flex items-center bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors">
+                <a href="{{ url('/missing-pets') }}" class="inline-flex items-center bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
@@ -1059,102 +946,29 @@
     
     <script>
         // Missing Pet Data
-        const missingPetsData = {
-            1: {
-                name: "Buddy",
-                image: "https://placehold.co/400x400/e2e8f0/94a3b8?text=Buddy",
-                species: "Dog",
-                breed: "Golden Retriever",
-                age: "3 years",
-                weight: "25 lbs",
-                color: "Golden",
-                gender: "Male",
-                lastSeen: "Feb 18, 2026 - 3:30 PM",
-                location: "Poblacion 1, Dasmariñas City",
-                description: "Buddy is a friendly and well-trained Golden Retriever. He was last seen wearing a blue collar with tags. He responds to his name and is familiar with basic commands. Please contact us if you have any information about his whereabouts.",
-                ownerName: "Juan dela Cruz",
-                ownerContact: "0912-345-6789"
-            },
-            2: {
-                name: "Luna",
-                image: "https://placehold.co/400x400/e2e8f0/94a3b8?text=Luna",
-                species: "Cat",
-                breed: "Persian",
-                age: "2 years",
-                weight: "12 lbs",
-                color: "White",
-                gender: "Female",
-                lastSeen: "Feb 17, 2026 - 8:00 AM",
-                location: "Salitran 2, Dasmariñas City",
-                description: "Luna is a calm and gentle Persian cat. She has beautiful white fur and green eyes. She was last seen near the park in Salitran. She is microchipped and may be scared of strangers. Please approach gently.",
-                ownerName: "Maria Santos",
-                ownerContact: "0918-234-5678"
-            },
-            3: {
-                name: "Max",
-                image: "https://placehold.co/400x400/e2e8f0/94a3b8?text=Max",
-                species: "Dog",
-                breed: "German Shepherd",
-                age: "5 years",
-                weight: "45 lbs",
-                color: "Black & Tan",
-                gender: "Male",
-                lastSeen: "Feb 19, 2026 - 6:45 PM",
-                location: "San Jose 1, Dasmariñas City",
-                description: "Max is a loyal and protective German Shepherd. He was last seen during an evening walk. He has a scar on his left ear and wears a brown leather collar. Max is well-trained and friendly but may be wary of strangers.",
-                ownerName: "Pedro Garcia",
-                ownerContact: "0922-345-6789"
-            },
-            4: {
-                name: "Bella",
-                image: "https://placehold.co/400x400/e2e8f0/94a3b8?text=Bella",
-                species: "Cat",
-                breed: "Siamese",
-                age: "1 year",
-                weight: "8 lbs",
-                color: "Cream with Brown Points",
-                gender: "Female",
-                lastSeen: "Feb 16, 2026 - 10:15 AM",
-                location: "Buenavista 1, Dasmariñas City",
-                description: "Bella is a young and playful Siamese cat. She has distinctive blue eyes and cream-colored fur with brown points. She was last seen near the grocery store. She is very vocal and loves attention.",
-                ownerName: "Ana Reyes",
-                ownerContact: "0933-456-7890"
-            },
-            5: {
-                name: "Charlie",
-                image: "https://placehold.co/400x400/e2e8f0/94a3b8?text=Charlie",
-                species: "Dog",
-                breed: "Labrador Mix",
-                age: "4 years",
-                weight: "30 lbs",
-                color: "Brown",
-                gender: "Male",
-                lastSeen: "Feb 20, 2026 - 7:30 AM",
-                location: "Luzviminda 1, Dasmariñas City",
-                description: "Charlie is an energetic and friendly Labrador mix. He has a brown coat with a white patch on his chest. He was last seen running near the basketball court. He loves playing fetch and is very friendly with children.",
-                ownerName: "Roberto Mendoza",
-                ownerContact: "0944-567-8901"
-            }
-        };
+        const missingPetsData = @json($missingPets->toArray());
         
         function showPetModal(petId) {
-            const pet = missingPetsData[petId];
+            const pet = missingPetsData.find(p => p.missing_id === petId);
             if (!pet) return;
             
-            // Populate modal with pet data
-            document.getElementById('modalPetImage').src = pet.image;
+            const imageUrl = pet.photo_img 
+                ? "{{ asset('') }}" + pet.photo_img 
+                : "https://placehold.co/400x400/e2e8f0/94a3b8?text=" + pet.name;
+            
+            document.getElementById('modalPetImage').src = imageUrl;
             document.getElementById('modalPetName').textContent = pet.name;
             document.getElementById('modalPetSpecies').textContent = pet.species;
-            document.getElementById('modalPetBreed').textContent = pet.breed;
-            document.getElementById('modalPetAge').textContent = pet.age;
-            document.getElementById('modalPetWeight').textContent = pet.weight;
-            document.getElementById('modalPetColor').textContent = pet.color;
-            document.getElementById('modalPetGender').textContent = pet.gender;
-            document.getElementById('modalLastSeen').textContent = pet.lastSeen;
+            document.getElementById('modalPetBreed').textContent = pet.breed || 'Unknown';
+            document.getElementById('modalPetAge').textContent = pet.age + ' years';
+            document.getElementById('modalPetWeight').textContent = pet.weight + ' kg';
+            document.getElementById('modalPetColor').textContent = pet.color || 'Unknown';
+            document.getElementById('modalPetGender').textContent = pet.gender.charAt(0).toUpperCase() + pet.gender.slice(1);
+            document.getElementById('modalLastSeen').textContent = new Date(pet.last_seen_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
             document.getElementById('modalLocation').textContent = pet.location;
-            document.getElementById('modalDescription').textContent = pet.description;
-            document.getElementById('modalOwnerName').textContent = pet.ownerName;
-            document.getElementById('modalOwnerContact').textContent = pet.ownerContact;
+            document.getElementById('modalDescription').textContent = pet.description || 'No description available.';
+            document.getElementById('modalOwnerName').textContent = 'Contact for info';
+            document.getElementById('modalOwnerContact').textContent = 'N/A';
             
             // Show modal
             document.getElementById('petDetailModal').classList.remove('hidden');
