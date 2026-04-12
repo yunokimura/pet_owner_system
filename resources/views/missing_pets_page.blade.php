@@ -493,7 +493,8 @@
                 let isActive = false;
                 
                 if (filterType === 'filter') {
-                    isActive = filterValue === 'all';
+                    // "All Pets" is active only when no species filter is selected
+                    isActive = filterValue === 'all' && currentSpecies === 'all';
                 } else if (filterType === 'species') {
                     isActive = currentSpecies !== 'all' && currentSpecies === filterValue;
                 } else if (filterType === 'gender') {
@@ -585,7 +586,12 @@
         }
         
         function filterPets(filterType, filterValue) {
-            if (filterType === 'species') {
+            if (filterType === 'filter') {
+                // Reset species filter when clicking "All Pets"
+                if (filterValue === 'all') {
+                    currentSpecies = 'all';
+                }
+            } else if (filterType === 'species') {
                 if (currentSpecies !== 'all' && currentSpecies === filterValue) {
                     currentSpecies = 'all';
                 } else {
