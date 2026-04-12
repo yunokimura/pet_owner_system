@@ -476,6 +476,30 @@ Route::get('/missing-pets/paginate', function (\Illuminate\Http\Request $request
     ]);
 });
 
+// Missing Pets Form Page Route
+Route::get('/missing-pets/form', function () {
+    $user = auth()->user();
+    $petOwner = $user ? $user->petOwner : null;
+    $pets = $petOwner ? $petOwner->pets : collect([]);
+    
+    // Convert pets to simple array to avoid Blade @json issues
+    $petsArray = $pets->map(function($pet) {
+        return [
+            'id' => $pet->pet_id,
+            'name' => $pet->pet_name,
+            'species' => $pet->species,
+            'breed' => $pet->breed,
+            'gender' => $pet->sex,
+            'is_neutered' => $pet->is_neutered,
+            'age' => $pet->estimated_age,
+            'weight' => $pet->pet_weight,
+            'image' => $pet->pet_image
+        ];
+    })->toArray();
+    
+    return view('missing_pets_form', compact('user', 'petOwner', 'petsArray'));
+})->middleware(['auth']);
+
 // Pet Registration Page Route
 Route::get('/pet-registration', function () {
     return view('pet_registration_page');

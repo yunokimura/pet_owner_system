@@ -129,7 +129,7 @@
                         Help reunite lost pets with their owners. Report missing pets quickly and reach out to the community for assistance.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="#" class="bg-white text-amber-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors">
+                        <a href="{{ url('/missing-pets/form') }}" class="bg-white text-amber-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors">
                             Report a Missing Pet
                         </a>
                         <a href="#" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/20 transition-colors">
