@@ -904,39 +904,13 @@
                         <p id="modalDescription" class="text-gray-600 text-sm"></p>
                     </div>
                     
-                    <!-- Owner Contact -->
-                    <div class="bg-primary/5 rounded-lg p-4 mb-6">
-                        <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            Owner Information
-                        </h4>
-                        <div class="space-y-2">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Owner Name:</span>
-                                <span id="modalOwnerName" class="text-gray-900 font-medium"></span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Contact Number:</span>
-                                <span id="modalOwnerContact" class="text-gray-900 font-medium"></span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Action Buttons -->
+                    <!-- Contact CVO Button -->
                     <div class="flex gap-3">
                         <button onclick="contactOwner()" class="flex-1 bg-primary text-white px-4 py-3 rounded-lg font-semibold hover:bg-primary-light transition-colors flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            Contact Owner
-                        </button>
-                        <button onclick="reportFoundPet()" class="flex-1 bg-secondary text-white px-4 py-3 rounded-lg font-semibold hover:bg-secondary-light transition-colors flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Report Found
+                            Contact CVO
                         </button>
                     </div>
                 </div>
@@ -967,8 +941,6 @@
             document.getElementById('modalLastSeen').textContent = new Date(pet.last_seen_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
             document.getElementById('modalLocation').textContent = pet.location;
             document.getElementById('modalDescription').textContent = pet.description || 'No description available.';
-            document.getElementById('modalOwnerName').textContent = 'Contact for info';
-            document.getElementById('modalOwnerContact').textContent = 'N/A';
             
             // Show modal
             document.getElementById('petDetailModal').classList.remove('hidden');
@@ -981,12 +953,7 @@
         }
         
         function contactOwner() {
-            const contact = document.getElementById('modalOwnerContact').textContent;
-            window.location.href = 'tel:' + contact;
-        }
-        
-        function reportFoundPet() {
-            alert('Thank you for your willingness to help! Please contact the veterinary office at (046) 123-4567 to report that you have found this pet.');
+            alert('For inquiries about this missing pet, please contact the City Veterinary Office at (046) 123-4567 or visit us during office hours.');
         }
         
         // Close modal when clicking outside
