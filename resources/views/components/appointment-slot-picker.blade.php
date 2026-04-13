@@ -2,7 +2,7 @@
 
 @props([
     'serviceType' => 'vaccination',
-    'minDate' => null,
+    'minDate' => '',
     'fieldName' => 'appointment_date'
 ])
 
@@ -17,7 +17,7 @@
             x-model="selectedDate"
             @change="loadSlots()"
             @input="selectedTime = ''"
-            :min="minDate || today"
+            :min="minDateValue"
             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
         >
     </div>
@@ -140,9 +140,16 @@ function appointmentSlotPicker() {
         hourlyCapacity: 2,
         currentHour: new Date().getHours(),
         currentMinute: new Date().getMinutes(),
+        
+        // Use prop or default to today
+        minDate: '',
 
         get today() {
             return new Date().toISOString().split('T')[0];
+        },
+
+        get minDateValue() {
+            return this.minDate || this.today;
         },
 
         get sortedSlots() {
