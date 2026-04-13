@@ -70,7 +70,7 @@
                 <button 
                     type="button"
                     @click="selectSlot(slot)"
-                    :disabled="slot.status === 'blocked' || slot.status === 'full'"
+                    :disabled="isSlotDisabled(slot)"
                     class="relative py-4 px-3 rounded-lg border-2 transition-all font-medium text-sm"
                     :class="getSlotClasses(slot)"
                 >
@@ -92,18 +92,21 @@
                     </div>
                     
                     <!-- Slot Status Text -->
-                    <div x-show="slot.status === 'blocked'" class="text-xs mt-1 opacity-75">
-                        Not Available
-                    </div>
-                    <div x-show="slot.status === 'full'" class="text-xs mt-1 opacity-75">
-                        Fully Booked
-                    </div>
-                    <div x-show="slot.status === 'limited'" class="text-xs mt-1 opacity-75">
-                        1 slot left
-                    </div>
-                    <div x-show="slot.status === 'available'" class="text-xs mt-1 opacity-75">
-                        2 slots left
-                    </div>
+                    <template x-if="slot.status === 'blocked'">
+                        <div class="text-xs mt-1 opacity-75">Not Available</div>
+                    </template>
+                    <template x-if="slot.status === 'full'">
+                        <div class="text-xs mt-1 opacity-75">Fully Booked</div>
+                    </template>
+                    <template x-if="slot.status === 'limited'">
+                        <div class="text-xs mt-1 opacity-75">1 slot left</div>
+                    </template>
+                    <template x-if="slot.status === 'available'">
+                        <div class="text-xs mt-1 opacity-75">2 slots left</div>
+                    </template>
+                    <template x-if="slot.is_past">
+                        <div class="text-xs mt-1 opacity-75">Past</div>
+                    </template>
                 </button>
             </template>
         </div>
@@ -135,6 +138,8 @@ function appointmentSlotPicker() {
         dailyRemaining: 12,
         dailyCapacity: 12,
         hourlyCapacity: 2,
+        currentHour: new Date().getHours(),
+        currentMinute: new Date().getMinutes(),
 
         get today() {
             return new Date().toISOString().split('T')[0];
@@ -142,6 +147,10 @@ function appointmentSlotPicker() {
 
         get sortedSlots() {
             return [...this.slots].sort((a, b) => a.time.localeCompare(b.time));
+        },
+
+        get isToday() {
+            return this.selectedDate === this.today;
         },
 
         get isDailyFull() {
@@ -169,6 +178,11 @@ function appointmentSlotPicker() {
             this.loading = true;
             this.selectedTime = '';
             
+            // Update current time
+            const now = new Date();
+            this.currentHour = now.getHours();
+            this.currentMinute = now.getMinutes();
+            
             try {
                 const response = await fetch(`/api/appointments/slots?date=${this.selectedDate}`);
                 const data = await response.json();
@@ -187,12 +201,31 @@ function appointmentSlotPicker() {
             }
         },
 
+        isSlotPast(slot) {
+            if (!this.isToday) return false;
+            
+            const [slotHour, slotMinute] = slot.time.split(':').map(Number);
+            const currentTimeInMinutes = this.currentHour * 60 + this.currentMinute;
+            const slotTimeInMinutes = slotHour * 60 + slotMinute;
+            
+            return slotTimeInMinutes <= currentTimeInMinutes;
+        },
+
+        isSlotDisabled(slot) {
+            return slot.status === 'blocked' || 
+                   slot.status === 'full' || 
+                   this.isSlotPast(slot) ||
+                   slot.is_past;
+        },
+
         selectSlot(slot) {
-            if (slot.status === 'blocked' || slot.status === 'full') return;
+            if (this.isSlotDisabled(slot)) return;
             this.selectedTime = slot.time;
         },
 
         getSlotClasses(slot) {
+            const isPast = this.isSlotPast(slot);
+            
             if (slot.status === 'blocked') {
                 if (slot.time === '12:00') {
                     return 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed';
@@ -205,6 +238,10 @@ function appointmentSlotPicker() {
             
             if (slot.status === 'full') {
                 return 'bg-red-50 border-red-200 text-red-400 cursor-not-allowed';
+            }
+            
+            if (isPast) {
+                return 'bg-gray-50 border-gray-200 text-gray-300 cursor-not-allowed';
             }
             
             if (this.selectedTime === slot.time) {

@@ -96,7 +96,7 @@ Route::post('/kapon/form', function (\Illuminate\Http\Request $request) {
         'street' => 'required|string|max:255',
         'barangay' => 'required|string|max:255',
         'selected_pets' => 'required|array|min:1',
-        'appointment_date_date' => 'required|date',
+        'appointment_date_date' => 'required|date|after_or_equal:today',
         'appointment_date_time' => 'required',
     ]);
 
@@ -432,7 +432,7 @@ Route::post('/adoption/form', function (\Illuminate\Http\Request $request) {
         'status' => 'required',
         'adopted_before' => 'required',
         'selected_adoption_pets' => 'required|array|min:1',
-        'interview_date_date' => 'required|date',
+        'interview_date_date' => 'required|date|after_or_equal:today',
         'interview_date_time' => 'required',
         'zoom_interview' => 'required',
         'shelter_visit' => 'required',
@@ -709,7 +709,7 @@ Route::post('/vaccination/form', function (\Illuminate\Http\Request $request) {
         'street' => 'required|string|max:255',
         'barangay' => 'required|string|max:255',
         'selected_pets' => 'required|array|min:1',
-        'appointment_date_date' => 'required|date',
+        'appointment_date_date' => 'required|date|after_or_equal:today',
         'appointment_date_time' => 'required',
         'recent_surgery' => 'required|in:yes,no',
     ]);

@@ -42,21 +42,53 @@ class AppointmentController extends Controller
             ]);
         }
 
+        // Check if booking for today - prevent past time slots
+        $now = Carbon::now();
+        $appointmentDate = Carbon::parse($date);
+        if ($appointmentDate->isToday()) {
+            $slotHour = (int) explode(':', $time)[0];
+            $currentHour = $now->hour;
+            $currentMinute = $now->minute;
+            
+            $slotTimeInMinutes = $slotHour * 60;
+            $currentTimeInMinutes = $currentHour * 60 + $currentMinute;
+            
+            if ($slotTimeInMinutes <= $currentTimeInMinutes) {
+                return response()->json([
+                    'success' => true,
+                    'available' => false,
+                    'status' => 'past',
+                    'message' => 'This time slot has already passed'
+                ]);
+            }
+        }
+
         $appointment = Appointment::forDateAndTime($date, $time)->first();
 
         if (!$appointment) {
+            // Check daily capacity
+            $dailyRemaining = Appointment::getDailyRemainingCapacity($date);
+            if ($dailyRemaining <= 0) {
+                return response()->json([
+                    'success' => true,
+                    'available' => false,
+                    'status' => 'full',
+                    'message' => 'Daily appointment capacity has been reached'
+                ]);
+            }
             return response()->json([
                 'success' => true,
                 'available' => true,
                 'status' => 'available',
-                'remaining_capacity' => Appointment::DAILY_CAPACITY
+                'remaining_capacity' => Appointment::HOURLY_CAPACITY,
+                'daily_remaining' => $dailyRemaining
             ]);
         }
 
         return response()->json([
             'success' => true,
             'available' => $appointment->isAvailable(),
-            'status' => Appointment::getSlotStatus($time, $appointment->total_weight),
+            'status' => Appointment::getSlotStatus($time, $appointment->total_weight, $date),
             'remaining_capacity' => $appointment->remainingCapacity,
             'current_weight' => $appointment->total_weight
         ]);
@@ -82,10 +114,24 @@ class AppointmentController extends Controller
         $dailyWeightUsed = Appointment::getDailyWeightUsed($date);
         $dailyRemaining = Appointment::DAILY_CAPACITY - $dailyWeightUsed;
         $slots = [];
+        
+        $now = Carbon::now();
+        $isToday = $date === $now->toDateString();
+        $currentHour = $now->hour;
+        $currentMinute = $now->minute;
 
         foreach (Appointment::getAvailableSlots() as $time) {
             $appointment = Appointment::forDateAndTime($date, $time)->first();
             $weight = $appointment ? $appointment->total_weight : 0;
+            
+            // Check if slot is in the past (for today)
+            $slotHour = (int) explode(':', $time)[0];
+            $isPast = false;
+            if ($isToday) {
+                $slotTimeInMinutes = $slotHour * 60;
+                $currentTimeInMinutes = $currentHour * 60 + $currentMinute;
+                $isPast = $slotTimeInMinutes <= $currentTimeInMinutes;
+            }
 
             $slots[] = [
                 'time' => $time,
@@ -95,6 +141,7 @@ class AppointmentController extends Controller
                 'current_weight' => $weight,
                 'is_blocked' => in_array($time, Appointment::getBlockedSlots()),
                 'hourly_full' => $weight >= Appointment::HOURLY_CAPACITY,
+                'is_past' => $isPast,
             ];
         }
 
@@ -108,6 +155,7 @@ class AppointmentController extends Controller
                 'current_weight' => 0,
                 'is_blocked' => true,
                 'hourly_full' => false,
+                'is_past' => false,
             ];
         }
 
@@ -124,6 +172,7 @@ class AppointmentController extends Controller
             'daily_weight_used' => $dailyWeightUsed,
             'daily_remaining' => $dailyRemaining,
             'hourly_capacity' => Appointment::HOURLY_CAPACITY,
+            'current_time' => $now->format('H:i'),
         ]);
     }
 
@@ -170,6 +219,25 @@ class AppointmentController extends Controller
                 'success' => false,
                 'message' => 'This time slot is not available'
             ], 422);
+        }
+
+        // Check if booking for today - prevent past time slots
+        $now = Carbon::now();
+        $appointmentDate = Carbon::parse($date);
+        if ($appointmentDate->isToday()) {
+            $slotHour = (int) explode(':', $time)[0];
+            $currentHour = $now->hour;
+            $currentMinute = $now->minute;
+            
+            $slotTimeInMinutes = $slotHour * 60;
+            $currentTimeInMinutes = $currentHour * 60 + $currentMinute;
+            
+            if ($slotTimeInMinutes <= $currentTimeInMinutes) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Cannot book time slots that have already passed'
+                ], 422);
+            }
         }
 
         try {

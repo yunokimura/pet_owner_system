@@ -354,7 +354,7 @@
 
                     <!-- Photo Uploads for Each Selected Pet -->
                     <div id="petPhotosContainer" class="mb-6">
-                        <label class="block text-sm font-medium mb-3">
+                        <label class="block text-sm font-medium pt-4 mb-3">
                             Upload Photos <span class="text-red-500">*</span>
                         </label>
                         <div id="petPhotoFields" class="space-y-4">
